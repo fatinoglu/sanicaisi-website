@@ -12,8 +12,9 @@ backend:
   name: github
   repo: fatinoglu/sanicaisi-website
   branch: main
-  base_url: ''                            # Aynı domain (Pages Functions ile OAuth)
-  auth_endpoint: oauth                    # /oauth → functions/oauth/[[path]].ts
+  # OAuth proxy: aynı domain üzerinde _worker.js /oauth route'larını handle eder
+  base_url: https://sanicaisi-website.pages.dev
+  auth_endpoint: oauth
 
 # Editörün yüklediği görseller buraya gider
 # (PDF/büyük dosyalar için R2 upload widget aşağıda)
