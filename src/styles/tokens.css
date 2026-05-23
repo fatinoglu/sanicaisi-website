@@ -1,0 +1,70 @@
+/* ═════════════════════════════════════════════════════════
+   TOKENS — color, type, motion, layout
+   Mockup index-v2.html'den port edildi (tasarım onaylı)
+   ═════════════════════════════════════════════════════════ */
+:root {
+  /* Surface & ink */
+  --ink: #0A0A0A;
+  --ink-soft: #1A1A1A;
+  --ink-warm: #18130E;
+  --paper: #F7F4EE;
+  --paper-soft: #EFEAE0;
+
+  /* Sand family (warm neutrals) */
+  --sand: #EDE5D3;
+  --sand-deep: #D9CFB8;
+  --line: #E0DACA;
+
+  /* Text */
+  --text: #1F1F1F;
+  --muted: #6B6258;
+
+  /* Brand accent — Terracotta */
+  --terracotta: #B8390C;
+  --terracotta-warm: #D9521C;
+  --terracotta-soft: #FBE6D8;
+  --terracotta-deep: #8C2A06;
+
+  /* Industrial counterpoint — Steel */
+  --steel: #4A4D52;
+  --steel-soft: #B8B8B5;
+  --steel-line: #2A2D33;
+
+  /* Investor (BIST) */
+  --bist-navy: #1A2B47;
+  --bist-navy-mid: #2E4263;
+  --bist-navy-soft: #E0E6F0;
+
+  /* Sustainability */
+  --success: #4D7C5F;
+  --success-soft: #EDF1E8;
+
+  /* Stock tick colors */
+  --up: #5AB670;
+  --down: #D14747;
+
+  /* Typography stacks */
+  --serif: 'Fraunces', Georgia, "Times New Roman", serif;
+  --sans:  'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono:  'IBM Plex Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Layout */
+  --container: 1320px;
+  --container-narrow: 880px;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --section-y: clamp(4rem, 7vw, 6.5rem);
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0.05, 0.36, 1);
+  --t-fast: 200ms;
+  --t-med: 380ms;
+  --t-slow: 700ms;
+
+  /* Header heights (sticky offset için) */
+  --utility-h: 44px;
+  --main-nav-h: 88px;
+  --header-h: calc(var(--utility-h) + var(--main-nav-h));
+  --subnav-h: 56px;
+}

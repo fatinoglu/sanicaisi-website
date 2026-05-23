@@ -1,0 +1,245 @@
+---
+/**
+ * SiteFooter — koyu zemin, 4 kolon + bottom bar
+ */
+import { getLocale } from '../../lib/i18n';
+import { footerColumns } from '../../lib/nav';
+
+const locale = getLocale(Astro.url.pathname);
+const columns = footerColumns[locale];
+const logoSrc = 'https://www.sanicaisi.com.tr/wp-content/uploads/2020/12/sanica-isi.png';
+
+const t = locale === 'tr' ? {
+  tagline: 'Çelikten ısıya — 1985\'ten bu yana Türkiye\'de üretiyor, dünyaya ısı götürüyoruz. BIST: SNICA.',
+  addrLbl: 'ADRES',
+  telLbl: 'TEL',
+  emailLbl: 'E-POSTA',
+  irLbl: 'YATIRIMCI',
+  addr: 'Sanica Plaza · Kocaeli, Türkiye',
+  kvkk: 'KVKK',
+  cookies: 'Çerez Politikası',
+  privacy: 'Aydınlatma Metni',
+  bilingual: 'TR / EN bilingual',
+} : {
+  tagline: 'From steel to heat — manufacturing in Türkiye since 1985, delivering heat worldwide. BIST: SNICA.',
+  addrLbl: 'ADDRESS',
+  telLbl: 'TEL',
+  emailLbl: 'EMAIL',
+  irLbl: 'INVESTOR',
+  addr: 'Sanica Plaza · Kocaeli, Türkiye',
+  kvkk: 'GDPR',
+  cookies: 'Cookie Policy',
+  privacy: 'Privacy Notice',
+  bilingual: 'TR / EN bilingual',
+};
+---
+
+<footer class="site-footer">
+  <div class="footer-watermark" aria-hidden="true">sanica</div>
+
+  <div class="container">
+
+    <div class="footer-main">
+
+      <div class="footer-col footer-brand">
+        <a href={locale === 'tr' ? '/' : '/en/'} class="logo" aria-label="Sanica Isı">
+          <img src={logoSrc} alt="Sanica Isı" width="180" height="48" />
+        </a>
+        <p>{t.tagline}</p>
+        <address class="footer-contact">
+          <div><span class="label">{t.addrLbl}</span><a href={locale === 'tr' ? '/iletisim' : '/en/contact'}>{t.addr}</a></div>
+          <div><span class="label">{t.telLbl}</span><a href="tel:+902625555555">+90 (262) 555 55 55</a></div>
+          <div><span class="label">{t.emailLbl}</span><a href="mailto:info@sanicaisi.com.tr">info@sanicaisi.com.tr</a></div>
+          <div><span class="label">{t.irLbl}</span><a href="mailto:yatirimci@sanicaisi.com.tr">yatirimci@sanicaisi.com.tr</a></div>
+        </address>
+
+        <div class="footer-social" aria-label={locale === 'tr' ? 'Sosyal medya' : 'Social media'}>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869C24 6.143 15.205 6.425 12.982 10.226V8z" /></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.069 1.646.069 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.069-4.85.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85C2.295 5.784 2.569 4.517 3.544 3.542 4.519 2.567 5.786 2.293 7.152 2.231 8.418 2.173 8.798 2.163 12 2.163zm0 1.802c-3.141 0-3.515.011-4.756.068-.95.043-1.846.196-2.515.866-.67.67-.823 1.565-.866 2.515-.057 1.241-.068 1.615-.068 4.756s.011 3.515.068 4.756c.043.95.196 1.846.866 2.515.67.67 1.565.823 2.515.866 1.241.057 1.615.068 4.756.068s3.515-.011 4.756-.068c.95-.043 1.846-.196 2.515-.866.67-.67.823-1.565.866-2.515.057-1.241.068-1.615.068-4.756s-.011-3.515-.068-4.756c-.043-.95-.196-1.846-.866-2.515-.67-.67-1.565-.823-2.515-.866-1.241-.057-1.615-.068-4.756-.068zM12 6.838a5.162 5.162 0 110 10.324 5.162 5.162 0 010-10.324zm0 8.522a3.36 3.36 0 100-6.72 3.36 3.36 0 000 6.72zm5.368-8.747a1.206 1.206 0 11-2.412 0 1.206 1.206 0 012.412 0z" /></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg></a>
+        </div>
+      </div>
+
+      {columns.map((col) => (
+        <div class="footer-col">
+          <h4>{col.heading}</h4>
+          <ul>
+            {col.items.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-links">
+        <span>© 2026 Sanica Isı Sanayi A.Ş.</span>
+        <span class="sep">·</span>
+        <span class="footer-bist-pill"><span class="pulse-dot" aria-hidden="true"></span>BIST · SNICA</span>
+        <span class="sep">·</span>
+        <a href={locale === 'tr' ? '/kvkk' : '/en/gdpr'}>{t.kvkk}</a>
+        <a href={locale === 'tr' ? '/cerez-politikasi' : '/en/cookie-policy'}>{t.cookies}</a>
+        <a href={locale === 'tr' ? '/aydinlatma-metni' : '/en/privacy-notice'}>{t.privacy}</a>
+      </div>
+      <span class="footer-bilingual">{t.bilingual}</span>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+.site-footer {
+  background: var(--ink-warm);
+  color: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+.footer-watermark {
+  position: absolute;
+  left: 50%;
+  bottom: -3rem;
+  transform: translateX(-50%);
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 80, "wght" 400;
+  font-size: clamp(10rem, 26vw, 26rem);
+  line-height: 0.78;
+  color: rgba(247, 244, 238, 0.025);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -0.05em;
+}
+.footer-main {
+  position: relative;
+  padding-top: clamp(4rem, 7vw, 5.5rem);
+  padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+.footer-brand .logo img {
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+  height: 48px;
+  width: auto;
+}
+.footer-brand .logo { margin-bottom: 1.5rem; display: inline-block; }
+.footer-brand p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: rgba(247, 244, 238, 0.72);
+  max-width: 300px;
+  margin-bottom: 1.75rem;
+}
+.footer-contact {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.85;
+  color: rgba(247, 244, 238, 0.65);
+  letter-spacing: 0.05em;
+  font-style: normal;
+}
+.footer-contact a {
+  color: rgba(247, 244, 238, 0.85);
+  display: block;
+  transition: color var(--t-fast) var(--ease);
+}
+.footer-contact a:hover { color: var(--terracotta-warm); }
+.footer-contact .label {
+  display: inline-block;
+  width: 56px;
+  color: rgba(247, 244, 238, 0.4);
+  letter-spacing: 0.16em;
+}
+.footer-col h4 {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.5);
+  margin-bottom: 1.5rem;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.875rem; }
+.footer-col a {
+  font-size: 0.9375rem;
+  color: rgba(247, 244, 238, 0.78);
+  transition: color var(--t-fast) var(--ease);
+}
+.footer-col a:hover { color: var(--terracotta-warm); }
+.footer-social { margin-top: 1.5rem; display: flex; gap: 0.5rem; }
+.footer-social a {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(247, 244, 238, 0.15);
+  border-radius: 50%;
+  color: rgba(247, 244, 238, 0.7);
+  transition: all var(--t-med) var(--ease);
+}
+.footer-social a:hover {
+  border-color: var(--terracotta-warm);
+  color: var(--terracotta-warm);
+  transform: translateY(-2px);
+}
+.footer-social svg { width: 15px; height: 15px; }
+
+.footer-bottom {
+  position: relative;
+  padding-block: 1.75rem;
+  border-top: 1px solid rgba(247, 244, 238, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  color: rgba(247, 244, 238, 0.55);
+}
+.footer-bottom-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.footer-bottom-links a {
+  color: rgba(247, 244, 238, 0.7);
+  transition: color var(--t-fast) var(--ease);
+}
+.footer-bottom-links a:hover { color: var(--paper); }
+.footer-bottom-links .sep { color: rgba(247, 244, 238, 0.2); }
+.footer-bist-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+.footer-bist-pill .pulse-dot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  background: var(--up);
+  border-radius: 50%;
+}
+.footer-bilingual {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.4);
+}
+
+@media (max-width: 980px) {
+  .footer-main { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .footer-main { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>

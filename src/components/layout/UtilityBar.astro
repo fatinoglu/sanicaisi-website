@@ -1,0 +1,192 @@
+---
+/**
+ * UtilityBar — header'ın üst koyu bandı
+ *
+ * showTicker=true ise BIST canlı veri gösterir (sadece yatırımcı sayfalarında).
+ * Aksi takdirde sade utility links + lang switcher.
+ */
+import { getLocale, alternateLocaleUrl } from '../../lib/i18n';
+import { utilityNav } from '../../lib/nav';
+
+interface Props {
+  showTicker?: boolean;
+}
+const { showTicker = false } = Astro.props;
+
+const locale = getLocale(Astro.url.pathname);
+const items = utilityNav[locale];
+const altUrl = alternateLocaleUrl(locale, Astro.url.pathname);
+
+// Hisse verisi şimdilik placeholder. Faz 7'de src/data/stock-cache.json'dan beslenir.
+const stock = {
+  price: '24,80',
+  change: '+%1,24',
+  changeDir: 'up' as 'up' | 'down',
+  volume: '1,21M',
+  lastKap: '22 May 2026 — Olağan Genel Kurul',
+};
+---
+
+<div class="utility" data-show-ticker={showTicker ? 'true' : 'false'}>
+  <div class="container">
+    <div class="utility-inner">
+      {showTicker ? (
+        <div class="ticker">
+          <span class="ticker-tag"><span class="pulse-dot" aria-hidden="true"></span>BIST · SNICA</span>
+          <span class="ticker-price">₺{stock.price}</span>
+          <svg class="sparkline" viewBox="0 0 64 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path class="fill" d="M0 14 L8 12 L16 13 L24 9 L32 10 L40 6 L48 7 L56 4 L64 5 L64 18 L0 18 Z" />
+            <path d="M0 14 L8 12 L16 13 L24 9 L32 10 L40 6 L48 7 L56 4 L64 5" />
+          </svg>
+          <span class={`ticker-change ${stock.changeDir}`}>{stock.changeDir === 'up' ? '▲' : '▼'} {stock.change}</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-meta">Vol {stock.volume}</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-meta">Son KAP: {stock.lastKap}</span>
+        </div>
+      ) : (
+        <div class="ticker quiet">
+          <span class="ticker-tag muted">SANICA ISI · BIST: SNICA · Yıldız Pazar</span>
+        </div>
+      )}
+
+      <div class="utility-right">
+        {items.map((item, i) => (
+          <>
+            <a href={item.href} class="util-link">{item.label}</a>
+            {i < items.length - 1 && <span class="util-sep">·</span>}
+          </>
+        ))}
+
+        <button class="util-icon" aria-label={locale === 'tr' ? 'Ara' : 'Search'}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3-3" />
+          </svg>
+        </button>
+
+        <div class="lang-pill" role="group" aria-label={locale === 'tr' ? 'Dil seçimi' : 'Language'}>
+          <a href={locale === 'tr' ? Astro.url.pathname : altUrl} class={locale === 'tr' ? 'active' : ''}>TR</a>
+          <a href={locale === 'en' ? Astro.url.pathname : altUrl} class={locale === 'en' ? 'active' : ''}>EN</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.utility {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  border-bottom: 1px solid rgba(247, 244, 238, 0.06);
+}
+.utility-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--utility-h);
+  gap: 1.5rem;
+}
+.ticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  white-space: nowrap;
+  flex: 1;
+  overflow: hidden;
+}
+.ticker.quiet { gap: 0.5rem; }
+.ticker-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--paper);
+}
+.ticker-tag.muted { color: rgba(247, 244, 238, 0.5); font-weight: 500; }
+.pulse-dot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  background: var(--up);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: var(--up);
+  opacity: 0.25;
+  animation: pulse 2.2s ease-out infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(0.6); opacity: 0.4; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+.ticker-price { font-weight: 600; font-variant-numeric: tabular-nums; }
+.ticker-change.up { color: var(--up); font-weight: 500; font-variant-numeric: tabular-nums; }
+.ticker-change.down { color: var(--down); font-weight: 500; font-variant-numeric: tabular-nums; }
+.ticker-sep { color: rgba(247, 244, 238, 0.22); }
+.ticker-meta { color: rgba(247, 244, 238, 0.55); font-variant-numeric: tabular-nums; }
+.sparkline { width: 64px; height: 18px; flex-shrink: 0; }
+.sparkline :global(path) { stroke: var(--up); stroke-width: 1.4; fill: none; stroke-linejoin: round; }
+.sparkline :global(path.fill) { fill: var(--up); opacity: 0.12; stroke: none; }
+
+.utility-right { display: flex; align-items: center; gap: 0.5rem; }
+.util-link {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.7);
+  padding: 0.5rem 0.625rem;
+  transition: color var(--t-fast) var(--ease);
+  font-weight: 500;
+}
+.util-link:hover { color: var(--paper); }
+.util-sep { color: rgba(247, 244, 238, 0.2); }
+.util-icon {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(247, 244, 238, 0.7);
+  border-radius: 2px;
+  transition: all var(--t-fast) var(--ease);
+}
+.util-icon:hover { color: var(--paper); background: rgba(247, 244, 238, 0.06); }
+.util-icon svg { width: 14px; height: 14px; }
+.lang-pill {
+  display: inline-flex;
+  background: rgba(247, 244, 238, 0.08);
+  border-radius: 999px;
+  padding: 2px;
+  font-family: var(--sans);
+  margin-left: 0.5rem;
+}
+.lang-pill a {
+  padding: 0.25rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(247, 244, 238, 0.55);
+  border-radius: 999px;
+  transition: all var(--t-fast) var(--ease);
+}
+.lang-pill a.active { background: var(--paper); color: var(--ink); }
+
+@media (max-width: 980px) {
+  .util-link { display: none; }
+}
+@media (max-width: 720px) {
+  .ticker-meta { display: none; }
+  .lang-pill { display: none; }
+}
+</style>

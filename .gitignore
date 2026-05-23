@@ -1,0 +1,45 @@
+# Astro build çıktısı
+dist/
+.astro/
+
+# Bağımlılıklar
+node_modules/
+
+# Ortam değişkenleri (KESİNLİKLE COMMIT YASAK)
+.env
+.env.local
+.env.production
+.env.development
+
+# Loglar
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test çıktıları
+coverage/
+playwright-report/
+test-results/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Cloudflare / Wrangler
+.wrangler/
+.dev.vars
+
+# Migration cache (büyük PDF'ler R2'ye yüklenmeden önce burada)
+.migration-cache/
+
+# Pagefind index (build sırasında üretilir)
+public/pagefind/

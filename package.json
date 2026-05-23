@@ -1,0 +1,33 @@
+{
+  "name": "sanicaisi-website",
+  "description": "Sanica Isı kurumsal web sitesi — Astro + Cloudflare Pages",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fatinoglu/sanicaisi-website.git"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro",
+    "format": "prettier --write . --plugin=prettier-plugin-astro"
+  },
+  "dependencies": {
+    "astro": "^6.3.7",
+    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/sitemap": "^3.7.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "~5.6.3"
+  }
+}

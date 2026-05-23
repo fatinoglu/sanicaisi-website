@@ -1,0 +1,219 @@
+---
+/**
+ * SiteHeader — sticky 2-layer header
+ * UtilityBar (üst koyu) + MainNav (alt cream)
+ *
+ * showTicker: true sadece yatırımcı sayfalarında — BIST verisi gösterilir.
+ */
+import UtilityBar from './UtilityBar.astro';
+import { getLocale, alternateLocaleUrl } from '../../lib/i18n';
+import { mainNav, audienceChips } from '../../lib/nav';
+
+interface Props {
+  showTicker?: boolean;
+  activeAudience?: 'home' | 'pro' | 'investor';
+  currentPath?: string;
+}
+
+const { showTicker = false, activeAudience = 'home', currentPath = Astro.url.pathname } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+const nav = mainNav[locale];
+const chips = audienceChips[locale];
+
+const logoSrc = 'https://www.sanicaisi.com.tr/wp-content/uploads/2020/12/sanica-isi.png';
+const homeHref = locale === 'tr' ? '/' : '/en/';
+
+function isCurrent(href: string): boolean {
+  // Tam eşleşme veya ana yol başlangıcı
+  if (href === '/' || href === '/en/') return currentPath === href;
+  return currentPath === href || currentPath.startsWith(href + '/');
+}
+---
+
+<header class="site-header">
+  <UtilityBar showTicker={showTicker} />
+
+  <div class="main-nav">
+    <div class="container">
+      <div class="main-nav-inner">
+
+        <a href={homeHref} class="logo" aria-label="Sanica Isı">
+          <img src={logoSrc} alt="Sanica Isı" width="160" height="42" />
+        </a>
+
+        <nav class="nav-center" aria-label={locale === 'tr' ? 'Ana navigasyon' : 'Main navigation'}>
+          {nav.map((item) => (
+            <a href={item.href} class:list={['nav-link', { 'is-current': isCurrent(item.href) }]}>
+              {item.label}
+              {item.hasSubmenu && <span class="nav-caret" aria-hidden="true">▾</span>}
+            </a>
+          ))}
+        </nav>
+
+        <div class="nav-right">
+          <div class="audience" role="group" aria-label={locale === 'tr' ? 'Hedef kitle' : 'Audience'}>
+            {chips.map((c) => (
+              <button class:list={[{ active: c.key === activeAudience }]} data-aud={c.key}>{c.label}</button>
+            ))}
+          </div>
+
+          <a href={locale === 'tr' ? '/bayi-bul' : '/en/find-dealer'} class="btn-dealer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z" />
+              <circle cx="12" cy="9" r="2.5" />
+            </svg>
+            {locale === 'tr' ? 'Bayi Bul' : 'Find Dealer'}
+          </a>
+
+          <button class="menu-toggle" aria-label={locale === 'tr' ? 'Menü' : 'Menu'}><span></span></button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+}
+
+.main-nav {
+  background: rgba(247, 244, 238, 0.88);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+.main-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--main-nav-h);
+  gap: 2rem;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.logo img {
+  height: 42px;
+  width: auto;
+  transition: opacity var(--t-fast) var(--ease);
+}
+.logo:hover img { opacity: 0.78; }
+
+.nav-center {
+  display: flex;
+  align-items: center;
+  gap: 1.875rem;
+  flex: 1;
+  justify-content: center;
+}
+.nav-link {
+  position: relative;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text);
+  padding: 0.5rem 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  white-space: nowrap;
+  transition: color var(--t-fast) var(--ease);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -2px 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--terracotta);
+  transition: width var(--t-med) var(--ease-out);
+}
+.nav-link.is-current::after,
+.nav-link:hover::after { width: 100%; }
+.nav-link.is-current { color: var(--terracotta); }
+.nav-caret { font-size: 0.5rem; color: var(--muted); transition: transform var(--t-fast) var(--ease); }
+.nav-link:hover .nav-caret { transform: rotate(180deg); color: var(--terracotta); }
+
+.nav-right { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+
+.audience {
+  display: inline-flex;
+  background: var(--sand);
+  border-radius: 999px;
+  padding: 3px;
+}
+.audience button {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+  transition: all var(--t-fast) var(--ease);
+}
+.audience button.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+.audience button:not(.active):hover { color: var(--ink); }
+
+.btn-dealer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--terracotta);
+  color: var(--paper);
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 2px;
+  transition: all var(--t-med) var(--ease);
+  white-space: nowrap;
+}
+.btn-dealer:hover {
+  background: var(--terracotta-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -6px rgba(184, 57, 12, 0.5);
+}
+.btn-dealer svg { width: 14px; height: 14px; }
+
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+.menu-toggle span {
+  width: 22px; height: 1.5px;
+  background: var(--ink);
+  position: relative;
+  display: block;
+}
+.menu-toggle span::before, .menu-toggle span::after {
+  content: '';
+  position: absolute;
+  left: 0; width: 22px; height: 1.5px;
+  background: var(--ink);
+}
+.menu-toggle span::before { top: -7px; }
+.menu-toggle span::after { top: 7px; }
+
+@media (max-width: 1200px) {
+  .nav-center { gap: 1.25rem; }
+  .nav-link { font-size: 0.875rem; }
+}
+@media (max-width: 980px) {
+  .nav-center, .audience { display: none; }
+  .menu-toggle { display: inline-flex; }
+}
+@media (max-width: 720px) {
+  .main-nav-inner { height: 72px; }
+}
+</style>

@@ -1,0 +1,96 @@
+---
+/**
+ * BaseLayout — html, head, meta, fontlar, global CSS
+ * Tüm sayfaların altyapısı. Header/footer eklemek için PageLayout kullanın.
+ */
+import { getLocale, locConfig, alternateLocaleUrl, type Locale } from '../lib/i18n';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { title, description, ogImage, noindex = false } = Astro.props;
+
+const locale: Locale = getLocale(Astro.url.pathname);
+const altLocale: Locale = locale === 'tr' ? 'en' : 'tr';
+const altUrl = alternateLocaleUrl(locale, Astro.url.pathname);
+
+const fullDescription = description ??
+  (locale === 'tr'
+    ? 'Sanica Isı — Türkiye\'nin köklü ısı sanayicisi. Panel radyatör, havlupan, kombi ve ısıtma boruları. BIST: SNICA.'
+    : 'Sanica Isı — Türkiye\'s established heating manufacturer. Panel radiators, towel warmers, boilers, heating pipes. BIST: SNICA.');
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).toString() : new URL('/og/default.png', Astro.site).toString();
+---
+
+<!doctype html>
+<html lang={locConfig[locale].code}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+
+  <title>{title}</title>
+  <meta name="description" content={fullDescription} />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+  <link rel="canonical" href={canonicalUrl} />
+  <link rel="alternate" hreflang={locConfig[locale].code} href={canonicalUrl} />
+  <link rel="alternate" hreflang={locConfig[altLocale].code} href={new URL(altUrl, Astro.site).toString()} />
+  <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site).toString()} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={fullDescription} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta property="og:locale" content={locConfig[locale].code} />
+  <meta property="og:site_name" content="Sanica Isı" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={fullDescription} />
+  <meta name="twitter:image" content={ogImageUrl} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Google Fonts: Fraunces (variable), Inter, IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,30..100;1,9..144,300..900,30..100&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- JSON-LD: Organization (her sayfa) -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Corporation',
+    name: 'Sanica Isı Sanayi A.Ş.',
+    alternateName: 'SNICA',
+    url: 'https://sanicaisi.com.tr',
+    logo: 'https://www.sanicaisi.com.tr/wp-content/uploads/2020/12/sanica-isi.png',
+    foundingDate: '1985',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Kocaeli',
+      addressCountry: 'TR',
+    },
+    sameAs: [
+      'https://www.kap.org.tr/tr/sirket-bilgileri/ozet/2455-sanica-isi-sanayi-a-s',
+    ],
+    tickerSymbol: 'SNICA',
+  })} />
+</head>
+<body>
+  <slot />
+</body>
+</html>

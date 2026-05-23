@@ -1,0 +1,30 @@
+---
+/**
+ * PageLayout — standart sayfa kompozisyonu
+ * BaseLayout + SiteHeader + slot + SiteFooter
+ */
+import BaseLayout from './BaseLayout.astro';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  showTicker?: boolean;
+  activeAudience?: 'home' | 'pro' | 'investor';
+}
+
+const { title, description, ogImage, noindex, showTicker = false, activeAudience = 'home' } = Astro.props;
+---
+
+<BaseLayout {title} {description} {ogImage} {noindex}>
+  <SiteHeader {showTicker} {activeAudience} />
+
+  <main>
+    <slot />
+  </main>
+
+  <SiteFooter />
+</BaseLayout>

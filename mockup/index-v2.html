@@ -1,0 +1,3948 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanica Isı — Çelikten ısıya. Türkiye'de üretiyoruz.</title>
+<meta name="description" content="Sanica Isı, 1985'ten bu yana Kocaeli'de panel radyatör, havlupan, kombi ve ısıtma boruları üreten halka açık Türk sanayi şirketi. BIST: SNICA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,30..100;1,9..144,300..900,30..100&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═════════════════════════════════════════════════════════
+   TOKENS — color, type, motion, layout
+   ═════════════════════════════════════════════════════════ */
+:root {
+  --ink: #0A0A0A;
+  --ink-soft: #1A1A1A;
+  --ink-warm: #18130E;
+  --paper: #F7F4EE;
+  --paper-soft: #EFEAE0;
+  --sand: #EDE5D3;
+  --sand-deep: #D9CFB8;
+  --line: #E0DACA;
+  --text: #1F1F1F;
+  --muted: #6B6258;
+  --terracotta: #B8390C;
+  --terracotta-warm: #D9521C;
+  --terracotta-soft: #FBE6D8;
+  --terracotta-deep: #8C2A06;
+  --steel: #4A4D52;
+  --steel-soft: #B8B8B5;
+  --steel-line: #2A2D33;
+  --bist-navy: #1A2B47;
+  --bist-navy-soft: #E0E6F0;
+  --success: #4D7C5F;
+  --success-soft: #EDF1E8;
+  --up: #5AB670;
+  --down: #D14747;
+
+  --serif: 'Fraunces', Georgia, "Times New Roman", serif;
+  --sans:  'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono:  'IBM Plex Mono', ui-monospace, "SF Mono", Menlo, monospace;
+
+  --container: 1320px;
+  --container-narrow: 880px;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --section-y: clamp(4.5rem, 8vw, 7.5rem);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0.05, 0.36, 1);
+  --t-fast: 200ms;
+  --t-med: 380ms;
+  --t-slow: 700ms;
+}
+
+/* ═════════════════════════════════════════════════════════
+   RESET
+   ═════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+a { color: inherit; text-decoration: none; }
+input { font: inherit; color: inherit; }
+::selection { background: var(--terracotta); color: var(--paper); }
+:focus-visible { outline: 2px solid var(--terracotta-warm); outline-offset: 3px; border-radius: 1px; }
+
+/* Subtle paper grain in light sections */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 200;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
+}
+
+/* ═════════════════════════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+   ═════════════════════════════════════════════════════════ */
+.serif {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50;
+}
+.mono {
+  font-family: var(--mono);
+  font-feature-settings: "ss01", "ss02";
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.section-marker {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.625rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.section-marker .num { color: var(--terracotta); font-weight: 600; font-variant-numeric: tabular-nums; }
+.section-marker .of  { color: var(--muted); opacity: 0.5; }
+.section-marker .dash { color: var(--line); }
+.section-marker .label { color: var(--text); }
+
+.dark .section-marker .dash { color: rgba(247, 244, 238, 0.15); }
+.dark .section-marker .label { color: var(--paper); }
+.dark .section-marker { color: rgba(247, 244, 238, 0.65); }
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  padding-bottom: 2px;
+  position: relative;
+  color: inherit;
+  transition: color var(--t-fast) var(--ease);
+}
+.link-arrow::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: currentColor;
+  transform-origin: left;
+  transition: background var(--t-fast) var(--ease);
+}
+.link-arrow .arrow { transition: transform var(--t-med) var(--ease-out); display: inline-block; }
+.link-arrow:hover { color: var(--terracotta); }
+.link-arrow:hover .arrow { transform: translateX(5px); }
+
+.dark .link-arrow:hover { color: var(--terracotta-warm); }
+
+/* ═════════════════════════════════════════════════════════
+   LAYOUT PRIMITIVES
+   ═════════════════════════════════════════════════════════ */
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  position: relative;
+}
+.container-narrow { max-width: var(--container-narrow); margin-inline: auto; padding-inline: var(--gutter); }
+
+section { position: relative; }
+section.dark { background: var(--ink); color: var(--paper); }
+section.cream { background: var(--paper); }
+section.sand { background: var(--sand); }
+section.eco { background: var(--success-soft); }
+
+/* ═════════════════════════════════════════════════════════
+   HEADER — TWO LAYERS
+   ═════════════════════════════════════════════════════════ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  background: transparent;
+}
+
+/* Layer 1 — Dark utility */
+.utility {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  border-bottom: 1px solid rgba(247, 244, 238, 0.06);
+  transition: max-height var(--t-slow) var(--ease), opacity var(--t-med) var(--ease);
+  max-height: 44px;
+  overflow: hidden;
+}
+
+.utility-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  gap: 1.5rem;
+}
+
+.ticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  white-space: nowrap;
+  flex: 1;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+}
+
+.ticker-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--paper);
+}
+
+.pulse-dot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  background: var(--up);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: var(--up);
+  opacity: 0.25;
+  animation: pulse 2.2s ease-out infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(0.6); opacity: 0.4; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+.ticker-price { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--paper); }
+.ticker-change { color: var(--up); font-weight: 500; font-variant-numeric: tabular-nums; }
+.ticker-sep { color: rgba(247, 244, 238, 0.22); }
+.ticker-meta { color: rgba(247, 244, 238, 0.55); font-variant-numeric: tabular-nums; font-weight: 400; }
+
+.sparkline {
+  width: 64px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.sparkline path { stroke: var(--up); stroke-width: 1.4; fill: none; stroke-linejoin: round; }
+.sparkline path.fill { fill: var(--up); opacity: 0.12; stroke: none; }
+
+.utility-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.util-link {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.7);
+  padding: 0.5rem 0.625rem;
+  transition: color var(--t-fast) var(--ease);
+  font-weight: 500;
+}
+.util-link:hover { color: var(--paper); }
+.util-sep { color: rgba(247, 244, 238, 0.2); margin-inline: -0.125rem; }
+
+.util-icon {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(247, 244, 238, 0.7);
+  border-radius: 2px;
+  transition: all var(--t-fast) var(--ease);
+}
+.util-icon:hover { color: var(--paper); background: rgba(247, 244, 238, 0.06); }
+.util-icon svg { width: 14px; height: 14px; }
+
+.lang-pill {
+  display: inline-flex;
+  background: rgba(247, 244, 238, 0.08);
+  border-radius: 999px;
+  padding: 2px;
+  font-family: var(--sans);
+  margin-left: 0.5rem;
+}
+.lang-pill button {
+  padding: 0.25rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(247, 244, 238, 0.55);
+  border-radius: 999px;
+  transition: all var(--t-fast) var(--ease);
+}
+.lang-pill button.active {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* Layer 2 — Main nav */
+.main-nav {
+  background: rgba(247, 244, 238, 0.88);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+.main-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 88px;
+  gap: 2rem;
+}
+
+/* Logo */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.logo img {
+  height: 42px;
+  width: auto;
+  display: block;
+  transition: opacity var(--t-fast) var(--ease);
+}
+.logo:hover img { opacity: 0.78; }
+
+/* Center nav */
+.nav-center {
+  display: flex;
+  align-items: center;
+  gap: 1.875rem;
+  flex: 1;
+  justify-content: center;
+}
+.nav-link {
+  position: relative;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text);
+  padding: 0.5rem 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  white-space: nowrap;
+  transition: color var(--t-fast) var(--ease);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -2px 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--terracotta);
+  transition: width var(--t-med) var(--ease-out);
+}
+.nav-link:hover { color: var(--ink); }
+.nav-link:hover::after { width: 100%; }
+
+.nav-caret {
+  font-size: 0.5rem;
+  color: var(--muted);
+  transition: transform var(--t-fast) var(--ease);
+}
+.nav-link:hover .nav-caret { transform: rotate(180deg); color: var(--terracotta); }
+
+/* Mega menu hint */
+.nav-mega-host { position: relative; }
+.nav-mega {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  width: 720px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: 0 18px 50px -10px rgba(10,10,10,0.18);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--t-med) var(--ease);
+  z-index: 70;
+}
+.nav-mega-host:hover .nav-mega {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.mega-card {
+  background: var(--sand);
+  padding: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  transition: background var(--t-fast) var(--ease);
+}
+.mega-card:hover { background: var(--terracotta-soft); }
+.mega-thumb {
+  aspect-ratio: 4/3;
+  background: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+.mega-thumb svg { width: 100%; height: 100%; }
+.mega-meta {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.mega-name {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 500;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* Right side */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.audience {
+  display: inline-flex;
+  background: var(--sand);
+  border-radius: 999px;
+  padding: 3px;
+}
+.audience button {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+  transition: all var(--t-fast) var(--ease);
+}
+.audience button.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+.audience button:not(.active):hover { color: var(--ink); }
+
+.btn-dealer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--terracotta);
+  color: var(--paper);
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 2px;
+  transition: all var(--t-med) var(--ease);
+  white-space: nowrap;
+}
+.btn-dealer:hover {
+  background: var(--terracotta-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -6px rgba(184,57,12,0.5);
+}
+.btn-dealer svg { width: 14px; height: 14px; }
+
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+.menu-toggle span {
+  width: 22px;
+  height: 1.5px;
+  background: var(--ink);
+  position: relative;
+}
+.menu-toggle span::before,
+.menu-toggle span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 1.5px;
+  background: var(--ink);
+}
+.menu-toggle span::before { top: -7px; }
+.menu-toggle span::after { top: 7px; }
+
+/* ═════════════════════════════════════════════════════════
+   HERO — FULL DARK BLEED
+   ═════════════════════════════════════════════════════════ */
+.hero {
+  background: var(--ink);
+  color: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 40%, rgba(184,57,12,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 60% at 75% 60%, rgba(217,82,28,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 0;
+  min-height: clamp(560px, 76vh, 820px);
+}
+
+/* Hero visual */
+.hero-visual {
+  position: relative;
+  border-right: 1px solid rgba(247, 244, 238, 0.08);
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-label-tl {
+  position: absolute;
+  top: 1.75rem;
+  left: 1.75rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.45);
+  text-transform: uppercase;
+}
+.hero-label-tl .dot { color: var(--terracotta-warm); }
+
+.hero-label-tr {
+  position: absolute;
+  top: 1.75rem;
+  right: 1.75rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.45);
+  text-transform: uppercase;
+}
+
+.hero-label-bl {
+  position: absolute;
+  bottom: 5rem;
+  left: 1.75rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.35);
+  text-transform: uppercase;
+  max-width: 220px;
+  line-height: 1.6;
+}
+
+.hero-composition {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1/1;
+  position: relative;
+}
+
+/* Hero text */
+.hero-text {
+  padding: 3rem clamp(2rem, 5vw, 4rem) 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  color: rgba(247, 244, 238, 0.5);
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.hero-eyebrow .num { color: var(--terracotta-warm); }
+.hero-eyebrow .dash { color: rgba(247, 244, 238, 0.2); }
+
+.hero-kicker {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--terracotta-warm);
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 70, "wght" 420;
+  font-weight: 420;
+  font-size: clamp(3.5rem, 8.4vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+  margin-bottom: 1.875rem;
+}
+.hero h1 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+  color: var(--terracotta-warm);
+  position: relative;
+}
+.hero h1 .dot { color: var(--terracotta-warm); }
+
+.hero-sub {
+  font-size: clamp(1rem, 1.4vw, 1.1875rem);
+  line-height: 1.55;
+  color: rgba(247, 244, 238, 0.78);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 0.875rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.9375rem 1.375rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border: 1px solid;
+  border-radius: 2px;
+  transition: all var(--t-med) var(--ease);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.btn-primary {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: var(--paper);
+}
+.btn-primary:hover {
+  background: var(--terracotta-warm);
+  border-color: var(--terracotta-warm);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(184, 57, 12, 0.55);
+}
+.btn-ghost {
+  background: transparent;
+  border-color: rgba(247, 244, 238, 0.25);
+  color: var(--paper);
+}
+.btn-ghost:hover {
+  border-color: var(--paper);
+  background: rgba(247, 244, 238, 0.05);
+  transform: translateY(-2px);
+}
+.btn .arrow { transition: transform var(--t-med) var(--ease-out); }
+.btn:hover .arrow { transform: translateX(3px); }
+
+.hero-inline-stats {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: rgba(247, 244, 238, 0.55);
+  text-transform: uppercase;
+  flex-wrap: wrap;
+}
+.hero-inline-stats strong {
+  color: var(--paper);
+  font-weight: 600;
+}
+.hero-inline-stats .sep { color: rgba(247, 244, 238, 0.2); }
+
+/* Marquee */
+.cert-marquee {
+  position: absolute;
+  inset: auto 0 0 0;
+  border-top: 1px solid rgba(247, 244, 238, 0.1);
+  border-bottom: 1px solid rgba(247, 244, 238, 0.1);
+  background: rgba(10,10,10,0.6);
+  overflow: hidden;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+.cert-marquee::before,
+.cert-marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.cert-marquee::before { left: 0; background: linear-gradient(to right, var(--ink), transparent); }
+.cert-marquee::after { right: 0; background: linear-gradient(to left, var(--ink), transparent); }
+
+.marquee-track {
+  display: flex;
+  gap: 3.5rem;
+  animation: marquee 42s linear infinite;
+  padding-left: 3.5rem;
+  white-space: nowrap;
+}
+
+.marquee-item {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: rgba(247, 244, 238, 0.5);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 3.5rem;
+}
+.marquee-item::after {
+  content: '—';
+  color: rgba(247, 244, 238, 0.2);
+}
+.marquee-item:last-child::after { content: ''; }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .pulse-dot::after { animation: none; }
+}
+
+/* ═════════════════════════════════════════════════════════
+   AUDIENCE BAND
+   ═════════════════════════════════════════════════════════ */
+.audience-band {
+  padding: var(--section-y) 0;
+  background: var(--paper);
+}
+
+.audience-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.audience-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.6vw, 2.875rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 540px;
+}
+.audience-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+.audience-head .marker { margin-bottom: 1rem; }
+.audience-head .audience-intro {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 360px;
+  line-height: 1.55;
+}
+
+.audience-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.aud-card {
+  background: var(--sand);
+  padding: 1.75rem 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform var(--t-med) var(--ease-out), background var(--t-med) var(--ease);
+  overflow: hidden;
+}
+.aud-card:hover {
+  transform: translateY(-6px);
+  background: var(--sand-deep);
+}
+
+.aud-card.investor { background: var(--ink); color: var(--paper); }
+.aud-card.investor:hover { background: var(--ink-soft); }
+
+.aud-index {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.75rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.aud-card.investor .aud-index { color: rgba(247, 244, 238, 0.45); }
+
+.aud-vignette {
+  aspect-ratio: 16/9;
+  margin-bottom: 1.75rem;
+  background: var(--paper);
+  overflow: hidden;
+  position: relative;
+}
+.aud-card.investor .aud-vignette { background: var(--ink-soft); }
+.aud-vignette svg { width: 100%; height: 100%; }
+
+.aud-tag {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.625rem;
+}
+.aud-card.investor .aud-tag { color: rgba(247, 244, 238, 0.6); }
+
+.aud-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 72, "SOFT" 55, "wght" 500;
+  font-size: 1.625rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin-bottom: 0.875rem;
+}
+.aud-card.investor h3 { color: var(--paper); }
+
+.aud-card p {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin-bottom: 1.75rem;
+  flex-grow: 1;
+}
+.aud-card.investor p { color: rgba(247, 244, 238, 0.7); }
+
+.aud-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.aud-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+  border-radius: 999px;
+  transition: all var(--t-fast) var(--ease);
+}
+.aud-pill:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.aud-card.investor .aud-pill {
+  background: rgba(247, 244, 238, 0.06);
+  border-color: rgba(247, 244, 238, 0.15);
+  color: var(--paper);
+}
+.aud-card.investor .aud-pill:hover {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+}
+
+/* ═════════════════════════════════════════════════════════
+   FEATURED + PRODUCT MOSAIC
+   ═════════════════════════════════════════════════════════ */
+.products {
+  background: var(--paper);
+  padding: var(--section-y) 0;
+}
+
+.products-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+
+.products-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(2rem, 4.2vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 760px;
+  margin-top: 1.25rem;
+}
+.products-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+.products-head .right {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+  line-height: 1.7;
+  white-space: nowrap;
+}
+.products-head .right strong { color: var(--ink); font-weight: 600; }
+
+.mosaic {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.25rem;
+}
+
+.feature-card {
+  background: var(--sand-deep);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 620px;
+  transition: transform var(--t-med) var(--ease);
+}
+.feature-card:hover { transform: translateY(-4px); }
+
+.feature-illu {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+.feature-illu svg {
+  max-width: 280px;
+  width: 100%;
+  height: auto;
+}
+
+.feature-corner {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.75rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.feature-corner .dot { color: var(--terracotta); }
+
+.feature-corner-right {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.75rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.feature-body {
+  padding: 2rem 2.25rem 2.25rem;
+  background: var(--ink);
+  color: var(--paper);
+}
+.feature-body .meta {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta-warm);
+  margin-bottom: 0.875rem;
+}
+.feature-body h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 480;
+  font-size: clamp(1.75rem, 3vw, 2.375rem);
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  color: var(--paper);
+  margin-bottom: 0.75rem;
+}
+.feature-body h3 em {
+  font-style: italic;
+  color: var(--terracotta-warm);
+}
+.feature-body p {
+  color: rgba(247, 244, 238, 0.7);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+  max-width: 460px;
+}
+.feature-body .btn-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.mosaic-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.mini-card {
+  background: var(--sand);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 1.25rem;
+  align-items: center;
+  position: relative;
+  transition: all var(--t-med) var(--ease);
+  flex: 1;
+  min-height: 0;
+}
+.mini-card:hover {
+  background: var(--terracotta-soft);
+  transform: translateY(-3px);
+}
+.mini-card .mini-illu {
+  aspect-ratio: 1;
+  background: var(--paper);
+  overflow: hidden;
+}
+.mini-card .mini-illu svg { width: 100%; height: 100%; }
+
+.mini-card .mini-meta {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.375rem;
+}
+.mini-card h4 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 500;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+.mini-card .mini-tag {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-bottom: 0.625rem;
+  line-height: 1.4;
+}
+.mini-card .mini-link {
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.mini-card .mini-link .arrow { transition: transform var(--t-fast) var(--ease); }
+.mini-card:hover .mini-link .arrow { transform: translateX(3px); }
+
+/* ═════════════════════════════════════════════════════════
+   MANIFESTO PULL-QUOTE
+   ═════════════════════════════════════════════════════════ */
+.manifesto {
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: var(--section-y) 0;
+}
+.manifesto-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+.manifesto-quote {
+  position: relative;
+}
+.manifesto-quote .quote-mark {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: clamp(5rem, 9vw, 8rem);
+  line-height: 0.6;
+  color: var(--terracotta);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.manifesto-quote blockquote {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 70, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: clamp(1.625rem, 3.4vw, 2.875rem);
+  line-height: 1.18;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  max-width: 640px;
+}
+.manifesto-quote blockquote em {
+  color: var(--terracotta);
+}
+.manifesto-quote cite {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  font-style: normal;
+  text-transform: uppercase;
+}
+.manifesto-quote cite .dash { color: var(--terracotta); margin-right: 0.375rem; }
+
+.manifesto-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.manifesto-body .marker { margin-bottom: 0.875rem; }
+.manifesto-body p {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 460px;
+}
+.manifesto-body p:first-of-type::first-letter {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 80, "wght" 600;
+  font-size: 3.5rem;
+  line-height: 0.85;
+  float: left;
+  padding: 0.25rem 0.625rem 0 0;
+  color: var(--terracotta);
+  font-weight: 600;
+}
+
+/* Tech stats below manifesto */
+.tech-stats {
+  margin-top: clamp(3rem, 6vw, 5rem);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.tech-stat {
+  padding: 1.75rem 1.5rem 1.75rem 0;
+  border-right: 1px solid var(--line);
+  position: relative;
+}
+.tech-stat:last-child { border-right: none; }
+.tech-stat:not(:first-child) { padding-left: 1.5rem; }
+
+.tech-stat-num {
+  font-family: var(--mono);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  font-variant-numeric: tabular-nums;
+  display: block;
+  line-height: 1.1;
+}
+.tech-stat-num .accent { color: var(--terracotta); }
+.tech-stat-num .arrow {
+  display: inline-block;
+  color: var(--muted);
+  margin: 0 0.25rem;
+  font-size: 0.85em;
+}
+
+.tech-stat-label {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ═════════════════════════════════════════════════════════
+   INVESTOR BAND — FULL DARK STATEMENT
+   ═════════════════════════════════════════════════════════ */
+.investor {
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--section-y) 0;
+  position: relative;
+  overflow: hidden;
+}
+.investor::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 30%, rgba(217,82,28,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.investor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.snica-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  background: rgba(247, 244, 238, 0.05);
+  border: 1px solid rgba(247, 244, 238, 0.12);
+  padding: 0.625rem 1rem;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+}
+.snica-pill .tag {
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.55);
+  text-transform: uppercase;
+}
+.snica-pill .price {
+  color: var(--paper);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.snica-pill .change { color: var(--up); font-variant-numeric: tabular-nums; font-weight: 500; }
+
+.investor h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--paper);
+  margin-bottom: 3rem;
+  max-width: 900px;
+  position: relative;
+}
+.investor h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+  color: var(--terracotta-warm);
+}
+
+.investor-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  position: relative;
+}
+
+/* Timeline */
+.kap-timeline {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.kap-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  bottom: 1rem;
+  left: 4px;
+  width: 1px;
+  background: repeating-linear-gradient(to bottom, rgba(247, 244, 238, 0.2) 0, rgba(247, 244, 238, 0.2) 3px, transparent 3px, transparent 8px);
+}
+
+.kap-item {
+  position: relative;
+  padding: 1.25rem 0 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(247, 244, 238, 0.08);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.25rem;
+  align-items: start;
+  transition: background var(--t-fast) var(--ease);
+}
+.kap-item:last-child { border-bottom: none; }
+.kap-item::before {
+  content: '';
+  position: absolute;
+  top: 1.625rem;
+  left: -1.5rem;
+  width: 9px;
+  height: 9px;
+  background: var(--terracotta);
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  box-shadow: 0 0 0 1px var(--terracotta);
+}
+
+.kap-date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(247, 244, 238, 0.55);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+}
+.kap-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+.kap-tag {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  align-self: flex-start;
+  padding: 0.1875rem 0.4375rem;
+  border-radius: 2px;
+}
+.kap-tag.kap { background: rgba(26, 43, 71, 0.5); color: #B8C7E0; }
+.kap-tag.fin { background: rgba(184, 57, 12, 0.18); color: var(--terracotta-warm); }
+.kap-tag.esg { background: rgba(77, 124, 95, 0.2); color: #A5C5AC; }
+.kap-tag.assembly { background: rgba(247, 244, 238, 0.1); color: rgba(247, 244, 238, 0.8); }
+
+.kap-title {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 470;
+  font-size: 1.0625rem;
+  font-weight: 470;
+  line-height: 1.35;
+  color: var(--paper);
+}
+
+.kap-link {
+  align-self: start;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.6);
+  transition: color var(--t-fast) var(--ease);
+  white-space: nowrap;
+  padding-top: 4px;
+}
+.kap-link:hover { color: var(--terracotta-warm); }
+
+/* Price display */
+.price-card {
+  background: var(--ink-soft);
+  border: 1px solid rgba(247, 244, 238, 0.08);
+  padding: 2.25rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.price-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--terracotta), var(--terracotta-warm));
+}
+
+.price-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+.price-head .ticker-name {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.55);
+}
+.price-head .ticker-name strong { color: var(--paper); font-weight: 600; }
+.price-time {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  color: rgba(247, 244, 238, 0.4);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-big {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.price-amount {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 400;
+  font-size: clamp(3.5rem, 5.5vw, 5rem);
+  line-height: 1;
+  color: var(--paper);
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+.price-amount .cur { font-size: 0.55em; color: rgba(247, 244, 238, 0.55); margin-right: 0.125em; }
+.price-change-big {
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--up);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.price-meta-row {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: rgba(247, 244, 238, 0.55);
+  margin-bottom: 1.75rem;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  flex-wrap: wrap;
+}
+.price-meta-row strong { color: var(--paper); font-weight: 500; }
+
+/* Chart */
+.chart {
+  width: 100%;
+  height: 140px;
+  position: relative;
+  margin-bottom: 1.75rem;
+}
+.chart svg { width: 100%; height: 100%; }
+.chart-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  color: rgba(247, 244, 238, 0.4);
+  text-transform: uppercase;
+}
+
+.price-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(247, 244, 238, 0.08);
+}
+.price-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.price-stat .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.45);
+}
+.price-stat .val {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.investor-foot {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(247, 244, 238, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.investor-foot .text {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.55);
+}
+.investor-foot a {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 60, "wght" 480;
+  font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+  color: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: color var(--t-fast) var(--ease);
+}
+.investor-foot a:hover { color: var(--terracotta-warm); }
+.investor-foot a .arrow { transition: transform var(--t-med) var(--ease-out); }
+.investor-foot a:hover .arrow { transform: translateX(6px); }
+
+/* ═════════════════════════════════════════════════════════
+   STORY / PRODUCTION
+   ═════════════════════════════════════════════════════════ */
+.story {
+  background: var(--paper);
+  padding: var(--section-y) 0;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 5.5rem);
+  align-items: center;
+}
+
+.story-visual {
+  position: relative;
+  aspect-ratio: 4/5;
+  background: var(--ink);
+  overflow: hidden;
+}
+.story-visual svg { width: 100%; height: 100%; }
+
+.story-tag {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.65);
+  text-transform: uppercase;
+  z-index: 2;
+}
+.story-coords {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.55);
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.story-text { padding-block: 1rem; }
+.story-text .marker { margin-bottom: 1rem; }
+.story-text h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.06;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  max-width: 480px;
+}
+.story-text h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+.story-text p {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 480px;
+  margin-bottom: 1.25rem;
+}
+.story-mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-block: 2.25rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.story-ms {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+.story-ms .val {
+  font-family: var(--mono);
+  font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.005em;
+}
+.story-ms .val .accent { color: var(--terracotta); }
+.story-ms .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Process strip */
+.process-strip {
+  background: var(--sand);
+  padding: 2.75rem 0;
+  border-top: 1px solid var(--line);
+}
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+}
+.process-step {
+  background: var(--sand);
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  position: relative;
+  transition: background var(--t-fast) var(--ease);
+}
+.process-step:hover { background: var(--sand-deep); }
+.process-num {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.process-name {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 500;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+.process-desc {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.process-arrow {
+  position: absolute;
+  right: -0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: var(--terracotta);
+  background: var(--sand);
+  width: 1.2rem;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.process-step:last-child .process-arrow { display: none; }
+
+/* ═════════════════════════════════════════════════════════
+   SUSTAINABILITY
+   ═════════════════════════════════════════════════════════ */
+.sustain {
+  background: var(--success-soft);
+  padding: var(--section-y) 0;
+  position: relative;
+}
+
+.sustain-head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 3.5rem;
+}
+.sustain-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 540px;
+}
+.sustain-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--success);
+}
+.sustain-head .marker { margin-bottom: 1rem; }
+.sustain-head .marker .num { color: var(--success); }
+.sustain-intro {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 420px;
+}
+
+.sustain-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.eco-stats-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+.eco-stat-card {
+  background: var(--paper);
+  border: 1px solid rgba(77, 124, 95, 0.18);
+  padding: 1.875rem 2rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  transition: all var(--t-med) var(--ease);
+}
+.eco-stat-card:hover {
+  border-color: var(--success);
+  transform: translateY(-2px);
+}
+
+.eco-stat-num {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 400;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  line-height: 1;
+  color: var(--success);
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+.eco-stat-num .dir { color: var(--ink); font-size: 0.5em; margin-left: 0.15em; vertical-align: 0.5em; }
+.eco-stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.eco-stat-body .ttl {
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.eco-stat-body .base {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.eco-stat-card .label-num {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: var(--success);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* ESG Score gauge */
+.esg-card {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.esg-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--success), #7BA88B);
+}
+.esg-card .tag {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.55);
+  margin-bottom: 0.75rem;
+}
+.esg-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 480;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  color: var(--paper);
+  margin-bottom: 1.5rem;
+  max-width: 240px;
+}
+.gauge {
+  position: relative;
+  margin: 1rem auto;
+  width: 200px;
+}
+.gauge svg { width: 100%; height: auto; }
+.gauge-center {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+.gauge-score {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 400;
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+.gauge-of {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.55);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+}
+
+.esg-card .source {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  color: rgba(247, 244, 238, 0.45);
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.sustain-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(77, 124, 95, 0.2);
+}
+.un-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+.un-badge .un-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--success);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--paper);
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 600;
+  font-size: 0.875rem;
+}
+.un-badge strong { color: var(--ink); font-weight: 600; }
+
+/* ═════════════════════════════════════════════════════════
+   PRESS WALL
+   ═════════════════════════════════════════════════════════ */
+.press {
+  background: var(--paper);
+  padding: var(--section-y) 0;
+}
+.press-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+.press-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.6vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+}
+.press-head h2 em {
+  font-style: italic;
+  color: var(--terracotta);
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+}
+.press-head .marker { margin-bottom: 0.875rem; }
+
+.press-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+.press-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border-top: 2px solid var(--ink);
+  padding-top: 1.25rem;
+  transition: all var(--t-med) var(--ease);
+}
+.press-card:hover {
+  border-top-color: var(--terracotta);
+  transform: translateY(-3px);
+}
+.press-pub {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.press-pub .bloomberg {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 30, "wght" 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.press-pub .bloomberg::after {
+  content: 'HT';
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  color: var(--terracotta);
+  margin-left: 0.375rem;
+  vertical-align: super;
+  font-weight: 600;
+}
+.press-pub .dunya {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 80, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+.press-pub .para {
+  font-family: var(--sans);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+}
+.press-pub .para::first-letter { color: var(--terracotta); }
+.press-pub .capital {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 30, "wght" 300;
+  font-size: 1.25rem;
+  color: var(--ink);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.press-date {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.875rem;
+}
+.press-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 470;
+  font-size: 1.0625rem;
+  font-weight: 470;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+.press-link {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  transition: color var(--t-fast) var(--ease);
+}
+.press-card:hover .press-link { color: var(--terracotta); }
+.press-link .arrow { transition: transform var(--t-med) var(--ease-out); }
+.press-card:hover .press-link .arrow { transform: translateX(4px); }
+
+/* ═════════════════════════════════════════════════════════
+   NEWSLETTER CTA
+   ═════════════════════════════════════════════════════════ */
+.newsletter {
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+  position: relative;
+  overflow: hidden;
+}
+.newsletter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 70% 50%, rgba(184,57,12,0.12) 0%, transparent 60%);
+}
+.newsletter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  position: relative;
+}
+
+.newsletter h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.8vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--paper);
+  margin-bottom: 1rem;
+}
+.newsletter h2 em {
+  font-style: italic;
+  color: var(--terracotta-warm);
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+}
+.newsletter-sub {
+  color: rgba(247, 244, 238, 0.7);
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: 460px;
+}
+.newsletter-meta {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta-warm);
+  margin-bottom: 1.125rem;
+}
+
+.subscribe-form {
+  display: flex;
+  gap: 0.625rem;
+  background: rgba(247, 244, 238, 0.06);
+  border: 1px solid rgba(247, 244, 238, 0.15);
+  padding: 0.5rem;
+  border-radius: 2px;
+  transition: border-color var(--t-fast) var(--ease);
+}
+.subscribe-form:focus-within { border-color: var(--terracotta-warm); }
+
+.subscribe-form input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.875rem 1rem;
+  color: var(--paper);
+  font-size: 0.9375rem;
+  outline: none;
+}
+.subscribe-form input::placeholder { color: rgba(247, 244, 238, 0.45); }
+
+.subscribe-form button {
+  background: var(--terracotta);
+  color: var(--paper);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.875rem 1.5rem;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background var(--t-fast) var(--ease);
+  white-space: nowrap;
+}
+.subscribe-form button:hover { background: var(--terracotta-warm); }
+
+.newsletter-fine {
+  margin-top: 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: rgba(247, 244, 238, 0.45);
+  line-height: 1.6;
+}
+.newsletter-fine a { color: rgba(247, 244, 238, 0.75); text-decoration: underline; text-decoration-color: rgba(247, 244, 238, 0.3); }
+
+/* ═════════════════════════════════════════════════════════
+   FOOTER
+   ═════════════════════════════════════════════════════════ */
+.site-footer {
+  background: var(--ink-warm);
+  color: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-watermark {
+  position: absolute;
+  left: 50%;
+  bottom: -3rem;
+  transform: translateX(-50%);
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 80, "wght" 400;
+  font-size: clamp(10rem, 26vw, 26rem);
+  line-height: 0.78;
+  color: rgba(247, 244, 238, 0.025);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -0.05em;
+}
+
+.footer-main {
+  position: relative;
+  padding-top: clamp(4rem, 7vw, 5.5rem);
+  padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+.footer-brand .logo img {
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+  height: 48px;
+}
+.footer-brand .logo { margin-bottom: 1.5rem; }
+.footer-brand p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: rgba(247, 244, 238, 0.72);
+  max-width: 300px;
+  margin-bottom: 1.75rem;
+}
+
+.footer-contact {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.85;
+  color: rgba(247, 244, 238, 0.65);
+  letter-spacing: 0.05em;
+  font-style: normal;
+}
+.footer-contact a {
+  color: rgba(247, 244, 238, 0.85);
+  display: block;
+  transition: color var(--t-fast) var(--ease);
+}
+.footer-contact a:hover { color: var(--terracotta-warm); }
+.footer-contact .label {
+  display: inline-block;
+  width: 56px;
+  color: rgba(247, 244, 238, 0.4);
+  letter-spacing: 0.16em;
+}
+
+.footer-col h4 {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.5);
+  margin-bottom: 1.5rem;
+}
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+.footer-col a {
+  font-size: 0.9375rem;
+  color: rgba(247, 244, 238, 0.78);
+  transition: color var(--t-fast) var(--ease);
+}
+.footer-col a:hover { color: var(--terracotta-warm); }
+
+.footer-social {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+.footer-social a {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(247, 244, 238, 0.15);
+  border-radius: 50%;
+  color: rgba(247, 244, 238, 0.7);
+  transition: all var(--t-med) var(--ease);
+}
+.footer-social a:hover {
+  border-color: var(--terracotta-warm);
+  color: var(--terracotta-warm);
+  transform: translateY(-2px);
+}
+.footer-social svg { width: 15px; height: 15px; }
+
+.footer-certs {
+  padding-block: 1.75rem;
+  border-top: 1px solid rgba(247, 244, 238, 0.08);
+  border-bottom: 1px solid rgba(247, 244, 238, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+.cert-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.5);
+}
+.cert-mark::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--terracotta-warm);
+  border-radius: 50%;
+}
+
+.footer-bottom {
+  position: relative;
+  padding-block: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  color: rgba(247, 244, 238, 0.55);
+}
+.footer-bottom-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.footer-bottom-links a {
+  color: rgba(247, 244, 238, 0.7);
+  transition: color var(--t-fast) var(--ease);
+}
+.footer-bottom-links a:hover { color: var(--paper); }
+.footer-bottom-links .sep { color: rgba(247, 244, 238, 0.2); }
+.footer-bist-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+.footer-bilingual {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.4);
+}
+
+/* ═════════════════════════════════════════════════════════
+   ENTRANCE ANIMATIONS
+   ═════════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes drawIn {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hero-eyebrow { animation: fadeUp 900ms var(--ease-out) both; }
+.hero-kicker { animation: fadeUp 900ms 80ms var(--ease-out) both; }
+.hero h1 { animation: fadeUp 1000ms 140ms var(--ease-out) both; }
+.hero-sub { animation: fadeUp 1000ms 280ms var(--ease-out) both; }
+.hero-ctas { animation: fadeUp 1000ms 420ms var(--ease-out) both; }
+.hero-inline-stats { animation: fadeUp 1000ms 540ms var(--ease-out) both; }
+.hero-visual { animation: fadeIn 1400ms var(--ease) both; }
+.sparkline-path { stroke-dasharray: 1000; animation: drawIn 2.4s var(--ease-out) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ═════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .nav-center { gap: 1.25rem; }
+  .nav-link { font-size: 0.875rem; }
+  .audience button { padding: 0.375rem 0.625rem; font-size: 0.6875rem; }
+}
+
+@media (max-width: 1080px) {
+  .nav-mega { width: 540px; grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 980px) {
+  .nav-center { display: none; }
+  .audience { display: none; }
+  .menu-toggle { display: inline-flex; }
+  .util-link { display: none; }
+
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-visual { border-right: none; border-bottom: 1px solid rgba(247, 244, 238, 0.1); padding: 2.5rem; min-height: 380px; }
+  .hero-text { padding: 3rem var(--gutter); }
+  .hero-composition { max-width: 380px; }
+
+  .audience-grid { grid-template-columns: 1fr; }
+  .mosaic { grid-template-columns: 1fr; }
+  .feature-card { min-height: 480px; }
+
+  .manifesto-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .investor-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .story-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .sustain-head { grid-template-columns: 1fr; gap: 1rem; }
+  .sustain-grid { grid-template-columns: 1fr; }
+  .newsletter-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+  .press-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-step:nth-child(2) .process-arrow { display: none; }
+
+  .tech-stats { grid-template-columns: repeat(2, 1fr); }
+  .tech-stat:nth-child(2) { border-right: none; }
+  .tech-stat:nth-child(3), .tech-stat:nth-child(4) { border-top: 1px solid var(--line); padding-top: 1.75rem; }
+
+  .footer-main { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 720px) {
+  .main-nav-inner { height: 72px; }
+  .utility-right .util-icon:not(.search) { display: none; }
+
+  .hero-text { padding: 2.5rem var(--gutter); }
+  .hero-visual { padding: 2rem; min-height: 320px; }
+  .hero-composition { max-width: 320px; }
+
+  .hero-inline-stats { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+  .hero-inline-stats .sep { display: none; }
+
+  .price-stats { grid-template-columns: 1fr; }
+  .price-card { padding: 1.75rem 1.5rem; }
+
+  .audience-head { flex-direction: column; align-items: flex-start; }
+  .audience-grid { gap: 1rem; }
+
+  .products-head { grid-template-columns: 1fr; }
+  .products-head .right { text-align: left; }
+
+  .mini-card { grid-template-columns: 70px 1fr; gap: 1rem; padding: 1.25rem; }
+
+  .press-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr; gap: 0; }
+  .process-step .process-arrow { display: none; }
+
+  .tech-stats { grid-template-columns: 1fr; }
+  .tech-stat { border-right: none; border-bottom: 1px solid var(--line); padding: 1.25rem 0; }
+  .tech-stat:last-child { border-bottom: none; }
+
+  .footer-main { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+  .eco-stat-card { grid-template-columns: auto 1fr; gap: 1.25rem; }
+  .eco-stat-card .label-num { display: none; }
+}
+
+@media (max-width: 480px) {
+  .ticker-meta { display: none; }
+  .lang-pill { display: none; }
+  .footer-certs { gap: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ HEADER ════════════ -->
+<header class="site-header">
+  <!-- Layer 1: Utility -->
+  <div class="utility">
+    <div class="container">
+      <div class="utility-inner">
+        <div class="ticker">
+          <span class="ticker-tag"><span class="pulse-dot" aria-hidden="true"></span>BIST · SNICA</span>
+          <span class="ticker-price">₺24,80</span>
+          <svg class="sparkline" viewBox="0 0 64 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path class="fill sparkline-path" d="M0 14 L8 12 L16 13 L24 9 L32 10 L40 6 L48 7 L56 4 L64 5 L64 18 L0 18 Z"/>
+            <path class="sparkline-path" d="M0 14 L8 12 L16 13 L24 9 L32 10 L40 6 L48 7 L56 4 L64 5"/>
+          </svg>
+          <span class="ticker-change">▲ +%1,24</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-meta">Vol 1,21M</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-meta">Son KAP: 22 May 2026 — Olağan Genel Kurul</span>
+        </div>
+
+        <div class="utility-right">
+          <a href="#" class="util-link">Bayi Portalı</a>
+          <span class="util-sep">·</span>
+          <a href="#" class="util-link">Yetkili Servis</a>
+          <span class="util-sep">·</span>
+          <a href="#" class="util-link">Kariyer</a>
+          <span class="util-sep">·</span>
+          <a href="#" class="util-link">İletişim</a>
+
+          <button class="util-icon search" aria-label="Ara">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+          </button>
+
+          <div class="lang-pill" role="group" aria-label="Dil seçimi">
+            <button class="active" aria-current="true">TR</button>
+            <button>EN</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layer 2: Main nav -->
+  <div class="main-nav">
+    <div class="container">
+      <div class="main-nav-inner">
+
+        <a href="#" class="logo" aria-label="Sanica Isı anasayfa">
+          <img src="https://www.sanicaisi.com.tr/wp-content/uploads/2020/12/sanica-isi.png" alt="Sanica Isı" />
+        </a>
+
+        <nav class="nav-center" aria-label="Ana navigasyon">
+          <div class="nav-mega-host">
+            <a href="#products" class="nav-link">Ürünler <span class="nav-caret">▾</span></a>
+            <div class="nav-mega" aria-hidden="true">
+              <a href="#" class="mega-card">
+                <div class="mega-thumb">
+                  <svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="120" height="90" fill="#EDE5D3"/>
+                    <rect x="18" y="20" width="84" height="3" fill="#0A0A0A"/>
+                    <g fill="#0A0A0A"><rect x="22" y="23" width="2" height="44"/><rect x="29" y="23" width="2" height="44"/><rect x="36" y="23" width="2" height="44"/><rect x="43" y="23" width="2" height="44"/><rect x="50" y="23" width="2" height="44"/><rect x="57" y="23" width="2" height="44"/><rect x="64" y="23" width="2" height="44"/><rect x="71" y="23" width="2" height="44"/><rect x="78" y="23" width="2" height="44"/><rect x="85" y="23" width="2" height="44"/><rect x="92" y="23" width="2" height="44"/></g>
+                    <rect x="18" y="67" width="84" height="3" fill="#0A0A0A"/>
+                    <circle cx="98" cy="76" r="3" fill="#B8390C"/>
+                  </svg>
+                </div>
+                <span class="mega-meta">01 · Radyatör</span>
+                <span class="mega-name">Panel Radyatör</span>
+              </a>
+              <a href="#" class="mega-card">
+                <div class="mega-thumb">
+                  <svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="120" height="90" fill="#FBE6D8"/>
+                    <rect x="44" y="12" width="2" height="66" fill="#0A0A0A"/>
+                    <rect x="76" y="12" width="2" height="66" fill="#0A0A0A"/>
+                    <g fill="#0A0A0A"><rect x="44" y="18" width="34" height="2"/><rect x="44" y="26" width="34" height="2"/><rect x="44" y="34" width="34" height="2"/><rect x="44" y="42" width="34" height="2"/><rect x="44" y="50" width="34" height="2"/><rect x="44" y="58" width="34" height="2"/><rect x="44" y="66" width="34" height="2"/></g>
+                  </svg>
+                </div>
+                <span class="mega-meta">02 · Tasarım</span>
+                <span class="mega-name">Havlupan</span>
+              </a>
+              <a href="#" class="mega-card">
+                <div class="mega-thumb">
+                  <svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="120" height="90" fill="#EDE5D3"/>
+                    <rect x="40" y="16" width="40" height="58" rx="1.5" fill="#0A0A0A"/>
+                    <rect x="44" y="22" width="32" height="10" fill="#F7F4EE"/>
+                    <circle cx="60" cy="50" r="7" fill="#B8390C"/>
+                    <rect x="48" y="62" width="6" height="2" fill="#6B6258"/>
+                    <rect x="58" y="62" width="6" height="2" fill="#6B6258"/>
+                    <rect x="68" y="62" width="6" height="2" fill="#6B6258"/>
+                  </svg>
+                </div>
+                <span class="mega-meta">03 · Kombi</span>
+                <span class="mega-name">Yoğuşmalı Kombi</span>
+              </a>
+              <a href="#" class="mega-card">
+                <div class="mega-thumb">
+                  <svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="120" height="90" fill="#EDE5D3"/>
+                    <path d="M 12 30 L 46 30 Q 54 30 54 38 L 54 58 Q 54 66 62 66 L 76 66 Q 84 66 84 58 L 84 38 Q 84 30 92 30 L 110 30" stroke="#0A0A0A" stroke-width="6" fill="none" stroke-linecap="round"/>
+                    <circle cx="54" cy="38" r="2.5" fill="#B8390C"/>
+                    <circle cx="84" cy="58" r="2.5" fill="#B8390C"/>
+                  </svg>
+                </div>
+                <span class="mega-meta">04 · Tesisat</span>
+                <span class="mega-name">Isıtma Boruları</span>
+              </a>
+            </div>
+          </div>
+          <a href="#" class="nav-link">Kurumsal <span class="nav-caret">▾</span></a>
+          <a href="#investor" class="nav-link">Yatırımcı İlişkileri</a>
+          <a href="#sustain" class="nav-link">Sürdürülebilirlik</a>
+          <a href="#press" class="nav-link">Basında Biz</a>
+        </nav>
+
+        <div class="nav-right">
+          <div class="audience" role="group" aria-label="Hedef kitle">
+            <button class="active">Ev Sahibi</button>
+            <button>Profesyonel</button>
+            <button>Yatırımcı</button>
+          </div>
+          <a href="#" class="btn-dealer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Bayi Bul
+          </a>
+          <button class="menu-toggle" aria-label="Menü"><span></span></button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════ HERO ════════════ -->
+<section class="hero dark" id="top">
+
+  <div class="hero-grid">
+
+    <!-- LEFT: industrial composition -->
+    <div class="hero-visual">
+      <div class="hero-label-tl">
+        <span class="dot">●</span> FAB · 02 / KOCAELİ — 41°N
+      </div>
+      <div class="hero-label-tr">EST. 1985</div>
+      <div class="hero-label-bl">
+        Model · S-PR / S-HV / S-KMB / S-ISB<br>
+        Kapasite · 4,2M adet/yıl<br>
+        Sertifikasyon · ISO 9001/14001/45001
+      </div>
+
+      <div class="hero-composition">
+        <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Endüstriyel kompozisyon — ısı, çelik, üretim">
+          <!-- Background grid -->
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(247,244,238,0.04)" stroke-width="0.5"/>
+            </pattern>
+            <radialGradient id="heatGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#D9521C" stop-opacity="1"/>
+              <stop offset="40%" stop-color="#B8390C" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#8C2A06" stop-opacity="0.6"/>
+            </radialGradient>
+            <linearGradient id="steelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#5A5D62"/>
+              <stop offset="100%" stop-color="#3A3D42"/>
+            </linearGradient>
+            <linearGradient id="lightBeam" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(247,244,238,0.08)"/>
+              <stop offset="100%" stop-color="rgba(247,244,238,0)"/>
+            </linearGradient>
+          </defs>
+
+          <rect width="600" height="600" fill="url(#grid)"/>
+
+          <!-- Diagonal light beams (drama) -->
+          <polygon points="0,0 220,0 70,600 0,600" fill="url(#lightBeam)"/>
+          <polygon points="380,0 600,0 600,440 250,600" fill="url(#lightBeam)" opacity="0.5"/>
+
+          <!-- Tall steel column with fins (left side) -->
+          <rect x="68" y="80" width="56" height="380" fill="url(#steelGrad)"/>
+          <!-- Fin marks -->
+          <g stroke="#1A1D22" stroke-width="1">
+            <line x1="68" y1="110" x2="124" y2="110"/>
+            <line x1="68" y1="130" x2="124" y2="130"/>
+            <line x1="68" y1="150" x2="124" y2="150"/>
+            <line x1="68" y1="170" x2="124" y2="170"/>
+            <line x1="68" y1="190" x2="124" y2="190"/>
+            <line x1="68" y1="210" x2="124" y2="210"/>
+            <line x1="68" y1="230" x2="124" y2="230"/>
+            <line x1="68" y1="250" x2="124" y2="250"/>
+            <line x1="68" y1="270" x2="124" y2="270"/>
+            <line x1="68" y1="290" x2="124" y2="290"/>
+            <line x1="68" y1="310" x2="124" y2="310"/>
+            <line x1="68" y1="330" x2="124" y2="330"/>
+            <line x1="68" y1="350" x2="124" y2="350"/>
+            <line x1="68" y1="370" x2="124" y2="370"/>
+            <line x1="68" y1="390" x2="124" y2="390"/>
+            <line x1="68" y1="410" x2="124" y2="410"/>
+            <line x1="68" y1="430" x2="124" y2="430"/>
+          </g>
+          <!-- Steel column cap -->
+          <rect x="62" y="74" width="68" height="10" fill="#5A5D62"/>
+          <rect x="62" y="456" width="68" height="10" fill="#5A5D62"/>
+          <!-- Small terracotta indicator on column -->
+          <rect x="76" y="200" width="6" height="6" fill="#B8390C"/>
+          <text x="90" y="206" font-family="IBM Plex Mono" font-size="8" fill="rgba(247,244,238,0.5)" letter-spacing="1">72°C</text>
+
+          <!-- BIG HEAT GLOW DISC (centerpiece) -->
+          <circle cx="380" cy="280" r="140" fill="url(#heatGlow)"/>
+          <!-- Inner sand ring -->
+          <circle cx="380" cy="280" r="70" fill="#EDE5D3" opacity="0.95"/>
+          <!-- Inner ink core -->
+          <circle cx="380" cy="280" r="32" fill="#0A0A0A"/>
+          <!-- Center terracotta dot -->
+          <circle cx="380" cy="280" r="10" fill="#D9521C"/>
+
+          <!-- Heat aura rings (thin lines, increasing radius) -->
+          <circle cx="380" cy="280" r="160" fill="none" stroke="#D9521C" stroke-width="0.6" opacity="0.4"/>
+          <circle cx="380" cy="280" r="180" fill="none" stroke="#D9521C" stroke-width="0.5" opacity="0.25"/>
+          <circle cx="380" cy="280" r="200" fill="none" stroke="#D9521C" stroke-width="0.4" opacity="0.15"/>
+
+          <!-- Industrial gear top-right -->
+          <g transform="translate(490, 130)">
+            <circle cx="0" cy="0" r="44" fill="#3A3D42"/>
+            <circle cx="0" cy="0" r="34" fill="#0A0A0A"/>
+            <circle cx="0" cy="0" r="16" fill="#5A5D62"/>
+            <circle cx="0" cy="0" r="6" fill="#B8390C"/>
+            <!-- Gear teeth -->
+            <g fill="#3A3D42">
+              <rect x="-3" y="-50" width="6" height="10"/>
+              <rect x="-3" y="40" width="6" height="10"/>
+              <rect x="-50" y="-3" width="10" height="6"/>
+              <rect x="40" y="-3" width="10" height="6"/>
+              <rect x="-3" y="-50" width="6" height="10" transform="rotate(45)"/>
+              <rect x="-3" y="40" width="6" height="10" transform="rotate(45)"/>
+              <rect x="-50" y="-3" width="10" height="6" transform="rotate(45)"/>
+              <rect x="40" y="-3" width="10" height="6" transform="rotate(45)"/>
+            </g>
+          </g>
+
+          <!-- Technical readout labels (bottom-right of disc) -->
+          <g font-family="IBM Plex Mono" font-size="9" fill="rgba(247,244,238,0.45)" letter-spacing="1">
+            <text x="448" y="248">85°C</text>
+            <line x1="440" y1="244" x2="430" y2="244" stroke="rgba(247,244,238,0.3)" stroke-width="0.5"/>
+            <text x="448" y="280">6 bar</text>
+            <line x1="440" y1="276" x2="430" y2="276" stroke="rgba(247,244,238,0.3)" stroke-width="0.5"/>
+            <text x="448" y="312">95 kW</text>
+            <line x1="440" y1="308" x2="430" y2="308" stroke="rgba(247,244,238,0.3)" stroke-width="0.5"/>
+          </g>
+
+          <!-- Production track (bottom) -->
+          <line x1="40" y1="500" x2="560" y2="500" stroke="rgba(247,244,238,0.3)" stroke-width="1"/>
+          <line x1="40" y1="540" x2="560" y2="540" stroke="rgba(247,244,238,0.15)" stroke-width="1" stroke-dasharray="4 4"/>
+
+          <!-- Small radiator silhouettes on track -->
+          <g fill="#5A5D62">
+            <rect x="60" y="478" width="22" height="22"/>
+            <rect x="100" y="478" width="22" height="22"/>
+            <rect x="140" y="478" width="22" height="22"/>
+            <rect x="180" y="478" width="22" height="22"/>
+            <rect x="220" y="478" width="22" height="22"/>
+          </g>
+          <!-- Highlighted with terracotta -->
+          <rect x="260" y="478" width="22" height="22" fill="#B8390C"/>
+          <g fill="#5A5D62">
+            <rect x="300" y="478" width="22" height="22"/>
+            <rect x="340" y="478" width="22" height="22"/>
+            <rect x="380" y="478" width="22" height="22"/>
+            <rect x="420" y="478" width="22" height="22"/>
+            <rect x="460" y="478" width="22" height="22"/>
+            <rect x="500" y="478" width="22" height="22"/>
+            <rect x="540" y="478" width="22" height="22"/>
+          </g>
+
+          <!-- Direction arrow on track -->
+          <g fill="rgba(247,244,238,0.45)">
+            <text x="40" y="524" font-family="IBM Plex Mono" font-size="8" letter-spacing="1">→ HAT 02</text>
+            <text x="510" y="524" font-family="IBM Plex Mono" font-size="8" letter-spacing="1">SEVK</text>
+          </g>
+
+          <!-- Technical cross at top-right -->
+          <g stroke="rgba(247,244,238,0.3)" stroke-width="0.6">
+            <line x1="560" y1="60" x2="580" y2="60"/>
+            <line x1="570" y1="50" x2="570" y2="70"/>
+          </g>
+
+          <!-- Subtle measure marks at bottom -->
+          <g stroke="rgba(247,244,238,0.2)" stroke-width="0.5">
+            <line x1="40" y1="565" x2="40" y2="572"/>
+            <line x1="80" y1="565" x2="80" y2="572"/>
+            <line x1="120" y1="565" x2="120" y2="572"/>
+            <line x1="160" y1="565" x2="160" y2="572"/>
+            <line x1="200" y1="565" x2="200" y2="572"/>
+            <line x1="240" y1="565" x2="240" y2="572"/>
+            <line x1="280" y1="565" x2="280" y2="572"/>
+            <line x1="320" y1="565" x2="320" y2="572"/>
+            <line x1="360" y1="565" x2="360" y2="572"/>
+            <line x1="400" y1="565" x2="400" y2="572"/>
+            <line x1="440" y1="565" x2="440" y2="572"/>
+            <line x1="480" y1="565" x2="480" y2="572"/>
+            <line x1="520" y1="565" x2="520" y2="572"/>
+            <line x1="560" y1="565" x2="560" y2="572"/>
+          </g>
+          <text x="290" y="586" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.3)" letter-spacing="2" text-anchor="middle">SECTION A — A</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- RIGHT: text -->
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <span class="num">01</span><span class="dash">/</span><span>06</span><span class="dash">—</span><span>Anasayfa / Homepage</span>
+      </div>
+      <div class="hero-kicker">Türkiye'nin ısı sanayicisi · 1985'ten beri</div>
+      <h1>Çelikten <em>ısıya</em><span class="dot">.</span></h1>
+      <p class="hero-sub">
+        Kocaeli'deki tesislerimizden 35'ten fazla ülkeye Türkiye'nin ısısını taşıyoruz. 2022'den beri BIST Yıldız Pazar'da paydaşlarımızla yan yana.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#products" class="btn btn-primary">Ürünleri keşfet <span class="arrow" aria-hidden="true">→</span></a>
+        <a href="#investor" class="btn btn-ghost">Yatırımcı sayfası <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="hero-inline-stats">
+        <span><strong>35+</strong> ÜLKE</span>
+        <span class="sep">·</span>
+        <span><strong>4,2M</strong> ADET/YIL</span>
+        <span class="sep">·</span>
+        <span><strong>600+</strong> ÇALIŞAN</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certification marquee -->
+  <div class="cert-marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">ISO 9001</span>
+      <span class="marquee-item">ISO 14001</span>
+      <span class="marquee-item">ISO 45001</span>
+      <span class="marquee-item">CE</span>
+      <span class="marquee-item">EAC</span>
+      <span class="marquee-item">GOST-R</span>
+      <span class="marquee-item">MED</span>
+      <span class="marquee-item">TSE</span>
+      <span class="marquee-item">KEYMARK</span>
+      <span class="marquee-item">EUROVENT</span>
+      <span class="marquee-item">UN GLOBAL COMPACT</span>
+      <span class="marquee-item">CDP</span>
+      <span class="marquee-item">ISO 9001</span>
+      <span class="marquee-item">ISO 14001</span>
+      <span class="marquee-item">ISO 45001</span>
+      <span class="marquee-item">CE</span>
+      <span class="marquee-item">EAC</span>
+      <span class="marquee-item">GOST-R</span>
+      <span class="marquee-item">MED</span>
+      <span class="marquee-item">TSE</span>
+      <span class="marquee-item">KEYMARK</span>
+      <span class="marquee-item">EUROVENT</span>
+      <span class="marquee-item">UN GLOBAL COMPACT</span>
+      <span class="marquee-item">CDP</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ AUDIENCE SELECTOR ════════════ -->
+<section class="audience-band">
+  <div class="container">
+    <div class="audience-head">
+      <div>
+        <div class="section-marker marker">
+          <span class="num">02</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">Yolunuzu seçin</span>
+        </div>
+        <h2>Üç farklı dünya, <em>tek bir çatı</em>.</h2>
+      </div>
+      <p class="audience-intro">
+        Sanica Isı; ev sahiplerine, projeyi tasarlayan profesyonele ve halka açık şirketi takip eden yatırımcıya farklı kapılar açar.
+      </p>
+    </div>
+
+    <div class="audience-grid">
+
+      <!-- Card I: Ev Sahibi -->
+      <div class="aud-card">
+        <span class="aud-index">I / III</span>
+        <div class="aud-vignette">
+          <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="220" fill="#F7F4EE"/>
+            <!-- Heat wave concentric arcs -->
+            <g fill="none" stroke="#D9521C" stroke-width="1.5" opacity="0.18">
+              <circle cx="200" cy="110" r="100"/>
+              <circle cx="200" cy="110" r="80"/>
+            </g>
+            <g fill="none" stroke="#D9521C" stroke-width="1.5" opacity="0.35">
+              <circle cx="200" cy="110" r="60"/>
+            </g>
+            <!-- Radiator soft form -->
+            <rect x="160" y="80" width="80" height="60" rx="6" fill="#FBE6D8"/>
+            <g fill="#B8390C">
+              <rect x="168" y="86" width="3" height="48"/>
+              <rect x="176" y="86" width="3" height="48"/>
+              <rect x="184" y="86" width="3" height="48"/>
+              <rect x="192" y="86" width="3" height="48"/>
+              <rect x="200" y="86" width="3" height="48"/>
+              <rect x="208" y="86" width="3" height="48"/>
+              <rect x="216" y="86" width="3" height="48"/>
+              <rect x="224" y="86" width="3" height="48"/>
+            </g>
+            <!-- Small heat dots emanating -->
+            <g fill="#D9521C">
+              <circle cx="120" cy="60" r="2"/>
+              <circle cx="280" cy="60" r="2"/>
+              <circle cx="100" cy="110" r="2.5"/>
+              <circle cx="300" cy="110" r="2.5"/>
+              <circle cx="120" cy="160" r="2"/>
+              <circle cx="280" cy="160" r="2"/>
+            </g>
+            <!-- Floor line -->
+            <line x1="40" y1="180" x2="360" y2="180" stroke="#0A0A0A" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="aud-tag">Ev Sahibi · 01</div>
+        <h3>Eviniz için doğru ısıtma.</h3>
+        <p>Doğru radyatör boyutundan kombi seçimine, en yakın yetkili noktadan ürün rehberine kadar bütün soruların adresi.</p>
+        <div class="aud-links">
+          <a href="#" class="aud-pill">Ürün rehberi</a>
+          <a href="#" class="aud-pill">Bayi bul</a>
+          <a href="#" class="aud-pill">Yetkili servis</a>
+        </div>
+      </div>
+
+      <!-- Card II: Profesyonel -->
+      <div class="aud-card">
+        <span class="aud-index">II / III</span>
+        <div class="aud-vignette">
+          <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="220" fill="#F7F4EE"/>
+            <!-- Grid background -->
+            <g stroke="#D9CFB8" stroke-width="0.5">
+              <line x1="0" y1="40" x2="400" y2="40"/>
+              <line x1="0" y1="80" x2="400" y2="80"/>
+              <line x1="0" y1="120" x2="400" y2="120"/>
+              <line x1="0" y1="160" x2="400" y2="160"/>
+              <line x1="80" y1="0" x2="80" y2="220"/>
+              <line x1="160" y1="0" x2="160" y2="220"/>
+              <line x1="240" y1="0" x2="240" y2="220"/>
+              <line x1="320" y1="0" x2="320" y2="220"/>
+            </g>
+            <!-- Radiator plan view -->
+            <rect x="120" y="80" width="160" height="60" fill="none" stroke="#4A4D52" stroke-width="1.5"/>
+            <g stroke="#4A4D52" stroke-width="0.8">
+              <line x1="130" y1="80" x2="130" y2="140"/>
+              <line x1="140" y1="80" x2="140" y2="140"/>
+              <line x1="150" y1="80" x2="150" y2="140"/>
+              <line x1="160" y1="80" x2="160" y2="140"/>
+              <line x1="170" y1="80" x2="170" y2="140"/>
+              <line x1="180" y1="80" x2="180" y2="140"/>
+              <line x1="190" y1="80" x2="190" y2="140"/>
+              <line x1="200" y1="80" x2="200" y2="140"/>
+              <line x1="210" y1="80" x2="210" y2="140"/>
+              <line x1="220" y1="80" x2="220" y2="140"/>
+              <line x1="230" y1="80" x2="230" y2="140"/>
+              <line x1="240" y1="80" x2="240" y2="140"/>
+              <line x1="250" y1="80" x2="250" y2="140"/>
+              <line x1="260" y1="80" x2="260" y2="140"/>
+              <line x1="270" y1="80" x2="270" y2="140"/>
+            </g>
+            <!-- Dimension arrows -->
+            <g stroke="#B8390C" stroke-width="0.8" fill="#B8390C">
+              <line x1="120" y1="60" x2="280" y2="60"/>
+              <polygon points="120,60 126,57 126,63"/>
+              <polygon points="280,60 274,57 274,63"/>
+            </g>
+            <text x="200" y="54" font-family="IBM Plex Mono" font-size="9" fill="#B8390C" text-anchor="middle" letter-spacing="1">1600 mm</text>
+            <g stroke="#B8390C" stroke-width="0.8" fill="#B8390C">
+              <line x1="300" y1="80" x2="300" y2="140"/>
+              <polygon points="300,80 297,86 303,86"/>
+              <polygon points="300,140 297,134 303,134"/>
+            </g>
+            <text x="320" y="113" font-family="IBM Plex Mono" font-size="9" fill="#B8390C" letter-spacing="1">600</text>
+            <!-- Connector dots -->
+            <circle cx="125" cy="150" r="3" fill="#B8390C"/>
+            <circle cx="275" cy="150" r="3" fill="#B8390C"/>
+            <!-- Spec label -->
+            <text x="120" y="172" font-family="IBM Plex Mono" font-size="8" fill="#4A4D52" letter-spacing="1">S-PR / TYP 22 / 1600×600 / Q = 2,8 kW</text>
+          </svg>
+        </div>
+        <div class="aud-tag">Profesyonel · 02</div>
+        <h3>Mimar, mühendis & proje firmaları.</h3>
+        <p>Tüm ürünler için teknik kataloglar, BIM kütüphanesi, performans tabloları ve proje destek hattı.</p>
+        <div class="aud-links">
+          <a href="#" class="aud-pill">Teknik katalog</a>
+          <a href="#" class="aud-pill">BIM kütüphanesi</a>
+          <a href="#" class="aud-pill">Proje destek</a>
+        </div>
+      </div>
+
+      <!-- Card III: Yatırımcı (dark) -->
+      <div class="aud-card investor">
+        <span class="aud-index">III / III</span>
+        <div class="aud-vignette">
+          <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="220" fill="#1A1A1A"/>
+            <!-- Grid -->
+            <g stroke="rgba(247,244,238,0.06)" stroke-width="0.5">
+              <line x1="0" y1="50" x2="400" y2="50"/>
+              <line x1="0" y1="100" x2="400" y2="100"/>
+              <line x1="0" y1="150" x2="400" y2="150"/>
+            </g>
+            <!-- Y-axis labels -->
+            <g font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.35)" letter-spacing="1">
+              <text x="10" y="54">28</text>
+              <text x="10" y="104">22</text>
+              <text x="10" y="154">16</text>
+            </g>
+            <!-- Chart fill -->
+            <path d="M 40 150 L 80 140 L 120 130 L 160 135 L 200 110 L 240 100 L 280 90 L 320 70 L 360 60 L 360 200 L 40 200 Z" fill="url(#chartFill)" opacity="0.3"/>
+            <defs>
+              <linearGradient id="chartFill" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#5AB670" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="#5AB670" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- Chart line -->
+            <path d="M 40 150 L 80 140 L 120 130 L 160 135 L 200 110 L 240 100 L 280 90 L 320 70 L 360 60" stroke="#5AB670" stroke-width="2" fill="none" stroke-linejoin="round"/>
+            <!-- Data points -->
+            <g fill="#5AB670">
+              <circle cx="40" cy="150" r="2.5"/>
+              <circle cx="80" cy="140" r="2.5"/>
+              <circle cx="120" cy="130" r="2.5"/>
+              <circle cx="160" cy="135" r="2.5"/>
+              <circle cx="200" cy="110" r="2.5"/>
+              <circle cx="240" cy="100" r="2.5"/>
+              <circle cx="280" cy="90" r="2.5"/>
+              <circle cx="320" cy="70" r="2.5"/>
+            </g>
+            <!-- Latest highlighted -->
+            <circle cx="360" cy="60" r="5" fill="#5AB670"/>
+            <circle cx="360" cy="60" r="9" fill="#5AB670" opacity="0.25"/>
+            <text x="358" y="48" font-family="IBM Plex Mono" font-size="9" fill="#5AB670" text-anchor="end" letter-spacing="1">₺24,80</text>
+            <!-- X axis -->
+            <line x1="40" y1="180" x2="360" y2="180" stroke="rgba(247,244,238,0.15)" stroke-width="0.5"/>
+            <g font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.35)" letter-spacing="1">
+              <text x="40" y="200">OCA</text>
+              <text x="120" y="200">MAR</text>
+              <text x="200" y="200">MAY</text>
+              <text x="280" y="200">TEM</text>
+              <text x="350" y="200">EYL</text>
+            </g>
+          </svg>
+        </div>
+        <div class="aud-tag">Yatırımcı · 03</div>
+        <h3>Halka açık şirket şeffaflığı.</h3>
+        <p>KAP açıklamaları, finansal raporlar, sürdürülebilirlik dökümanı ve sermaye yapısı — tek yerde.</p>
+        <div class="aud-links">
+          <a href="#" class="aud-pill">Son raporlar</a>
+          <a href="#" class="aud-pill">KAP akışı</a>
+          <a href="#" class="aud-pill">Hisse bilgisi</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ PRODUCTS — Featured + Mosaic ════════════ -->
+<section class="products" id="products">
+  <div class="container">
+
+    <div class="products-head">
+      <div>
+        <div class="section-marker" style="margin-bottom: 1.25rem;">
+          <span class="num">03</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">Ürünler / Products</span>
+        </div>
+        <h2>40 yıllık bilgi,<br><em>dört ürün</em> ailesinde.</h2>
+      </div>
+      <div class="right">
+        Panel radyatör<br>
+        Tasarım radyatör · havlupan<br>
+        Yoğuşmalı kombi<br>
+        Çok katmanlı ısıtma boruları
+      </div>
+    </div>
+
+    <div class="mosaic">
+
+      <!-- Big feature -->
+      <article class="feature-card">
+        <div class="feature-corner"><span class="dot">●</span> Bu sezon · Yeni</div>
+        <div class="feature-corner-right">S-HV / Aurora · 2026</div>
+        <div class="feature-illu">
+          <svg viewBox="0 0 320 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aurora Serisi Havlupan">
+            <defs>
+              <linearGradient id="auroraBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FBE6D8"/>
+                <stop offset="100%" stop-color="#D9521C" stop-opacity="0.3"/>
+              </linearGradient>
+            </defs>
+            <!-- Background colored panel -->
+            <rect x="40" y="40" width="240" height="400" fill="url(#auroraBg)"/>
+            <!-- Vertical posts -->
+            <rect x="100" y="80" width="4" height="320" fill="#0A0A0A"/>
+            <rect x="216" y="80" width="4" height="320" fill="#0A0A0A"/>
+            <!-- Horizontal bars -->
+            <g fill="#0A0A0A">
+              <rect x="104" y="92" width="112" height="3"/>
+              <rect x="104" y="112" width="112" height="3"/>
+              <rect x="104" y="132" width="112" height="3"/>
+              <rect x="104" y="152" width="112" height="3"/>
+              <rect x="104" y="172" width="112" height="3"/>
+              <rect x="104" y="192" width="112" height="3"/>
+              <rect x="104" y="212" width="112" height="3"/>
+              <rect x="104" y="232" width="112" height="3"/>
+              <rect x="104" y="252" width="112" height="3"/>
+              <rect x="104" y="272" width="112" height="3"/>
+              <rect x="104" y="292" width="112" height="3"/>
+              <rect x="104" y="312" width="112" height="3"/>
+              <rect x="104" y="332" width="112" height="3"/>
+              <rect x="104" y="352" width="112" height="3"/>
+              <rect x="104" y="372" width="112" height="3"/>
+            </g>
+            <!-- Wall brackets -->
+            <rect x="76" y="120" width="24" height="4" fill="#6B6258"/>
+            <rect x="76" y="360" width="24" height="4" fill="#6B6258"/>
+            <!-- Tag dot -->
+            <circle cx="160" cy="420" r="4" fill="#B8390C"/>
+            <!-- Dimension hints -->
+            <g stroke="#0A0A0A" stroke-width="0.5" opacity="0.4">
+              <line x1="60" y1="80" x2="60" y2="400"/>
+              <line x1="56" y1="80" x2="64" y2="80"/>
+              <line x1="56" y1="400" x2="64" y2="400"/>
+            </g>
+            <text x="40" y="244" font-family="IBM Plex Mono" font-size="8" fill="#0A0A0A" opacity="0.5" letter-spacing="1" transform="rotate(-90, 40, 244)">1500 mm</text>
+          </svg>
+        </div>
+        <div class="feature-body">
+          <div class="meta">Bu sezon · Aurora Serisi Havlupan</div>
+          <h3>Banyonun <em>sıcak iskeleti</em>.</h3>
+          <p>İnce profilli paslanmaz çelik gövde, 9 renk seçeneği. Mimari projeler için ısrarla "tasarım" diyenlere.</p>
+          <div class="btn-row">
+            <a href="#" class="btn btn-primary">Aurora'yı incele <span class="arrow" aria-hidden="true">→</span></a>
+            <a href="#" class="link-arrow" style="color: rgba(247,244,238,0.85);">Tüm havlupanlar <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Side stack -->
+      <div class="mosaic-side">
+
+        <!-- Mini 1: Panel Radyatör -->
+        <a href="#" class="mini-card">
+          <div class="mini-illu">
+            <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+              <rect width="90" height="90" fill="#EDE5D3"/>
+              <!-- Closer cropped radiator -->
+              <rect x="14" y="22" width="62" height="3" fill="#0A0A0A"/>
+              <g fill="#0A0A0A">
+                <rect x="17" y="25" width="2" height="42"/>
+                <rect x="23" y="25" width="2" height="42"/>
+                <rect x="29" y="25" width="2" height="42"/>
+                <rect x="35" y="25" width="2" height="42"/>
+                <rect x="41" y="25" width="2" height="42"/>
+                <rect x="47" y="25" width="2" height="42"/>
+                <rect x="53" y="25" width="2" height="42"/>
+                <rect x="59" y="25" width="2" height="42"/>
+                <rect x="65" y="25" width="2" height="42"/>
+                <rect x="71" y="25" width="2" height="42"/>
+              </g>
+              <rect x="14" y="67" width="62" height="3" fill="#0A0A0A"/>
+              <!-- Dimension hint -->
+              <line x1="14" y1="80" x2="76" y2="80" stroke="#B8390C" stroke-width="0.4"/>
+              <line x1="14" y1="78" x2="14" y2="82" stroke="#B8390C" stroke-width="0.4"/>
+              <line x1="76" y1="78" x2="76" y2="82" stroke="#B8390C" stroke-width="0.4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="mini-meta">01 · Klasik</div>
+            <h4>Panel Radyatör</h4>
+            <div class="mini-tag">Türkiye'nin standart radyatörü.</div>
+            <span class="mini-link">Keşfet <span class="arrow" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+
+        <!-- Mini 2: Kombi -->
+        <a href="#" class="mini-card">
+          <div class="mini-illu">
+            <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+              <rect width="90" height="90" fill="#F0E8D3"/>
+              <!-- Wall hint -->
+              <line x1="6" y1="14" x2="84" y2="14" stroke="#D9CFB8" stroke-width="0.5"/>
+              <!-- Boiler body -->
+              <rect x="26" y="18" width="38" height="50" rx="1.5" fill="#0A0A0A"/>
+              <!-- Display -->
+              <rect x="32" y="24" width="26" height="10" fill="#F7F4EE"/>
+              <text x="36" y="32" font-family="IBM Plex Mono" font-size="6" fill="#0A0A0A" font-weight="600">72°</text>
+              <!-- Burner -->
+              <circle cx="45" cy="46" r="7" fill="#B8390C"/>
+              <circle cx="45" cy="46" r="3" fill="#FBE6D8"/>
+              <!-- Pipes -->
+              <rect x="33" y="68" width="2" height="14" fill="#0A0A0A"/>
+              <rect x="42" y="68" width="2" height="14" fill="#0A0A0A"/>
+              <rect x="51" y="68" width="2" height="14" fill="#0A0A0A"/>
+              <rect x="60" y="68" width="2" height="14" fill="#0A0A0A"/>
+            </svg>
+          </div>
+          <div>
+            <div class="mini-meta">03 · Kombi</div>
+            <h4>Yoğuşmalı Kombi</h4>
+            <div class="mini-tag">Sessiz, ekonomik, güvenli motor.</div>
+            <span class="mini-link">Keşfet <span class="arrow" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+
+        <!-- Mini 3: Boru -->
+        <a href="#" class="mini-card">
+          <div class="mini-illu">
+            <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+              <rect width="90" height="90" fill="#EDE5D3"/>
+              <!-- Cross-section of PEX-AL-PEX pipe -->
+              <circle cx="45" cy="45" r="34" fill="#0A0A0A"/>
+              <circle cx="45" cy="45" r="28" fill="#D9521C"/>
+              <circle cx="45" cy="45" r="22" fill="#B8B8B5"/>
+              <circle cx="45" cy="45" r="16" fill="#D9521C"/>
+              <circle cx="45" cy="45" r="10" fill="#0A0A0A"/>
+              <!-- Label lines -->
+              <line x1="79" y1="45" x2="85" y2="45" stroke="#0A0A0A" stroke-width="0.6"/>
+              <text x="79" y="11" font-family="IBM Plex Mono" font-size="6" fill="#0A0A0A" letter-spacing="0.5" text-anchor="end">PEX</text>
+              <text x="79" y="83" font-family="IBM Plex Mono" font-size="6" fill="#0A0A0A" letter-spacing="0.5" text-anchor="end">AL</text>
+            </svg>
+          </div>
+          <div>
+            <div class="mini-meta">04 · Tesisat</div>
+            <h4>PEX-AL-PEX Boru</h4>
+            <div class="mini-tag">Beş katmanlı, oksijen geçirmez.</div>
+            <span class="mini-link">Keşfet <span class="arrow" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ MANIFESTO ════════════ -->
+<section class="manifesto">
+  <div class="container">
+
+    <div class="manifesto-grid">
+
+      <div class="manifesto-quote">
+        <span class="quote-mark">"</span>
+        <blockquote>
+          Isı bir mühendislik meselesi değil; <em>kuşaktan kuşağa</em> aktarılan bir miras.
+        </blockquote>
+        <cite><span class="dash">—</span>Yönetim Kurulu Başkanı, 2025 Faaliyet Raporu</cite>
+      </div>
+
+      <div class="manifesto-body">
+        <div class="section-marker marker">
+          <span class="num">04</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">Manifesto</span>
+        </div>
+        <p>
+          1985'te Kocaeli'de bir küçük üretim hattıyla başladık. Bugün 35'ten fazla ülkeye Türk çeliğinden ısı taşıyan, 2022'den beri Borsa İstanbul'da işlem gören bir aile şirketiyiz. Halka açılmak bir bitiş değil; aynı disiplinin daha geniş bir paydaş ailesiyle paylaşılması.
+        </p>
+        <p>
+          Ürettiğimiz her radyatörün, her kombi gövdesinin, her boru katmanının arkasında dört nesil mühendis ve teknisyenin birikimi var. Sanica, mühendisliği güzel sanata yaklaştıran nadir yerlerden biri olmayı sürdürür.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Tech stats band -->
+    <div class="tech-stats">
+      <div class="tech-stat">
+        <span class="tech-stat-num"><span class="accent">1985</span> <span class="arrow">→</span> 2026</span>
+        <span class="tech-stat-label">Kırk yıl aralıksız üretim</span>
+      </div>
+      <div class="tech-stat">
+        <span class="tech-stat-num">35<span class="accent">+</span> ülke</span>
+        <span class="tech-stat-label">Avrupa · Orta Doğu · K. Afrika</span>
+      </div>
+      <div class="tech-stat">
+        <span class="tech-stat-num">4,2<span class="accent">M</span> adet/yıl</span>
+        <span class="tech-stat-label">Yıllık üretim kapasitesi</span>
+      </div>
+      <div class="tech-stat">
+        <span class="tech-stat-num">600<span class="accent">+</span> çalışan</span>
+        <span class="tech-stat-label">İki tesis · üç vardiya</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════ INVESTOR — Full dark band ════════════ -->
+<section class="investor dark" id="investor">
+  <div class="container">
+
+    <div class="investor-head">
+      <div class="section-marker">
+        <span class="num">05</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">Yatırımcı İlişkileri · Investor Relations</span>
+      </div>
+      <div class="snica-pill">
+        <span class="tag">BIST · CANLI</span>
+        <span class="price">SNICA ₺24,80</span>
+        <span class="change">▲ +%1,24</span>
+      </div>
+    </div>
+
+    <h2>Halka açık. <em>Şeffaf.</em><br>Takip edilebilir.</h2>
+
+    <div class="investor-grid">
+
+      <!-- Timeline -->
+      <div>
+        <div class="kap-timeline">
+          <article class="kap-item">
+            <span class="kap-date">22 May<br>2026</span>
+            <div class="kap-meta">
+              <span class="kap-tag assembly">Genel Kurul</span>
+              <h3 class="kap-title">2025 Yılı Olağan Genel Kurul Toplantısı sonuçlarına ilişkin bildirim</h3>
+            </div>
+            <a href="#" class="kap-link">Oku →</a>
+          </article>
+
+          <article class="kap-item">
+            <span class="kap-date">14 May<br>2026</span>
+            <div class="kap-meta">
+              <span class="kap-tag fin">Finansal Rapor</span>
+              <h3 class="kap-title">Q1 2026 konsolide finansal tablolar ve faaliyet raporu yayınlandı</h3>
+            </div>
+            <a href="#" class="kap-link">PDF →</a>
+          </article>
+
+          <article class="kap-item">
+            <span class="kap-date">18 Nis<br>2026</span>
+            <div class="kap-meta">
+              <span class="kap-tag esg">Sürdürülebilirlik</span>
+              <h3 class="kap-title">2025 Sürdürülebilirlik Raporu — ESG performans değerlendirmesi yayınlandı</h3>
+            </div>
+            <a href="#" class="kap-link">Oku →</a>
+          </article>
+
+          <article class="kap-item">
+            <span class="kap-date">02 Nis<br>2026</span>
+            <div class="kap-meta">
+              <span class="kap-tag kap">KAP Açıklaması</span>
+              <h3 class="kap-title">Üretim kapasitesi artırımına ilişkin yatırım kararı hakkında bilgilendirme</h3>
+            </div>
+            <a href="#" class="kap-link">Oku →</a>
+          </article>
+        </div>
+      </div>
+
+      <!-- Price card -->
+      <div>
+        <div class="price-card">
+          <div class="price-head">
+            <span class="ticker-name"><strong>SNICA</strong> · BIST Yıldız Pazar</span>
+            <span class="price-time">14:32 · 22 May 2026</span>
+          </div>
+
+          <div class="price-big">
+            <span class="price-amount"><span class="cur">₺</span>24,80</span>
+            <span class="price-change-big">▲ +0,30 / +%1,24</span>
+          </div>
+
+          <div class="price-meta-row">
+            <span>AÇILIŞ <strong>24,50</strong></span>
+            <span>YÜKSEK <strong>24,92</strong></span>
+            <span>DÜŞÜK <strong>24,38</strong></span>
+            <span>HACİM <strong>1,21M</strong></span>
+          </div>
+
+          <div class="chart">
+            <svg viewBox="0 0 420 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="ch-fill" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#5AB670" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#5AB670" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid lines -->
+              <g stroke="rgba(247,244,238,0.06)" stroke-width="0.5">
+                <line x1="0" y1="35" x2="420" y2="35"/>
+                <line x1="0" y1="70" x2="420" y2="70"/>
+                <line x1="0" y1="105" x2="420" y2="105"/>
+              </g>
+              <!-- Fill -->
+              <path d="M 0 100 L 30 95 L 60 92 L 90 88 L 120 82 L 150 78 L 180 70 L 210 75 L 240 62 L 270 58 L 300 55 L 330 42 L 360 38 L 390 30 L 420 28 L 420 140 L 0 140 Z" fill="url(#ch-fill)"/>
+              <!-- Line -->
+              <path d="M 0 100 L 30 95 L 60 92 L 90 88 L 120 82 L 150 78 L 180 70 L 210 75 L 240 62 L 270 58 L 300 55 L 330 42 L 360 38 L 390 30 L 420 28" stroke="#5AB670" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+              <!-- End point -->
+              <circle cx="420" cy="28" r="3.5" fill="#5AB670"/>
+              <circle cx="420" cy="28" r="7" fill="#5AB670" opacity="0.25"/>
+            </svg>
+          </div>
+          <div class="chart-axis">
+            <span>OCA 26</span>
+            <span>MAR 26</span>
+            <span>MAY 26</span>
+          </div>
+
+          <div class="price-stats">
+            <div class="price-stat">
+              <span class="lbl">Halka Açıklık</span>
+              <span class="val">%30,00</span>
+            </div>
+            <div class="price-stat">
+              <span class="lbl">Sermaye</span>
+              <span class="val">₺40.000.000</span>
+            </div>
+            <div class="price-stat">
+              <span class="lbl">Pazar</span>
+              <span class="val">Yıldız Pazar</span>
+            </div>
+            <div class="price-stat">
+              <span class="lbl">Endeks</span>
+              <span class="val">BIST Sanayi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="investor-foot">
+      <span class="text">→ TÜM AÇIKLAMALAR, RAPORLAR VE SUNUMLAR</span>
+      <a href="#" class="">Yatırımcı İlişkileri sayfasına git <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════ STORY / ÜRETİM ════════════ -->
+<section class="story">
+  <div class="container">
+
+    <div class="story-grid">
+
+      <div class="story-visual">
+        <div class="story-tag">FAB · 02 / KOCAELİ</div>
+        <div class="story-coords">
+          <span>40°47'N · 29°55'E</span>
+          <span>SECTION B — B</span>
+        </div>
+
+        <svg viewBox="0 0 480 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Üretim tesisi kompozisyonu">
+          <defs>
+            <radialGradient id="furnaceGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#D9521C"/>
+              <stop offset="60%" stop-color="#B8390C"/>
+              <stop offset="100%" stop-color="#8C2A06"/>
+            </radialGradient>
+            <linearGradient id="diagBeam" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(247,244,238,0.05)"/>
+              <stop offset="100%" stop-color="rgba(247,244,238,0)"/>
+            </linearGradient>
+            <linearGradient id="floorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#1A1A1A"/>
+              <stop offset="100%" stop-color="#0A0A0A"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Background -->
+          <rect width="480" height="600" fill="#0A0A0A"/>
+
+          <!-- Floor -->
+          <rect x="0" y="480" width="480" height="120" fill="url(#floorGrad)"/>
+
+          <!-- Diagonal light beams -->
+          <polygon points="0,0 240,0 80,600 0,600" fill="url(#diagBeam)"/>
+          <polygon points="380,0 480,0 480,400 280,600" fill="url(#diagBeam)" opacity="0.6"/>
+
+          <!-- Ceiling lights -->
+          <g fill="#5A5D62">
+            <rect x="40" y="40" width="80" height="6"/>
+            <rect x="180" y="40" width="80" height="6"/>
+            <rect x="320" y="40" width="80" height="6"/>
+          </g>
+          <g fill="#D9521C" opacity="0.4">
+            <rect x="44" y="46" width="72" height="2"/>
+            <rect x="184" y="46" width="72" height="2"/>
+            <rect x="324" y="46" width="72" height="2"/>
+          </g>
+
+          <!-- Furnace (main heat element, left) -->
+          <rect x="40" y="220" width="160" height="260" fill="#1A1A1A"/>
+          <rect x="50" y="230" width="140" height="240" fill="#0A0A0A"/>
+          <!-- Furnace opening -->
+          <rect x="80" y="320" width="80" height="120" fill="url(#furnaceGlow)"/>
+          <!-- Furnace pipes -->
+          <rect x="60" y="180" width="8" height="60" fill="#5A5D62"/>
+          <rect x="172" y="180" width="8" height="60" fill="#5A5D62"/>
+          <!-- Indicators -->
+          <circle cx="120" cy="260" r="6" fill="#5AB670"/>
+          <circle cx="150" cy="260" r="6" fill="#D9521C"/>
+          <text x="60" y="294" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.5)" letter-spacing="1">FRN-02 · 1280°C</text>
+
+          <!-- Roll of steel (top right) -->
+          <g transform="translate(310, 130)">
+            <ellipse cx="50" cy="50" rx="60" ry="22" fill="#5A5D62"/>
+            <ellipse cx="50" cy="50" rx="44" ry="16" fill="#3A3D42"/>
+            <ellipse cx="50" cy="50" rx="28" ry="10" fill="#5A5D62"/>
+            <ellipse cx="50" cy="50" rx="12" ry="5" fill="#0A0A0A"/>
+            <text x="-30" y="-8" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.45)" letter-spacing="1">DKP RULO · 2,5mm</text>
+          </g>
+
+          <!-- Conveyor belt (bottom) -->
+          <rect x="0" y="500" width="480" height="4" fill="#3A3D42"/>
+          <g stroke="rgba(247,244,238,0.15)" stroke-width="0.6">
+            <line x1="20" y1="520" x2="40" y2="520"/>
+            <line x1="60" y1="520" x2="80" y2="520"/>
+            <line x1="100" y1="520" x2="120" y2="520"/>
+            <line x1="140" y1="520" x2="160" y2="520"/>
+            <line x1="180" y1="520" x2="200" y2="520"/>
+            <line x1="220" y1="520" x2="240" y2="520"/>
+            <line x1="260" y1="520" x2="280" y2="520"/>
+            <line x1="300" y1="520" x2="320" y2="520"/>
+            <line x1="340" y1="520" x2="360" y2="520"/>
+            <line x1="380" y1="520" x2="400" y2="520"/>
+            <line x1="420" y1="520" x2="440" y2="520"/>
+          </g>
+
+          <!-- Products on belt -->
+          <g fill="#5A5D62">
+            <rect x="50" y="478" width="30" height="22"/>
+            <rect x="100" y="478" width="30" height="22"/>
+            <rect x="150" y="478" width="30" height="22"/>
+          </g>
+          <rect x="200" y="478" width="30" height="22" fill="#B8390C"/>
+          <g fill="#5A5D62">
+            <rect x="250" y="478" width="30" height="22"/>
+            <rect x="300" y="478" width="30" height="22"/>
+            <rect x="350" y="478" width="30" height="22"/>
+            <rect x="400" y="478" width="30" height="22"/>
+          </g>
+
+          <!-- Worker silhouette (human scale) -->
+          <g transform="translate(260, 380)">
+            <!-- Head -->
+            <circle cx="0" cy="0" r="9" fill="#1A1A1A"/>
+            <!-- Helmet -->
+            <path d="M -10 -2 Q 0 -14 10 -2" fill="#D9521C"/>
+            <!-- Body -->
+            <rect x="-12" y="10" width="24" height="40" fill="#1A1A1A"/>
+            <!-- Legs -->
+            <rect x="-10" y="50" width="8" height="40" fill="#0A0A0A"/>
+            <rect x="2" y="50" width="8" height="40" fill="#0A0A0A"/>
+            <!-- Arms -->
+            <rect x="-18" y="14" width="6" height="28" fill="#1A1A1A"/>
+            <rect x="12" y="14" width="6" height="28" fill="#1A1A1A"/>
+          </g>
+          <!-- Worker label -->
+          <line x1="260" y1="350" x2="260" y2="334" stroke="rgba(247,244,238,0.3)" stroke-width="0.5"/>
+          <text x="260" y="328" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.5)" letter-spacing="1" text-anchor="middle">OPERATÖR</text>
+
+          <!-- Press / machine on right -->
+          <g transform="translate(350, 270)">
+            <rect x="0" y="0" width="80" height="180" fill="#1A1A1A"/>
+            <rect x="6" y="6" width="68" height="20" fill="#0A0A0A"/>
+            <circle cx="40" cy="16" r="4" fill="#5AB670"/>
+            <rect x="6" y="40" width="68" height="100" fill="#3A3D42"/>
+            <rect x="10" y="44" width="60" height="2" fill="#0A0A0A"/>
+            <rect x="10" y="52" width="60" height="2" fill="#0A0A0A"/>
+            <rect x="10" y="60" width="60" height="2" fill="#0A0A0A"/>
+            <rect x="10" y="68" width="60" height="2" fill="#0A0A0A"/>
+            <!-- Press arm -->
+            <rect x="34" y="150" width="12" height="30" fill="#5A5D62"/>
+            <text x="0" y="-10" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.4)" letter-spacing="1">PRES · 600T</text>
+          </g>
+
+          <!-- Vertical measurement -->
+          <g stroke="rgba(247,244,238,0.15)" stroke-width="0.4">
+            <line x1="460" y1="60" x2="460" y2="460"/>
+            <line x1="456" y1="60" x2="464" y2="60"/>
+            <line x1="456" y1="460" x2="464" y2="460"/>
+          </g>
+          <text x="464" y="264" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.4)" letter-spacing="1" transform="rotate(-90, 464, 264)">12,5 m</text>
+
+          <!-- Top label cross -->
+          <g stroke="rgba(247,244,238,0.25)" stroke-width="0.4">
+            <line x1="20" y1="100" x2="40" y2="100"/>
+            <line x1="30" y1="90" x2="30" y2="110"/>
+          </g>
+
+        </svg>
+      </div>
+
+      <div class="story-text">
+        <div class="section-marker marker">
+          <span class="num">06</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">Üretim · Manufacturing</span>
+        </div>
+        <h2>Türkiye'de üretiyoruz.<br><em>Dikey entegre</em>.</h2>
+        <p>
+          Kocaeli ve Sakarya'daki iki tesisimizde rulo çelikten son ürüne kadar tüm üretim adımı tek çatı altında. Şekillendirme, kaynak, boyama, sızdırmazlık testi ve sevkiyat — hepsi bizim hatlarımızda gerçekleşiyor.
+        </p>
+        <p>
+          Dikey entegrasyon, hem kaliteyi adım adım kontrol etmemizi hem de tedarik krizlerinden bağımsız kalmamızı sağlıyor. Türk sanayicisinin dünya pazarındaki rekabet gücü buradan başlıyor.
+        </p>
+
+        <div class="story-mini-stats">
+          <div class="story-ms">
+            <span class="val"><span class="accent">168.000</span> m²</span>
+            <span class="lbl">Tesis Alanı</span>
+          </div>
+          <div class="story-ms">
+            <span class="val"><span class="accent">2</span> tesis</span>
+            <span class="lbl">Kocaeli & Sakarya</span>
+          </div>
+          <div class="story-ms">
+            <span class="val">%<span class="accent">100</span></span>
+            <span class="lbl">Dikey Entegre</span>
+          </div>
+        </div>
+
+        <a href="#" class="link-arrow" style="font-size:1rem;">Üretim sürecimizi keşfedin <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Process strip -->
+  <div class="process-strip">
+    <div class="container">
+      <div class="process-grid">
+        <div class="process-step">
+          <span class="process-num">Adım 01</span>
+          <span class="process-name">Çelik Haddesi</span>
+          <span class="process-desc">DKP rulo çelik, sertifikalı tedarikçiden tesise.</span>
+          <span class="process-arrow">→</span>
+        </div>
+        <div class="process-step">
+          <span class="process-num">Adım 02</span>
+          <span class="process-name">Şekillendirme</span>
+          <span class="process-desc">600 ton presle radyatör panelleri formunda.</span>
+          <span class="process-arrow">→</span>
+        </div>
+        <div class="process-step">
+          <span class="process-num">Adım 03</span>
+          <span class="process-name">Test & Boyama</span>
+          <span class="process-desc">Sızdırmazlık testi, ardından elektrostatik boya.</span>
+          <span class="process-arrow">→</span>
+        </div>
+        <div class="process-step">
+          <span class="process-num">Adım 04</span>
+          <span class="process-name">Paketleme & Sevk</span>
+          <span class="process-desc">35+ ülkeye günlük sevkiyat.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ SUSTAINABILITY ════════════ -->
+<section class="sustain" id="sustain">
+  <div class="container">
+
+    <div class="sustain-head">
+      <div>
+        <div class="section-marker marker">
+          <span class="num">07</span><span class="of">/</span><span>09</span><span class="dash">—</span><span class="label">Sürdürülebilirlik · Sustainability</span>
+        </div>
+        <h2>Daha az enerji,<br><em>daha çok ısı</em>.</h2>
+      </div>
+      <p class="sustain-intro">
+        Sürdürülebilirlik bizim için bir rapor başlığı değil; üretim hattımızdaki her bir kararın ölçülen sonucudur. Karbon ayak izimizi azaltıyor, tedarik zincirimizi denetliyoruz.
+      </p>
+    </div>
+
+    <div class="sustain-grid">
+
+      <div class="eco-stats-list">
+        <article class="eco-stat-card">
+          <span class="eco-stat-num">%32<span class="dir">↓</span></span>
+          <div class="eco-stat-body">
+            <span class="ttl">Üretim başına karbon emisyonu</span>
+            <span class="base">2020 baz yıla göre kümülatif iyileşme</span>
+          </div>
+          <span class="label-num">01</span>
+        </article>
+        <article class="eco-stat-card">
+          <span class="eco-stat-num">%100</span>
+          <div class="eco-stat-body">
+            <span class="ttl">Tesislerimizde yenilenebilir elektrik</span>
+            <span class="base">Çatı tipi solar + I-REC sertifikalı tedarik</span>
+          </div>
+          <span class="label-num">02</span>
+        </article>
+        <article class="eco-stat-card">
+          <span class="eco-stat-num">120+</span>
+          <div class="eco-stat-body">
+            <span class="ttl">Tedarikçi ESG denetimi her yıl</span>
+            <span class="base">Bağımsız üçüncü taraf denetim raporu</span>
+          </div>
+          <span class="label-num">03</span>
+        </article>
+      </div>
+
+      <div class="esg-card">
+        <div>
+          <div class="tag">ESG Performans Skoru · 2025</div>
+          <h3>Sektör ortalamasının <em>belirgin üzerinde</em>.</h3>
+        </div>
+
+        <div class="gauge">
+          <svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
+            <!-- Gauge background -->
+            <path d="M 20 120 A 90 90 0 0 1 200 120" stroke="rgba(247,244,238,0.1)" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <!-- Gauge fill -->
+            <path d="M 20 120 A 90 90 0 0 1 178 56" stroke="#5AB670" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <!-- Tick marks -->
+            <g stroke="rgba(247,244,238,0.3)" stroke-width="1">
+              <line x1="20" y1="120" x2="22" y2="116"/>
+              <line x1="110" y1="30" x2="110" y2="34"/>
+              <line x1="200" y1="120" x2="198" y2="116"/>
+            </g>
+            <g font-family="IBM Plex Mono" font-size="8" fill="rgba(247,244,238,0.5)" letter-spacing="1">
+              <text x="20" y="138" text-anchor="middle">D</text>
+              <text x="110" y="22" text-anchor="middle">A+</text>
+              <text x="200" y="138" text-anchor="middle">A++</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="gauge-center">
+          <div class="gauge-score">A+</div>
+          <div class="gauge-of">79 / 100</div>
+        </div>
+
+        <div class="source">Kaynak · CDP & Sustainalytics 2025</div>
+      </div>
+
+    </div>
+
+    <div class="sustain-foot">
+      <div class="un-badge">
+        <span class="un-mark">UN</span>
+        <span><strong>UN Global Compact</strong><br>İmzacı Şirket · 2023'ten beri</span>
+      </div>
+      <a href="#" class="link-arrow" style="font-size:1rem;">ESG yaklaşımımızı inceleyin <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════ PRESS WALL ════════════ -->
+<section class="press" id="press">
+  <div class="container">
+
+    <div class="press-head">
+      <div>
+        <div class="section-marker marker">
+          <span class="num">08</span><span class="of">/</span><span>09</span><span class="dash">—</span><span class="label">Basında Biz · In the Press</span>
+        </div>
+        <h2>Sanica hakkında <em>yazılanlar</em>.</h2>
+      </div>
+      <a href="#" class="link-arrow" style="font-size:1rem;">Tüm haberler <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="press-grid">
+
+      <article class="press-card">
+        <div class="press-pub"><span class="bloomberg">Bloomberg</span></div>
+        <div class="press-date">14 Mayıs 2026</div>
+        <h3>Sanica Isı, Q1 büyümesini sürdürdü: ihracat gelirleri %24 arttı.</h3>
+        <a href="#" class="press-link">Oku <span class="arrow" aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="press-card">
+        <div class="press-pub"><span class="dunya">Dünya</span></div>
+        <div class="press-date">02 Nisan 2026</div>
+        <h3>Türk radyatör sektörünün ihracat lideri Avrupa pazarına yeni tesisle hazırlanıyor.</h3>
+        <a href="#" class="press-link">Oku <span class="arrow" aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="press-card">
+        <div class="press-pub"><span class="para">para</span></div>
+        <div class="press-date">18 Mart 2026</div>
+        <h3>"Halka açılma kararımız aile şirketinin disiplinine zarar vermedi" — Sanica YKB röportajı.</h3>
+        <a href="#" class="press-link">Oku <span class="arrow" aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="press-card">
+        <div class="press-pub"><span class="capital">CAPITAL</span></div>
+        <div class="press-date">10 Şubat 2026</div>
+        <h3>Sürdürülebilir üretimde örnek model: Sanica Isı'nın %100 yenilenebilir tesisi.</h3>
+        <a href="#" class="press-link">Oku <span class="arrow" aria-hidden="true">→</span></a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ NEWSLETTER CTA ════════════ -->
+<section class="newsletter">
+  <div class="container">
+    <div class="newsletter-grid">
+
+      <div>
+        <div class="newsletter-meta">Yatırımcı Bildirimleri</div>
+        <h2>KAP duyuruları ve raporlar, <em>doğrudan size</em>.</h2>
+        <p class="newsletter-sub">
+          Her finansal rapor, KAP açıklaması ve sürdürülebilirlik dökümanı yayınlandığında e-posta kutunuza düşsün. Spam yok, sadece KAP.
+        </p>
+      </div>
+
+      <div>
+        <form class="subscribe-form" onsubmit="event.preventDefault();">
+          <input type="email" placeholder="E-posta adresiniz" aria-label="E-posta adresi" required>
+          <button type="submit">Abone Ol <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="newsletter-fine">
+          Aboneliğiniz <a href="#">KVKK ve aydınlatma metni</a> kapsamındadır. Tek tıkla aboneliğinizi sonlandırabilirsiniz.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="site-footer">
+  <div class="footer-watermark" aria-hidden="true">sanica</div>
+
+  <div class="container">
+
+    <div class="footer-main">
+
+      <div class="footer-col footer-brand">
+        <a href="#" class="logo" aria-label="Sanica Isı">
+          <img src="https://www.sanicaisi.com.tr/wp-content/uploads/2020/12/sanica-isi.png" alt="Sanica Isı" />
+        </a>
+        <p>Çelikten ısıya — 1985'ten bu yana Türkiye'de üretiyor, dünyaya ısı götürüyoruz. BIST: SNICA.</p>
+        <address class="footer-contact">
+          <div><span class="label">ADRES</span><a href="#">Sanica Plaza · Kocaeli, Türkiye</a></div>
+          <div><span class="label">TEL</span><a href="tel:+902625555555">+90 (262) 555 55 55</a></div>
+          <div><span class="label">E-POSTA</span><a href="mailto:info@sanicaisi.com.tr">info@sanicaisi.com.tr</a></div>
+          <div><span class="label">YATIRIMCI</span><a href="mailto:yatirimci@sanicaisi.com.tr">yatirimci@sanicaisi.com.tr</a></div>
+        </address>
+
+        <div class="footer-social" aria-label="Sosyal medya">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869C24 6.143 15.205 6.425 12.982 10.226V8z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.069 1.646.069 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.069-4.85.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85C2.295 5.784 2.569 4.517 3.544 3.542 4.519 2.567 5.786 2.293 7.152 2.231 8.418 2.173 8.798 2.163 12 2.163zm0 1.802c-3.141 0-3.515.011-4.756.068-.95.043-1.846.196-2.515.866-.67.67-.823 1.565-.866 2.515-.057 1.241-.068 1.615-.068 4.756s.011 3.515.068 4.756c.043.95.196 1.846.866 2.515.67.67 1.565.823 2.515.866 1.241.057 1.615.068 4.756.068s3.515-.011 4.756-.068c.95-.043 1.846-.196 2.515-.866.67-.67.823-1.565.866-2.515.057-1.241.068-1.615.068-4.756s-.011-3.515-.068-4.756c-.043-.95-.196-1.846-.866-2.515-.67-.67-1.565-.823-2.515-.866-1.241-.057-1.615-.068-4.756-.068zM12 6.838a5.162 5.162 0 110 10.324 5.162 5.162 0 010-10.324zm0 8.522a3.36 3.36 0 100-6.72 3.36 3.36 0 000 6.72zm5.368-8.747a1.206 1.206 0 11-2.412 0 1.206 1.206 0 012.412 0z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Ürünler</h4>
+        <ul>
+          <li><a href="#">Panel Radyatör</a></li>
+          <li><a href="#">Tasarım Radyatör</a></li>
+          <li><a href="#">Havlupan · Aurora</a></li>
+          <li><a href="#">Yoğuşmalı Kombi</a></li>
+          <li><a href="#">PEX-AL-PEX Boru</a></li>
+          <li><a href="#">Yedek Parça</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Kurumsal</h4>
+        <ul>
+          <li><a href="#">Hakkımızda</a></li>
+          <li><a href="#">Tarihçe</a></li>
+          <li><a href="#">Yönetim</a></li>
+          <li><a href="#">Üretim & Tesisler</a></li>
+          <li><a href="#">Kalite & Sertifikalar</a></li>
+          <li><a href="#">Sürdürülebilirlik</a></li>
+          <li><a href="#">Kariyer</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Yatırımcı</h4>
+        <ul>
+          <li><a href="#">Halka Arz Özeti</a></li>
+          <li><a href="#">Finansal Raporlar</a></li>
+          <li><a href="#">KAP Açıklamaları</a></li>
+          <li><a href="#">Faaliyet Raporları</a></li>
+          <li><a href="#">Sunum & Bilgilendirme</a></li>
+          <li><a href="#">Genel Kurul</a></li>
+          <li><a href="#">Yatırımcı İletişim</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-certs">
+      <span class="cert-mark">ISO 9001</span>
+      <span class="cert-mark">ISO 14001</span>
+      <span class="cert-mark">ISO 45001</span>
+      <span class="cert-mark">CE</span>
+      <span class="cert-mark">EAC</span>
+      <span class="cert-mark">UN GLOBAL COMPACT</span>
+      <span class="cert-mark">CDP</span>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-links">
+        <span>© 2026 Sanica Isı Sanayi A.Ş.</span>
+        <span class="sep">·</span>
+        <span class="footer-bist-pill"><span class="pulse-dot" aria-hidden="true"></span>BIST · SNICA</span>
+        <span class="sep">·</span>
+        <a href="#">KVKK</a>
+        <a href="#">Çerez Politikası</a>
+        <a href="#">Aydınlatma Metni</a>
+      </div>
+      <span class="footer-bilingual">TR / EN bilingual</span>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id === '#' || id.length < 2) return;
+      const el = document.querySelector(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+    });
+  });
+
+  // Utility bar compresses after scroll
+  const utility = document.querySelector('.utility');
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > 80 && y > lastY) {
+      utility.style.maxHeight = '0';
+      utility.style.opacity = '0';
+    } else {
+      utility.style.maxHeight = '44px';
+      utility.style.opacity = '1';
+    }
+    lastY = y;
+  }, { passive: true });
+
+  // Audience chip toggle (cosmetic only)
+  document.querySelectorAll('.audience button, .lang-pill button').forEach(b => {
+    b.addEventListener('click', () => {
+      const group = b.parentElement;
+      group.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

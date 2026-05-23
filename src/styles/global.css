@@ -1,0 +1,26 @@
+/* Global stylesheet entry — BaseLayout'tan import edilir */
+@import './tokens.css';
+@import './base.css';
+@import './typography.css';
+
+/* Layout primitives */
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  position: relative;
+}
+
+.container-narrow {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+section {
+  position: relative;
+}
+section.dark { background: var(--ink); color: var(--paper); }
+section.cream { background: var(--paper); }
+section.sand { background: var(--sand); }
+section.eco { background: var(--success-soft); }
