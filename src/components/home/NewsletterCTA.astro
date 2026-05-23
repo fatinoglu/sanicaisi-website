@@ -1,0 +1,178 @@
+---
+/**
+ * NewsletterCTA — dark, yatırımcı bildirim aboneliği formu
+ * Form action Faz 7'de /api/newsletter'a bağlanacak
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  meta: 'Yatırımcı Bildirimleri',
+  h2a: 'KAP duyuruları ve raporlar, ',
+  h2em: 'doğrudan size',
+  h2b: '.',
+  sub: 'Her finansal rapor, KAP açıklaması ve sürdürülebilirlik dökümanı yayınlandığında e-posta kutunuza düşsün. Spam yok, sadece KAP.',
+  placeholder: 'E-posta adresiniz',
+  button: 'Abone Ol',
+  fine1: 'Aboneliğiniz ',
+  fineLink: 'KVKK ve aydınlatma metni',
+  fineHref: '/kvkk',
+  fine2: ' kapsamındadır. Tek tıkla aboneliğinizi sonlandırabilirsiniz.',
+  aria: 'E-posta adresi',
+} : {
+  meta: 'Investor Notifications',
+  h2a: 'PDP disclosures and reports, ',
+  h2em: 'straight to you',
+  h2b: '.',
+  sub: 'Every financial report, PDP disclosure and sustainability document delivered to your inbox on publication. No spam, just PDP.',
+  placeholder: 'Your email address',
+  button: 'Subscribe',
+  fine1: 'Subscription is subject to ',
+  fineLink: 'GDPR notice',
+  fineHref: '/en/gdpr',
+  fine2: '. Unsubscribe in one click.',
+  aria: 'Email address',
+};
+---
+
+<section class="newsletter">
+  <div class="container">
+    <div class="newsletter-grid">
+
+      <div>
+        <div class="newsletter-meta">{t.meta}</div>
+        <h2>{t.h2a}<em>{t.h2em}</em>{t.h2b}</h2>
+        <p class="newsletter-sub">{t.sub}</p>
+      </div>
+
+      <div>
+        <form class="subscribe-form" action="/api/newsletter" method="post">
+          <input
+            type="email"
+            name="email"
+            placeholder={t.placeholder}
+            aria-label={t.aria}
+            required
+            autocomplete="email"
+          />
+          <button type="submit">{t.button} <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="newsletter-fine">
+          {t.fine1}<a href={t.fineHref}>{t.fineLink}</a>{t.fine2}
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.newsletter {
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+  position: relative;
+  overflow: hidden;
+}
+.newsletter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 70% 50%, rgba(184,57,12,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.newsletter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  position: relative;
+}
+
+.newsletter h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.8vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--paper);
+  margin-bottom: 1rem;
+}
+.newsletter h2 em {
+  font-style: italic;
+  color: var(--terracotta-warm);
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+}
+.newsletter-sub {
+  color: rgba(247, 244, 238, 0.7);
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: 460px;
+}
+.newsletter-meta {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta-warm);
+  margin-bottom: 1.125rem;
+}
+
+.subscribe-form {
+  display: flex;
+  gap: 0.625rem;
+  background: rgba(247, 244, 238, 0.06);
+  border: 1px solid rgba(247, 244, 238, 0.15);
+  padding: 0.5rem;
+  border-radius: 2px;
+  transition: border-color var(--t-fast) var(--ease);
+}
+.subscribe-form:focus-within { border-color: var(--terracotta-warm); }
+
+.subscribe-form input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.875rem 1rem;
+  color: var(--paper);
+  font-size: 0.9375rem;
+  outline: none;
+  min-width: 0;
+}
+.subscribe-form input::placeholder { color: rgba(247, 244, 238, 0.45); }
+
+.subscribe-form button {
+  background: var(--terracotta);
+  color: var(--paper);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.875rem 1.5rem;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background var(--t-fast) var(--ease);
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+}
+.subscribe-form button:hover { background: var(--terracotta-warm); }
+
+.newsletter-fine {
+  margin-top: 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: rgba(247, 244, 238, 0.45);
+  line-height: 1.6;
+}
+.newsletter-fine a {
+  color: rgba(247, 244, 238, 0.75);
+  text-decoration: underline;
+  text-decoration-color: rgba(247, 244, 238, 0.3);
+}
+
+@media (max-width: 980px) {
+  .newsletter-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
+</style>

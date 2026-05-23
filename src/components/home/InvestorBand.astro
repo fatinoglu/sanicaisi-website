@@ -1,0 +1,469 @@
+---
+/**
+ * InvestorBand — full dark statement section
+ * KAP timeline (sol) + price card with chart (sağ)
+ *
+ * Veri şimdilik inline stub. Faz 4'te content collection'dan,
+ * fiyat verisi Faz 7'de src/data/stock-cache.json'dan beslenir.
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Yatırımcı İlişkileri · Investor Relations',
+  pillLabel: 'BIST · CANLI',
+  h2a: 'Halka açık. ',
+  h2em: 'Şeffaf.',
+  h2b: 'Takip edilebilir.',
+  kapList: [
+    { date: '22 May<br>2026', tag: 'Genel Kurul', tagClass: 'assembly', title: '2025 Yılı Olağan Genel Kurul Toplantısı sonuçlarına ilişkin bildirim', link: 'Oku' },
+    { date: '14 May<br>2026', tag: 'Finansal Rapor', tagClass: 'fin', title: 'Q1 2026 konsolide finansal tablolar ve faaliyet raporu yayınlandı', link: 'PDF' },
+    { date: '18 Nis<br>2026', tag: 'Sürdürülebilirlik', tagClass: 'esg', title: '2025 Sürdürülebilirlik Raporu — ESG performans değerlendirmesi yayınlandı', link: 'Oku' },
+    { date: '02 Nis<br>2026', tag: 'KAP Açıklaması', tagClass: 'kap', title: 'Üretim kapasitesi artırımına ilişkin yatırım kararı hakkında bilgilendirme', link: 'Oku' },
+  ],
+  priceHead: 'BIST Yıldız Pazar',
+  priceTime: '14:32 · 22 May 2026',
+  metaRow: { open: 'AÇILIŞ', high: 'YÜKSEK', low: 'DÜŞÜK', vol: 'HACİM' },
+  axis: ['OCA 26', 'MAR 26', 'MAY 26'],
+  stats: [
+    { lbl: 'Halka Açıklık', val: '%30,00' },
+    { lbl: 'Sermaye', val: '₺40.000.000' },
+    { lbl: 'Pazar', val: 'Yıldız Pazar' },
+    { lbl: 'Endeks', val: 'BIST Sanayi' },
+  ],
+  footText: '→ TÜM AÇIKLAMALAR, RAPORLAR VE SUNUMLAR',
+  footLink: 'Yatırımcı İlişkileri sayfasına git',
+  footHref: '/yatirimci-iliskileri',
+} : {
+  marker: 'Investor Relations · Yatırımcı İlişkileri',
+  pillLabel: 'BIST · LIVE',
+  h2a: 'Public. ',
+  h2em: 'Transparent.',
+  h2b: 'Trackable.',
+  kapList: [
+    { date: '22 May<br>2026', tag: 'General Assembly', tagClass: 'assembly', title: 'Notification regarding the results of the 2025 Annual General Assembly', link: 'Read' },
+    { date: '14 May<br>2026', tag: 'Financial Report', tagClass: 'fin', title: 'Q1 2026 consolidated financial statements and activity report published', link: 'PDF' },
+    { date: '18 Apr<br>2026', tag: 'Sustainability', tagClass: 'esg', title: '2025 Sustainability Report — ESG performance assessment published', link: 'Read' },
+    { date: '02 Apr<br>2026', tag: 'PDP Disclosure', tagClass: 'kap', title: 'Information regarding investment decision for production capacity expansion', link: 'Read' },
+  ],
+  priceHead: 'BIST Star Market',
+  priceTime: '14:32 · 22 May 2026',
+  metaRow: { open: 'OPEN', high: 'HIGH', low: 'LOW', vol: 'VOL' },
+  axis: ['JAN 26', 'MAR 26', 'MAY 26'],
+  stats: [
+    { lbl: 'Free Float', val: '30.00%' },
+    { lbl: 'Capital', val: '₺40,000,000' },
+    { lbl: 'Market', val: 'Star Market' },
+    { lbl: 'Index', val: 'BIST Industrial' },
+  ],
+  footText: '→ ALL DISCLOSURES, REPORTS AND PRESENTATIONS',
+  footLink: 'Go to Investor Relations page',
+  footHref: '/en/investor-relations',
+};
+---
+
+<section class="investor dark">
+  <div class="container">
+
+    <div class="investor-head">
+      <div class="section-marker">
+        <span class="num">05</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">{t.marker}</span>
+      </div>
+      <div class="snica-pill">
+        <span class="tag">{t.pillLabel}</span>
+        <span class="price">SNICA ₺24,80</span>
+        <span class="change">▲ +%1,24</span>
+      </div>
+    </div>
+
+    <h2>{t.h2a}<em>{t.h2em}</em><br>{t.h2b}</h2>
+
+    <div class="investor-grid">
+
+      <!-- Timeline -->
+      <div>
+        <div class="kap-timeline">
+          {t.kapList.map((item) => (
+            <article class="kap-item">
+              <span class="kap-date" set:html={item.date} />
+              <div class="kap-meta">
+                <span class={`kap-tag ${item.tagClass}`}>{item.tag}</span>
+                <h3 class="kap-title">{item.title}</h3>
+              </div>
+              <a href="#" class="kap-link">{item.link} →</a>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <!-- Price card -->
+      <div>
+        <div class="price-card">
+          <div class="price-head">
+            <span class="ticker-name"><strong>SNICA</strong> · {t.priceHead}</span>
+            <span class="price-time">{t.priceTime}</span>
+          </div>
+
+          <div class="price-big">
+            <span class="price-amount"><span class="cur">₺</span>24,80</span>
+            <span class="price-change-big">▲ +0,30 / +%1,24</span>
+          </div>
+
+          <div class="price-meta-row">
+            <span>{t.metaRow.open} <strong>24,50</strong></span>
+            <span>{t.metaRow.high} <strong>24,92</strong></span>
+            <span>{t.metaRow.low} <strong>24,38</strong></span>
+            <span>{t.metaRow.vol} <strong>1,21M</strong></span>
+          </div>
+
+          <div class="chart">
+            <svg viewBox="0 0 420 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="inv-chart-fill" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#5AB670" stop-opacity="0.35" />
+                  <stop offset="100%" stop-color="#5AB670" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <g stroke="rgba(247,244,238,0.06)" stroke-width="0.5">
+                <line x1="0" y1="35" x2="420" y2="35" /><line x1="0" y1="70" x2="420" y2="70" />
+                <line x1="0" y1="105" x2="420" y2="105" />
+              </g>
+              <path d="M 0 100 L 30 95 L 60 92 L 90 88 L 120 82 L 150 78 L 180 70 L 210 75 L 240 62 L 270 58 L 300 55 L 330 42 L 360 38 L 390 30 L 420 28 L 420 140 L 0 140 Z" fill="url(#inv-chart-fill)" />
+              <path d="M 0 100 L 30 95 L 60 92 L 90 88 L 120 82 L 150 78 L 180 70 L 210 75 L 240 62 L 270 58 L 300 55 L 330 42 L 360 38 L 390 30 L 420 28" stroke="#5AB670" stroke-width="1.8" fill="none" stroke-linejoin="round" />
+              <circle cx="420" cy="28" r="3.5" fill="#5AB670" />
+              <circle cx="420" cy="28" r="7" fill="#5AB670" opacity="0.25" />
+            </svg>
+          </div>
+          <div class="chart-axis">
+            {t.axis.map((label) => <span>{label}</span>)}
+          </div>
+
+          <div class="price-stats">
+            {t.stats.map((s) => (
+              <div class="price-stat">
+                <span class="lbl">{s.lbl}</span>
+                <span class="val">{s.val}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="investor-foot">
+      <span class="text">{t.footText}</span>
+      <a href={t.footHref}>{t.footLink} <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.investor {
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--section-y) 0;
+  position: relative;
+  overflow: hidden;
+}
+.investor::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 80% 30%, rgba(217,82,28,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.investor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.snica-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  background: rgba(247, 244, 238, 0.05);
+  border: 1px solid rgba(247, 244, 238, 0.12);
+  padding: 0.625rem 1rem;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+}
+.snica-pill .tag {
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.55);
+  text-transform: uppercase;
+}
+.snica-pill .price { color: var(--paper); font-weight: 600; font-variant-numeric: tabular-nums; }
+.snica-pill .change { color: var(--up); font-variant-numeric: tabular-nums; font-weight: 500; }
+
+.investor h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--paper);
+  margin-bottom: 3rem;
+  max-width: 900px;
+  position: relative;
+}
+.investor h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+  color: var(--terracotta-warm);
+}
+
+.investor-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  position: relative;
+}
+
+.kap-timeline {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.kap-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  bottom: 1rem;
+  left: 4px;
+  width: 1px;
+  background: repeating-linear-gradient(to bottom, rgba(247, 244, 238, 0.2) 0, rgba(247, 244, 238, 0.2) 3px, transparent 3px, transparent 8px);
+}
+
+.kap-item {
+  position: relative;
+  padding: 1.25rem 0 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(247, 244, 238, 0.08);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.25rem;
+  align-items: start;
+}
+.kap-item:last-child { border-bottom: none; }
+.kap-item::before {
+  content: '';
+  position: absolute;
+  top: 1.625rem;
+  left: -1.5rem;
+  width: 9px;
+  height: 9px;
+  background: var(--terracotta);
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  box-shadow: 0 0 0 1px var(--terracotta);
+}
+
+.kap-date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(247, 244, 238, 0.55);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+}
+.kap-meta { display: flex; flex-direction: column; gap: 0.375rem; }
+.kap-tag {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  align-self: flex-start;
+  padding: 0.1875rem 0.4375rem;
+  border-radius: 2px;
+}
+.kap-tag.kap { background: rgba(26, 43, 71, 0.5); color: #B8C7E0; }
+.kap-tag.fin { background: rgba(184, 57, 12, 0.18); color: var(--terracotta-warm); }
+.kap-tag.esg { background: rgba(77, 124, 95, 0.2); color: #A5C5AC; }
+.kap-tag.assembly { background: rgba(247, 244, 238, 0.1); color: rgba(247, 244, 238, 0.8); }
+
+.kap-title {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 470;
+  font-size: 1.0625rem;
+  font-weight: 470;
+  line-height: 1.35;
+  color: var(--paper);
+}
+
+.kap-link {
+  align-self: start;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.6);
+  transition: color var(--t-fast) var(--ease);
+  white-space: nowrap;
+  padding-top: 4px;
+}
+.kap-link:hover { color: var(--terracotta-warm); }
+
+.price-card {
+  background: var(--ink-soft);
+  border: 1px solid rgba(247, 244, 238, 0.08);
+  padding: 2.25rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.price-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--terracotta), var(--terracotta-warm));
+}
+
+.price-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+.price-head .ticker-name {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.55);
+}
+.price-head .ticker-name strong { color: var(--paper); font-weight: 600; }
+.price-time {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  color: rgba(247, 244, 238, 0.4);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-big {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.price-amount {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 400;
+  font-size: clamp(3.5rem, 5.5vw, 5rem);
+  line-height: 1;
+  color: var(--paper);
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+.price-amount .cur { font-size: 0.55em; color: rgba(247, 244, 238, 0.55); margin-right: 0.125em; }
+.price-change-big {
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--up);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.price-meta-row {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: rgba(247, 244, 238, 0.55);
+  margin-bottom: 1.75rem;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  flex-wrap: wrap;
+}
+.price-meta-row strong { color: var(--paper); font-weight: 500; }
+
+.chart { width: 100%; height: 140px; position: relative; margin-bottom: 1.75rem; }
+.chart svg { width: 100%; height: 100%; }
+.chart-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  color: rgba(247, 244, 238, 0.4);
+  text-transform: uppercase;
+}
+
+.price-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(247, 244, 238, 0.08);
+}
+.price-stat { display: flex; flex-direction: column; gap: 0.25rem; }
+.price-stat .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.45);
+}
+.price-stat .val {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.investor-foot {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(247, 244, 238, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.investor-foot .text {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.55);
+}
+.investor-foot a {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 60, "wght" 480;
+  font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+  color: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: color var(--t-fast) var(--ease);
+}
+.investor-foot a:hover { color: var(--terracotta-warm); }
+.investor-foot a .arrow { transition: transform var(--t-med) var(--ease-out); }
+.investor-foot a:hover .arrow { transform: translateX(6px); }
+
+@media (max-width: 980px) {
+  .investor-grid { grid-template-columns: 1fr; gap: 3rem; }
+}
+@media (max-width: 720px) {
+  .price-stats { grid-template-columns: 1fr; }
+  .price-card { padding: 1.75rem 1.5rem; }
+}
+</style>

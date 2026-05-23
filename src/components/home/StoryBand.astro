@@ -1,0 +1,383 @@
+---
+/**
+ * StoryBand — üretim hikayesi + dramatik SVG fabrika kompozisyonu + process strip
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Üretim · Manufacturing',
+  storyTag: 'FAB · 02 / KOCAELİ',
+  coordsL: '40°47\'N · 29°55\'E',
+  coordsR: 'SECTION B — B',
+  h2a: 'Türkiye\'de üretiyoruz.',
+  h2em: 'Dikey entegre',
+  h2b: '.',
+  p1: 'Kocaeli ve Sakarya\'daki iki tesisimizde rulo çelikten son ürüne kadar tüm üretim adımı tek çatı altında. Şekillendirme, kaynak, boyama, sızdırmazlık testi ve sevkiyat — hepsi bizim hatlarımızda gerçekleşiyor.',
+  p2: 'Dikey entegrasyon, hem kaliteyi adım adım kontrol etmemizi hem de tedarik krizlerinden bağımsız kalmamızı sağlıyor. Türk sanayicisinin dünya pazarındaki rekabet gücü buradan başlıyor.',
+  miniStats: [
+    { val: '168.000', accent: '168.000', unit: 'm²', lbl: 'Tesis Alanı' },
+    { val: '2 tesis', accent: '2', unit: 'tesis', lbl: 'Kocaeli & Sakarya' },
+    { val: '%100', accent: '100', unit: '%', lbl: 'Dikey Entegre' },
+  ],
+  ctaLink: 'Üretim sürecimizi keşfedin',
+  ctaHref: '/kurumsal/uretim',
+  process: [
+    { num: 'Adım 01', name: 'Çelik Haddesi', desc: 'DKP rulo çelik, sertifikalı tedarikçiden tesise.' },
+    { num: 'Adım 02', name: 'Şekillendirme', desc: '600 ton presle radyatör panelleri formunda.' },
+    { num: 'Adım 03', name: 'Test & Boyama', desc: 'Sızdırmazlık testi, ardından elektrostatik boya.' },
+    { num: 'Adım 04', name: 'Paketleme & Sevk', desc: '35+ ülkeye günlük sevkiyat.' },
+  ],
+} : {
+  marker: 'Manufacturing · Üretim',
+  storyTag: 'FAB · 02 / KOCAELİ',
+  coordsL: '40°47\'N · 29°55\'E',
+  coordsR: 'SECTION B — B',
+  h2a: 'Made in Türkiye.',
+  h2em: 'Vertically integrated',
+  h2b: '.',
+  p1: 'At our two facilities in Kocaeli and Sakarya, every production step from coil steel to finished product happens under one roof. Forming, welding, painting, leak testing and shipping — all on our own lines.',
+  p2: 'Vertical integration lets us control quality step-by-step and stay independent of supply chain crises. The competitive strength of the Turkish industrialist in the global market starts here.',
+  miniStats: [
+    { val: '168,000', accent: '168,000', unit: 'm²', lbl: 'Facility Area' },
+    { val: '2 sites', accent: '2', unit: 'sites', lbl: 'Kocaeli & Sakarya' },
+    { val: '100%', accent: '100', unit: '%', lbl: 'Vertically Integrated' },
+  ],
+  ctaLink: 'Discover our production',
+  ctaHref: '/en/corporate/manufacturing',
+  process: [
+    { num: 'Step 01', name: 'Steel Coil', desc: 'DKP coil steel from certified supplier to plant.' },
+    { num: 'Step 02', name: 'Forming', desc: '600 ton press into radiator panel form.' },
+    { num: 'Step 03', name: 'Test & Paint', desc: 'Leak test, then electrostatic painting.' },
+    { num: 'Step 04', name: 'Pack & Ship', desc: 'Daily shipments to 35+ countries.' },
+  ],
+};
+---
+
+<section class="story">
+  <div class="container">
+
+    <div class="story-grid">
+
+      <div class="story-visual">
+        <div class="story-tag">{t.storyTag}</div>
+        <div class="story-coords">
+          <span>{t.coordsL}</span>
+          <span>{t.coordsR}</span>
+        </div>
+
+        <svg viewBox="0 0 480 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" role="img" aria-label={locale === 'tr' ? 'Üretim tesisi kompozisyonu' : 'Manufacturing facility composition'}>
+          <defs>
+            <radialGradient id="furnace-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#D9521C" />
+              <stop offset="60%" stop-color="#B8390C" />
+              <stop offset="100%" stop-color="#8C2A06" />
+            </radialGradient>
+            <linearGradient id="diag-beam" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(247,244,238,0.05)" />
+              <stop offset="100%" stop-color="rgba(247,244,238,0)" />
+            </linearGradient>
+            <linearGradient id="floor-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#1A1A1A" />
+              <stop offset="100%" stop-color="#0A0A0A" />
+            </linearGradient>
+          </defs>
+
+          <rect width="480" height="600" fill="#0A0A0A" />
+          <rect x="0" y="480" width="480" height="120" fill="url(#floor-grad)" />
+
+          <polygon points="0,0 240,0 80,600 0,600" fill="url(#diag-beam)" />
+          <polygon points="380,0 480,0 480,400 280,600" fill="url(#diag-beam)" opacity="0.6" />
+
+          <!-- Ceiling lights -->
+          <g fill="#5A5D62">
+            <rect x="40" y="40" width="80" height="6" /><rect x="180" y="40" width="80" height="6" />
+            <rect x="320" y="40" width="80" height="6" />
+          </g>
+          <g fill="#D9521C" opacity="0.4">
+            <rect x="44" y="46" width="72" height="2" /><rect x="184" y="46" width="72" height="2" />
+            <rect x="324" y="46" width="72" height="2" />
+          </g>
+
+          <!-- Furnace -->
+          <rect x="40" y="220" width="160" height="260" fill="#1A1A1A" />
+          <rect x="50" y="230" width="140" height="240" fill="#0A0A0A" />
+          <rect x="80" y="320" width="80" height="120" fill="url(#furnace-glow)" />
+          <rect x="60" y="180" width="8" height="60" fill="#5A5D62" />
+          <rect x="172" y="180" width="8" height="60" fill="#5A5D62" />
+          <circle cx="120" cy="260" r="6" fill="#5AB670" />
+          <circle cx="150" cy="260" r="6" fill="#D9521C" />
+          <text x="60" y="294" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.5)" letter-spacing="1">FRN-02 · 1280°C</text>
+
+          <!-- Steel roll -->
+          <g transform="translate(310, 130)">
+            <ellipse cx="50" cy="50" rx="60" ry="22" fill="#5A5D62" />
+            <ellipse cx="50" cy="50" rx="44" ry="16" fill="#3A3D42" />
+            <ellipse cx="50" cy="50" rx="28" ry="10" fill="#5A5D62" />
+            <ellipse cx="50" cy="50" rx="12" ry="5" fill="#0A0A0A" />
+            <text x="-30" y="-8" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.45)" letter-spacing="1">DKP RULO · 2,5mm</text>
+          </g>
+
+          <!-- Conveyor -->
+          <rect x="0" y="500" width="480" height="4" fill="#3A3D42" />
+          <g stroke="rgba(247,244,238,0.15)" stroke-width="0.6">
+            {[20,60,100,140,180,220,260,300,340,380,420].map((x) => (
+              <line x1={x} y1="520" x2={x+20} y2="520" />
+            ))}
+          </g>
+
+          <g fill="#5A5D62">
+            <rect x="50" y="478" width="30" height="22" /><rect x="100" y="478" width="30" height="22" />
+            <rect x="150" y="478" width="30" height="22" />
+          </g>
+          <rect x="200" y="478" width="30" height="22" fill="#B8390C" />
+          <g fill="#5A5D62">
+            <rect x="250" y="478" width="30" height="22" /><rect x="300" y="478" width="30" height="22" />
+            <rect x="350" y="478" width="30" height="22" /><rect x="400" y="478" width="30" height="22" />
+          </g>
+
+          <!-- Worker silhouette -->
+          <g transform="translate(260, 380)">
+            <circle cx="0" cy="0" r="9" fill="#1A1A1A" />
+            <path d="M -10 -2 Q 0 -14 10 -2" fill="#D9521C" />
+            <rect x="-12" y="10" width="24" height="40" fill="#1A1A1A" />
+            <rect x="-10" y="50" width="8" height="40" fill="#0A0A0A" />
+            <rect x="2" y="50" width="8" height="40" fill="#0A0A0A" />
+            <rect x="-18" y="14" width="6" height="28" fill="#1A1A1A" />
+            <rect x="12" y="14" width="6" height="28" fill="#1A1A1A" />
+          </g>
+          <line x1="260" y1="350" x2="260" y2="334" stroke="rgba(247,244,238,0.3)" stroke-width="0.5" />
+          <text x="260" y="328" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.5)" letter-spacing="1" text-anchor="middle">{locale === 'tr' ? 'OPERATÖR' : 'OPERATOR'}</text>
+
+          <!-- Press -->
+          <g transform="translate(350, 270)">
+            <rect x="0" y="0" width="80" height="180" fill="#1A1A1A" />
+            <rect x="6" y="6" width="68" height="20" fill="#0A0A0A" />
+            <circle cx="40" cy="16" r="4" fill="#5AB670" />
+            <rect x="6" y="40" width="68" height="100" fill="#3A3D42" />
+            <rect x="10" y="44" width="60" height="2" fill="#0A0A0A" />
+            <rect x="10" y="52" width="60" height="2" fill="#0A0A0A" />
+            <rect x="10" y="60" width="60" height="2" fill="#0A0A0A" />
+            <rect x="10" y="68" width="60" height="2" fill="#0A0A0A" />
+            <rect x="34" y="150" width="12" height="30" fill="#5A5D62" />
+            <text x="0" y="-10" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.4)" letter-spacing="1">{locale === 'tr' ? 'PRES · 600T' : 'PRESS · 600T'}</text>
+          </g>
+
+          <g stroke="rgba(247,244,238,0.15)" stroke-width="0.4">
+            <line x1="460" y1="60" x2="460" y2="460" />
+            <line x1="456" y1="60" x2="464" y2="60" />
+            <line x1="456" y1="460" x2="464" y2="460" />
+          </g>
+          <text x="464" y="264" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.4)" letter-spacing="1" transform="rotate(-90, 464, 264)">12,5 m</text>
+        </svg>
+      </div>
+
+      <div class="story-text">
+        <div class="section-marker">
+          <span class="num">06</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h2>{t.h2a}<br><em>{t.h2em}</em>{t.h2b}</h2>
+        <p>{t.p1}</p>
+        <p>{t.p2}</p>
+
+        <div class="story-mini-stats">
+          {t.miniStats.map((s) => (
+            <div class="story-ms">
+              <span class="val">{s.val.replace(s.accent, '')}<span class="accent">{s.accent}</span> {s.unit !== s.accent && s.unit}</span>
+              <span class="lbl">{s.lbl}</span>
+            </div>
+          ))}
+        </div>
+
+        <a href={t.ctaHref} class="link-arrow" style="font-size:1rem;">{t.ctaLink} <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Process strip -->
+  <div class="process-strip">
+    <div class="container">
+      <div class="process-grid">
+        {t.process.map((step, i) => (
+          <div class="process-step">
+            <span class="process-num">{step.num}</span>
+            <span class="process-name">{step.name}</span>
+            <span class="process-desc">{step.desc}</span>
+            {i < t.process.length - 1 && <span class="process-arrow">→</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.story {
+  background: var(--paper);
+  padding: var(--section-y) 0;
+}
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 5.5rem);
+  align-items: center;
+}
+.story-visual {
+  position: relative;
+  aspect-ratio: 4/5;
+  background: var(--ink);
+  overflow: hidden;
+}
+.story-visual svg { width: 100%; height: 100%; }
+.story-tag {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.65);
+  text-transform: uppercase;
+  z-index: 2;
+}
+.story-coords {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.55);
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.story-text { padding-block: 1rem; }
+.story-text .section-marker { margin-bottom: 1rem; }
+.story-text h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.06;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  max-width: 480px;
+}
+.story-text h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+.story-text p {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 480px;
+  margin-bottom: 1.25rem;
+}
+
+.story-mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-block: 2.25rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.story-ms { display: flex; flex-direction: column; gap: 0.375rem; }
+.story-ms .val {
+  font-family: var(--mono);
+  font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.005em;
+}
+.story-ms .val .accent { color: var(--terracotta); }
+.story-ms .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.process-strip {
+  background: var(--sand);
+  padding: 2.75rem 0;
+  margin-top: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+}
+.process-step {
+  background: var(--sand);
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  position: relative;
+  transition: background var(--t-fast) var(--ease);
+}
+.process-step:hover { background: var(--sand-deep); }
+.process-num {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.process-name {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 500;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+.process-desc {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.process-arrow {
+  position: absolute;
+  right: -0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: var(--terracotta);
+  background: var(--sand);
+  width: 1.2rem;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+@media (max-width: 980px) {
+  .story-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .story-visual { aspect-ratio: 4/3; }
+  .process-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-step:nth-child(2) .process-arrow { display: none; }
+}
+@media (max-width: 720px) {
+  .process-grid { grid-template-columns: 1fr; }
+  .process-step .process-arrow { display: none; }
+  .story-mini-stats { grid-template-columns: 1fr; }
+}
+</style>

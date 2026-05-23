@@ -1,0 +1,205 @@
+---
+/**
+ * PressWall — basında biz 4-kart grid
+ * Her kart farklı tipografi stiliyle yayın wordmark'ı
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Basında Biz · In the Press',
+  h2a: 'Sanica hakkında ',
+  h2em: 'yazılanlar',
+  h2b: '.',
+  allLink: 'Tüm haberler',
+  allHref: '/basinda-biz',
+  items: [
+    { pub: 'bloomberg', date: '14 Mayıs 2026', title: 'Sanica Isı, Q1 büyümesini sürdürdü: ihracat gelirleri %24 arttı.' },
+    { pub: 'dunya', date: '02 Nisan 2026', title: 'Türk radyatör sektörünün ihracat lideri Avrupa pazarına yeni tesisle hazırlanıyor.' },
+    { pub: 'para', date: '18 Mart 2026', title: '"Halka açılma kararımız aile şirketinin disiplinine zarar vermedi" — Sanica YKB röportajı.' },
+    { pub: 'capital', date: '10 Şubat 2026', title: 'Sürdürülebilir üretimde örnek model: Sanica Isı\'nın %100 yenilenebilir tesisi.' },
+  ],
+  read: 'Oku',
+} : {
+  marker: 'In the Press · Basında Biz',
+  h2a: 'What\'s ',
+  h2em: 'written',
+  h2b: ' about Sanica.',
+  allLink: 'All news',
+  allHref: '/en/press',
+  items: [
+    { pub: 'bloomberg', date: 'May 14, 2026', title: 'Sanica Isı continues Q1 growth: export revenue up 24%.' },
+    { pub: 'dunya', date: 'April 2, 2026', title: 'Türkiye\'s radiator export leader prepares for European market with new facility.' },
+    { pub: 'para', date: 'March 18, 2026', title: '"Going public did not harm our family company discipline" — Sanica Chairman interview.' },
+    { pub: 'capital', date: 'February 10, 2026', title: 'Model in sustainable manufacturing: Sanica Isı\'s 100% renewable facility.' },
+  ],
+  read: 'Read',
+};
+---
+
+<section class="press">
+  <div class="container">
+
+    <div class="press-head">
+      <div>
+        <div class="section-marker">
+          <span class="num">08</span><span class="of">/</span><span>09</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h2>{t.h2a}<em>{t.h2em}</em>{t.h2b}</h2>
+      </div>
+      <a href={t.allHref} class="link-arrow" style="font-size:1rem;">{t.allLink} <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="press-grid">
+      {t.items.map((item) => (
+        <article class="press-card">
+          <div class="press-pub">
+            {item.pub === 'bloomberg' && <span class="bloomberg">Bloomberg</span>}
+            {item.pub === 'dunya' && <span class="dunya">Dünya</span>}
+            {item.pub === 'para' && <span class="para">para</span>}
+            {item.pub === 'capital' && <span class="capital">CAPITAL</span>}
+          </div>
+          <div class="press-date">{item.date}</div>
+          <h3>{item.title}</h3>
+          <a href="#" class="press-link">{t.read} <span class="arrow" aria-hidden="true">→</span></a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.press {
+  background: var(--paper);
+  padding: var(--section-y) 0;
+}
+.press-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+.press-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.6vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-top: 1rem;
+}
+.press-head h2 em {
+  font-style: italic;
+  color: var(--terracotta);
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+}
+
+.press-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+.press-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border-top: 2px solid var(--ink);
+  padding-top: 1.25rem;
+  transition: all var(--t-med) var(--ease);
+}
+.press-card:hover {
+  border-top-color: var(--terracotta);
+  transform: translateY(-3px);
+}
+.press-pub {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.press-pub .bloomberg {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 30, "wght" 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.press-pub .bloomberg::after {
+  content: 'HT';
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  color: var(--terracotta);
+  margin-left: 0.375rem;
+  vertical-align: super;
+  font-weight: 600;
+}
+.press-pub .dunya {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 80, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+.press-pub .para {
+  font-family: var(--sans);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+}
+.press-pub .para::first-letter { color: var(--terracotta); }
+.press-pub .capital {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 30, "wght" 300;
+  font-size: 1.25rem;
+  color: var(--ink);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.press-date {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.875rem;
+}
+.press-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 470;
+  font-size: 1.0625rem;
+  font-weight: 470;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+.press-link {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  transition: color var(--t-fast) var(--ease);
+}
+.press-card:hover .press-link { color: var(--terracotta); }
+.press-link .arrow { transition: transform var(--t-med) var(--ease-out); }
+.press-card:hover .press-link .arrow { transform: translateX(4px); }
+
+@media (max-width: 980px) {
+  .press-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .press-grid { grid-template-columns: 1fr; }
+}
+</style>

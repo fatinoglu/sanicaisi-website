@@ -1,136 +1,32 @@
 ---
 /**
- * Anasayfa (TR) — iskelet
- *
- * Faz 1'de mockup index-v2.html'deki tüm bölümler bileşenleştirilip buraya gelecek:
- * Hero (dark, split), Audience selector, Featured + Mosaic, Manifesto,
- * Investor band (dark), Story, Sustainability, Press wall, Newsletter.
- *
- * Şimdilik sadece header/footer + "yapım aşamasında" hero.
+ * Anasayfa (TR) — onaylı mockup index-v2.html'in bileşenleştirilmiş hali
  */
 import PageLayout from '../layouts/PageLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import AudienceBand from '../components/home/AudienceBand.astro';
+import ProductMosaic from '../components/home/ProductMosaic.astro';
+import Manifesto from '../components/home/Manifesto.astro';
+import InvestorBand from '../components/home/InvestorBand.astro';
+import StoryBand from '../components/home/StoryBand.astro';
+import SustainBand from '../components/home/SustainBand.astro';
+import PressWall from '../components/home/PressWall.astro';
+import NewsletterCTA from '../components/home/NewsletterCTA.astro';
 ---
 
 <PageLayout
   title="Sanica Isı — Çelikten ısıya. Türkiye'de üretiyoruz."
   description="Sanica Isı, 1985'ten bu yana Kocaeli'de panel radyatör, havlupan, kombi ve ısıtma boruları üreten halka açık Türk sanayi şirketi. BIST: SNICA."
+  showTicker={false}
+  activeAudience="home"
 >
-  <section class="hero-scaffold">
-    <div class="container">
-      <div class="section-marker">
-        <span class="num">00</span><span class="dash">—</span><span class="label">Faz 0 · İskelet</span>
-      </div>
-      <h1>Çelikten <em>ısıya</em>.</h1>
-      <p class="lead">
-        Mockup'tan Astro bileşenlerine geçiş Faz 1'de yapılacak. Şu an: header + footer + tasarım token'ları + i18n iskeleti yerinde.
-      </p>
-
-      <div class="status-grid">
-        <div class="status-card">
-          <span class="status-num">✓</span>
-          <span class="status-label">Astro 6 + TypeScript</span>
-        </div>
-        <div class="status-card">
-          <span class="status-num">✓</span>
-          <span class="status-label">i18n (TR / EN)</span>
-        </div>
-        <div class="status-card">
-          <span class="status-num">✓</span>
-          <span class="status-label">Tasarım token'ları</span>
-        </div>
-        <div class="status-card">
-          <span class="status-num">✓</span>
-          <span class="status-label">Header + Footer</span>
-        </div>
-        <div class="status-card">
-          <span class="status-num">→</span>
-          <span class="status-label">Faz 1 · Anasayfa</span>
-        </div>
-        <div class="status-card">
-          <span class="status-num">→</span>
-          <span class="status-label">Faz 2 · Yatırımcı</span>
-        </div>
-      </div>
-
-      <p class="muted">
-        Mockup referansı: <code>mockup/index-v2.html</code> ve <code>mockup/yatirimci-iliskileri.html</code>
-      </p>
-    </div>
-  </section>
+  <Hero />
+  <AudienceBand />
+  <ProductMosaic />
+  <Manifesto />
+  <InvestorBand />
+  <StoryBand />
+  <SustainBand />
+  <PressWall />
+  <NewsletterCTA />
 </PageLayout>
-
-<style>
-.hero-scaffold {
-  padding-block: clamp(4rem, 8vw, 8rem);
-  background: var(--paper);
-  min-height: 70vh;
-}
-.hero-scaffold h1 {
-  font-family: var(--serif);
-  font-variation-settings: "opsz" 144, "SOFT" 70, "wght" 420;
-  font-size: clamp(3rem, 8vw, 6rem);
-  line-height: 0.95;
-  letter-spacing: -0.025em;
-  color: var(--ink);
-  margin: 1.5rem 0 1.5rem;
-}
-.hero-scaffold h1 em {
-  font-style: italic;
-  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
-  color: var(--terracotta);
-}
-.lead {
-  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
-  line-height: 1.55;
-  color: var(--muted);
-  max-width: 640px;
-  margin-bottom: 3rem;
-}
-.status-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(180px, 1fr));
-  gap: 1rem;
-  margin-bottom: 3rem;
-}
-.status-card {
-  background: var(--sand);
-  padding: 1.25rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  border-left: 3px solid var(--terracotta);
-}
-.status-num {
-  font-family: var(--mono);
-  font-size: 1.5rem;
-  color: var(--terracotta);
-  font-weight: 600;
-  line-height: 1;
-}
-.status-label {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink);
-  font-weight: 500;
-}
-.muted {
-  font-family: var(--mono);
-  font-size: 0.8125rem;
-  color: var(--muted);
-}
-.muted code {
-  background: var(--sand);
-  padding: 2px 6px;
-  border-radius: 2px;
-  font-size: 0.875em;
-  color: var(--terracotta-deep);
-}
-@media (max-width: 720px) {
-  .status-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 480px) {
-  .status-grid { grid-template-columns: 1fr; }
-}
-</style>

@@ -1,0 +1,484 @@
+---
+/**
+ * Hero — full-bleed dark, split layout
+ *
+ * Sol: massive endüstriyel SVG kompozisyon (steel column + heat glow disc
+ *      + gear + production track)
+ * Sağ: editorial type (eyebrow + kicker + huge H1 + sub + CTAs + inline stats)
+ * Alt: infinite cert marquee
+ *
+ * Mockup index-v2.html'den port (Faz 1).
+ */
+import { getLocale } from '../../lib/i18n';
+
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Anasayfa / Homepage',
+  kicker: 'Türkiye\'nin ısı sanayicisi · 1985\'ten beri',
+  h1a: 'Çelikten ',
+  h1b: 'ısıya',
+  h1c: '.',
+  sub: 'Kocaeli\'deki tesislerimizden 35\'ten fazla ülkeye Türkiye\'nin ısısını taşıyoruz. 2022\'den beri BIST Yıldız Pazar\'da paydaşlarımızla yan yana.',
+  ctaPrimary: 'Ürünleri keşfet',
+  ctaGhost: 'Yatırımcı sayfası',
+  stat1: '35+ ÜLKE',
+  stat2: '4,2M ADET/YIL',
+  stat3: '600+ ÇALIŞAN',
+  ctaPrimaryHref: '/urunler',
+  ctaGhostHref: '/yatirimci-iliskileri',
+  labelTL: 'FAB · 02 / KOCAELİ — 41°N',
+  labelTR: 'EST. 1985',
+  labelBL1: 'Model · S-PR / S-HV / S-KMB / S-ISB',
+  labelBL2: 'Kapasite · 4,2M adet/yıl',
+  labelBL3: 'Sertifikasyon · ISO 9001/14001/45001',
+} : {
+  marker: 'Homepage / Anasayfa',
+  kicker: 'Türkiye\'s heating manufacturer · since 1985',
+  h1a: 'From steel to ',
+  h1b: 'heat',
+  h1c: '.',
+  sub: 'From our facilities in Kocaeli we carry Türkiye\'s heat to 35+ countries. Listed on BIST Star Market since 2022, alongside our stakeholders.',
+  ctaPrimary: 'Explore products',
+  ctaGhost: 'Investor page',
+  stat1: '35+ COUNTRIES',
+  stat2: '4.2M UNITS/YR',
+  stat3: '600+ EMPLOYEES',
+  ctaPrimaryHref: '/en/products',
+  ctaGhostHref: '/en/investor-relations',
+  labelTL: 'FAB · 02 / KOCAELİ — 41°N',
+  labelTR: 'EST. 1985',
+  labelBL1: 'Model · S-PR / S-HV / S-KMB / S-ISB',
+  labelBL2: 'Capacity · 4.2M units/yr',
+  labelBL3: 'Certification · ISO 9001/14001/45001',
+};
+
+const certs = ['ISO 9001', 'ISO 14001', 'ISO 45001', 'CE', 'EAC', 'GOST-R', 'MED', 'TSE', 'KEYMARK', 'EUROVENT', 'UN GLOBAL COMPACT', 'CDP'];
+---
+
+<section class="hero dark">
+
+  <div class="hero-grid">
+
+    <!-- LEFT: industrial composition -->
+    <div class="hero-visual">
+      <div class="hero-label-tl">
+        <span class="dot">●</span> {t.labelTL}
+      </div>
+      <div class="hero-label-tr">{t.labelTR}</div>
+      <div class="hero-label-bl">
+        {t.labelBL1}<br>
+        {t.labelBL2}<br>
+        {t.labelBL3}
+      </div>
+
+      <div class="hero-composition">
+        <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label={locale === 'tr' ? 'Endüstriyel kompozisyon — ısı, çelik, üretim' : 'Industrial composition — heat, steel, production'}>
+          <defs>
+            <pattern id="hero-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(247,244,238,0.04)" stroke-width="0.5" />
+            </pattern>
+            <radialGradient id="hero-heat" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#D9521C" stop-opacity="1" />
+              <stop offset="40%" stop-color="#B8390C" stop-opacity="0.9" />
+              <stop offset="100%" stop-color="#8C2A06" stop-opacity="0.6" />
+            </radialGradient>
+            <linearGradient id="hero-steel" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#5A5D62" />
+              <stop offset="100%" stop-color="#3A3D42" />
+            </linearGradient>
+            <linearGradient id="hero-beam" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(247,244,238,0.08)" />
+              <stop offset="100%" stop-color="rgba(247,244,238,0)" />
+            </linearGradient>
+          </defs>
+
+          <rect width="600" height="600" fill="url(#hero-grid)" />
+          <polygon points="0,0 220,0 70,600 0,600" fill="url(#hero-beam)" />
+          <polygon points="380,0 600,0 600,440 250,600" fill="url(#hero-beam)" opacity="0.5" />
+
+          <!-- Steel column with fins -->
+          <rect x="68" y="80" width="56" height="380" fill="url(#hero-steel)" />
+          <g stroke="#1A1D22" stroke-width="1">
+            <line x1="68" y1="110" x2="124" y2="110" /><line x1="68" y1="130" x2="124" y2="130" />
+            <line x1="68" y1="150" x2="124" y2="150" /><line x1="68" y1="170" x2="124" y2="170" />
+            <line x1="68" y1="190" x2="124" y2="190" /><line x1="68" y1="210" x2="124" y2="210" />
+            <line x1="68" y1="230" x2="124" y2="230" /><line x1="68" y1="250" x2="124" y2="250" />
+            <line x1="68" y1="270" x2="124" y2="270" /><line x1="68" y1="290" x2="124" y2="290" />
+            <line x1="68" y1="310" x2="124" y2="310" /><line x1="68" y1="330" x2="124" y2="330" />
+            <line x1="68" y1="350" x2="124" y2="350" /><line x1="68" y1="370" x2="124" y2="370" />
+            <line x1="68" y1="390" x2="124" y2="390" /><line x1="68" y1="410" x2="124" y2="410" />
+            <line x1="68" y1="430" x2="124" y2="430" />
+          </g>
+          <rect x="62" y="74" width="68" height="10" fill="#5A5D62" />
+          <rect x="62" y="456" width="68" height="10" fill="#5A5D62" />
+          <rect x="76" y="200" width="6" height="6" fill="#B8390C" />
+          <text x="90" y="206" font-family="IBM Plex Mono" font-size="8" fill="rgba(247,244,238,0.5)" letter-spacing="1">72°C</text>
+
+          <!-- Heat glow disc -->
+          <circle cx="380" cy="280" r="140" fill="url(#hero-heat)" />
+          <circle cx="380" cy="280" r="70" fill="#EDE5D3" opacity="0.95" />
+          <circle cx="380" cy="280" r="32" fill="#0A0A0A" />
+          <circle cx="380" cy="280" r="10" fill="#D9521C" />
+          <circle cx="380" cy="280" r="160" fill="none" stroke="#D9521C" stroke-width="0.6" opacity="0.4" />
+          <circle cx="380" cy="280" r="180" fill="none" stroke="#D9521C" stroke-width="0.5" opacity="0.25" />
+          <circle cx="380" cy="280" r="200" fill="none" stroke="#D9521C" stroke-width="0.4" opacity="0.15" />
+
+          <!-- Industrial gear -->
+          <g transform="translate(490, 130)">
+            <circle cx="0" cy="0" r="44" fill="#3A3D42" />
+            <circle cx="0" cy="0" r="34" fill="#0A0A0A" />
+            <circle cx="0" cy="0" r="16" fill="#5A5D62" />
+            <circle cx="0" cy="0" r="6" fill="#B8390C" />
+            <g fill="#3A3D42">
+              <rect x="-3" y="-50" width="6" height="10" /><rect x="-3" y="40" width="6" height="10" />
+              <rect x="-50" y="-3" width="10" height="6" /><rect x="40" y="-3" width="10" height="6" />
+              <rect x="-3" y="-50" width="6" height="10" transform="rotate(45)" />
+              <rect x="-3" y="40" width="6" height="10" transform="rotate(45)" />
+              <rect x="-50" y="-3" width="10" height="6" transform="rotate(45)" />
+              <rect x="40" y="-3" width="10" height="6" transform="rotate(45)" />
+            </g>
+          </g>
+
+          <!-- Technical readout -->
+          <g font-family="IBM Plex Mono" font-size="9" fill="rgba(247,244,238,0.45)" letter-spacing="1">
+            <text x="448" y="248">85°C</text>
+            <line x1="440" y1="244" x2="430" y2="244" stroke="rgba(247,244,238,0.3)" stroke-width="0.5" />
+            <text x="448" y="280">6 bar</text>
+            <line x1="440" y1="276" x2="430" y2="276" stroke="rgba(247,244,238,0.3)" stroke-width="0.5" />
+            <text x="448" y="312">95 kW</text>
+            <line x1="440" y1="308" x2="430" y2="308" stroke="rgba(247,244,238,0.3)" stroke-width="0.5" />
+          </g>
+
+          <!-- Production track -->
+          <line x1="40" y1="500" x2="560" y2="500" stroke="rgba(247,244,238,0.3)" stroke-width="1" />
+          <line x1="40" y1="540" x2="560" y2="540" stroke="rgba(247,244,238,0.15)" stroke-width="1" stroke-dasharray="4 4" />
+
+          <g fill="#5A5D62">
+            <rect x="60" y="478" width="22" height="22" /><rect x="100" y="478" width="22" height="22" />
+            <rect x="140" y="478" width="22" height="22" /><rect x="180" y="478" width="22" height="22" />
+            <rect x="220" y="478" width="22" height="22" />
+          </g>
+          <rect x="260" y="478" width="22" height="22" fill="#B8390C" />
+          <g fill="#5A5D62">
+            <rect x="300" y="478" width="22" height="22" /><rect x="340" y="478" width="22" height="22" />
+            <rect x="380" y="478" width="22" height="22" /><rect x="420" y="478" width="22" height="22" />
+            <rect x="460" y="478" width="22" height="22" /><rect x="500" y="478" width="22" height="22" />
+            <rect x="540" y="478" width="22" height="22" />
+          </g>
+
+          <g fill="rgba(247,244,238,0.45)">
+            <text x="40" y="524" font-family="IBM Plex Mono" font-size="8" letter-spacing="1">→ HAT 02</text>
+            <text x="510" y="524" font-family="IBM Plex Mono" font-size="8" letter-spacing="1">SEVK</text>
+          </g>
+
+          <g stroke="rgba(247,244,238,0.3)" stroke-width="0.6">
+            <line x1="560" y1="60" x2="580" y2="60" />
+            <line x1="570" y1="50" x2="570" y2="70" />
+          </g>
+
+          <g stroke="rgba(247,244,238,0.2)" stroke-width="0.5">
+            {[40,80,120,160,200,240,280,320,360,400,440,480,520,560].map((x) => (
+              <line x1={x} y1="565" x2={x} y2="572" />
+            ))}
+          </g>
+          <text x="290" y="586" font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.3)" letter-spacing="2" text-anchor="middle">SECTION A — A</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- RIGHT: text -->
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <span class="num">01</span><span class="dash">/</span><span>06</span><span class="dash">—</span><span>{t.marker}</span>
+      </div>
+      <div class="hero-kicker">{t.kicker}</div>
+      <h1>{t.h1a}<em>{t.h1b}</em><span class="dot">{t.h1c}</span></h1>
+      <p class="hero-sub">{t.sub}</p>
+
+      <div class="hero-ctas">
+        <a href={t.ctaPrimaryHref} class="btn btn-primary">{t.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
+        <a href={t.ctaGhostHref} class="btn btn-ghost">{t.ctaGhost} <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="hero-inline-stats">
+        <span><strong>{t.stat1.split(' ')[0]}</strong> {t.stat1.split(' ').slice(1).join(' ')}</span>
+        <span class="sep">·</span>
+        <span><strong>{t.stat2.split(' ')[0]}</strong> {t.stat2.split(' ').slice(1).join(' ')}</span>
+        <span class="sep">·</span>
+        <span><strong>{t.stat3.split(' ')[0]}</strong> {t.stat3.split(' ').slice(1).join(' ')}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certification marquee -->
+  <div class="cert-marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {[...certs, ...certs].map((c) => <span class="marquee-item">{c}</span>)}
+    </div>
+  </div>
+</section>
+
+<style>
+.hero {
+  background: var(--ink);
+  color: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 40%, rgba(184,57,12,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 60% at 75% 60%, rgba(217,82,28,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 0;
+  min-height: clamp(560px, 76vh, 820px);
+}
+
+.hero-visual {
+  position: relative;
+  border-right: 1px solid rgba(247, 244, 238, 0.08);
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-label-tl,
+.hero-label-tr,
+.hero-label-bl {
+  position: absolute;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.hero-label-tl { top: 1.75rem; left: 1.75rem; color: rgba(247, 244, 238, 0.45); }
+.hero-label-tl .dot { color: var(--terracotta-warm); }
+.hero-label-tr { top: 1.75rem; right: 1.75rem; color: rgba(247, 244, 238, 0.45); }
+.hero-label-bl {
+  bottom: 5rem;
+  left: 1.75rem;
+  color: rgba(247, 244, 238, 0.35);
+  max-width: 220px;
+  line-height: 1.6;
+}
+
+.hero-composition {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1/1;
+  position: relative;
+}
+
+.hero-text {
+  padding: 3rem clamp(2rem, 5vw, 4rem) 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  color: rgba(247, 244, 238, 0.5);
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.hero-eyebrow .num { color: var(--terracotta-warm); }
+.hero-eyebrow .dash { color: rgba(247, 244, 238, 0.2); }
+
+.hero-kicker {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--terracotta-warm);
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 70, "wght" 420;
+  font-weight: 420;
+  font-size: clamp(3.5rem, 8.4vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+  margin-bottom: 1.875rem;
+  animation: fadeUp 1000ms 140ms var(--ease-out) both;
+}
+.hero h1 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+  color: var(--terracotta-warm);
+}
+.hero h1 .dot { color: var(--terracotta-warm); }
+
+.hero-sub {
+  font-size: clamp(1rem, 1.4vw, 1.1875rem);
+  line-height: 1.55;
+  color: rgba(247, 244, 238, 0.78);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 1000ms 280ms var(--ease-out) both;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 0.875rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 1000ms 420ms var(--ease-out) both;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.9375rem 1.375rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border: 1px solid;
+  border-radius: 2px;
+  transition: all var(--t-med) var(--ease);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.btn-primary {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: var(--paper);
+}
+.btn-primary:hover {
+  background: var(--terracotta-warm);
+  border-color: var(--terracotta-warm);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(184, 57, 12, 0.55);
+}
+.btn-ghost {
+  background: transparent;
+  border-color: rgba(247, 244, 238, 0.25);
+  color: var(--paper);
+}
+.btn-ghost:hover {
+  border-color: var(--paper);
+  background: rgba(247, 244, 238, 0.05);
+  transform: translateY(-2px);
+}
+.btn .arrow { transition: transform var(--t-med) var(--ease-out); }
+.btn:hover .arrow { transform: translateX(3px); }
+
+.hero-inline-stats {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: rgba(247, 244, 238, 0.55);
+  text-transform: uppercase;
+  flex-wrap: wrap;
+  animation: fadeUp 1000ms 540ms var(--ease-out) both;
+}
+.hero-inline-stats strong { color: var(--paper); font-weight: 600; }
+.hero-inline-stats .sep { color: rgba(247, 244, 238, 0.2); }
+
+.cert-marquee {
+  position: absolute;
+  inset: auto 0 0 0;
+  border-top: 1px solid rgba(247, 244, 238, 0.1);
+  border-bottom: 1px solid rgba(247, 244, 238, 0.1);
+  background: rgba(10,10,10,0.6);
+  overflow: hidden;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+.cert-marquee::before,
+.cert-marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.cert-marquee::before { left: 0; background: linear-gradient(to right, var(--ink), transparent); }
+.cert-marquee::after { right: 0; background: linear-gradient(to left, var(--ink), transparent); }
+
+.marquee-track {
+  display: flex;
+  gap: 3.5rem;
+  animation: marquee 42s linear infinite;
+  padding-left: 3.5rem;
+  white-space: nowrap;
+}
+
+.marquee-item {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: rgba(247, 244, 238, 0.5);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 3.5rem;
+}
+.marquee-item::after {
+  content: '—';
+  color: rgba(247, 244, 238, 0.2);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .hero h1, .hero-sub, .hero-ctas, .hero-inline-stats { animation: none; }
+}
+
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-visual {
+    border-right: none;
+    border-bottom: 1px solid rgba(247, 244, 238, 0.1);
+    padding: 2.5rem;
+    min-height: 380px;
+  }
+  .hero-text { padding: 3rem var(--gutter); }
+  .hero-composition { max-width: 380px; }
+}
+
+@media (max-width: 720px) {
+  .hero-text { padding: 2.5rem var(--gutter); }
+  .hero-visual { padding: 2rem; min-height: 320px; }
+  .hero-composition { max-width: 320px; }
+  .hero-inline-stats { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+  .hero-inline-stats .sep { display: none; }
+}
+</style>

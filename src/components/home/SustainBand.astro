@@ -1,0 +1,346 @@
+---
+/**
+ * SustainBand — sürdürülebilirlik bandı
+ * 3 eco-stat kart + ESG performans gauge (CSS arc) + UN Global Compact rozeti
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Sürdürülebilirlik · Sustainability',
+  h2a: 'Daha az enerji,',
+  h2em: 'daha çok ısı',
+  h2b: '.',
+  intro: 'Sürdürülebilirlik bizim için bir rapor başlığı değil; üretim hattımızdaki her bir kararın ölçülen sonucudur. Karbon ayak izimizi azaltıyor, tedarik zincirimizi denetliyoruz.',
+  ecoStats: [
+    { num: '%32', dir: '↓', title: 'Üretim başına karbon emisyonu', base: '2020 baz yıla göre kümülatif iyileşme', idx: '01' },
+    { num: '%100', dir: '', title: 'Tesislerimizde yenilenebilir elektrik', base: 'Çatı tipi solar + I-REC sertifikalı tedarik', idx: '02' },
+    { num: '120+', dir: '', title: 'Tedarikçi ESG denetimi her yıl', base: 'Bağımsız üçüncü taraf denetim raporu', idx: '03' },
+  ],
+  esgTag: 'ESG Performans Skoru · 2025',
+  esgH3a: 'Sektör ortalamasının ',
+  esgH3em: 'belirgin üzerinde',
+  esgH3b: '.',
+  esgScore: 'A+',
+  esgPoints: '79 / 100',
+  esgSource: 'Kaynak · CDP & Sustainalytics 2025',
+  unText: 'UN Global Compact',
+  unSub: 'İmzacı Şirket · 2023\'ten beri',
+  ctaLink: 'ESG yaklaşımımızı inceleyin',
+  ctaHref: '/surdurulebilirlik',
+} : {
+  marker: 'Sustainability · Sürdürülebilirlik',
+  h2a: 'Less energy,',
+  h2em: 'more heat',
+  h2b: '.',
+  intro: 'For us, sustainability is not a report heading — it\'s the measured outcome of every decision on our production line. We reduce our carbon footprint, audit our supply chain.',
+  ecoStats: [
+    { num: '32%', dir: '↓', title: 'Carbon emissions per unit produced', base: 'Cumulative improvement vs. 2020 baseline', idx: '01' },
+    { num: '100%', dir: '', title: 'Renewable electricity at our facilities', base: 'Rooftop solar + I-REC certified supply', idx: '02' },
+    { num: '120+', dir: '', title: 'Supplier ESG audits per year', base: 'Independent third-party audit report', idx: '03' },
+  ],
+  esgTag: 'ESG Performance Score · 2025',
+  esgH3a: 'Significantly ',
+  esgH3em: 'above sector average',
+  esgH3b: '.',
+  esgScore: 'A+',
+  esgPoints: '79 / 100',
+  esgSource: 'Source · CDP & Sustainalytics 2025',
+  unText: 'UN Global Compact',
+  unSub: 'Signatory · since 2023',
+  ctaLink: 'See our ESG approach',
+  ctaHref: '/en/sustainability',
+};
+---
+
+<section class="sustain">
+  <div class="container">
+
+    <div class="sustain-head">
+      <div>
+        <div class="section-marker">
+          <span class="num">07</span><span class="of">/</span><span>09</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h2>{t.h2a}<br><em>{t.h2em}</em>{t.h2b}</h2>
+      </div>
+      <p class="sustain-intro">{t.intro}</p>
+    </div>
+
+    <div class="sustain-grid">
+
+      <div class="eco-stats-list">
+        {t.ecoStats.map((s) => (
+          <article class="eco-stat-card">
+            <span class="eco-stat-num">{s.num}{s.dir && <span class="dir">{s.dir}</span>}</span>
+            <div class="eco-stat-body">
+              <span class="ttl">{s.title}</span>
+              <span class="base">{s.base}</span>
+            </div>
+            <span class="label-num">{s.idx}</span>
+          </article>
+        ))}
+      </div>
+
+      <div class="esg-card">
+        <div>
+          <div class="tag">{t.esgTag}</div>
+          <h3>{t.esgH3a}<em>{t.esgH3em}</em>{t.esgH3b}</h3>
+        </div>
+
+        <div class="gauge">
+          <svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 20 120 A 90 90 0 0 1 200 120" stroke="rgba(247,244,238,0.1)" stroke-width="12" fill="none" stroke-linecap="round" />
+            <path d="M 20 120 A 90 90 0 0 1 178 56" stroke="#5AB670" stroke-width="12" fill="none" stroke-linecap="round" />
+            <g stroke="rgba(247,244,238,0.3)" stroke-width="1">
+              <line x1="20" y1="120" x2="22" y2="116" />
+              <line x1="110" y1="30" x2="110" y2="34" />
+              <line x1="200" y1="120" x2="198" y2="116" />
+            </g>
+            <g font-family="IBM Plex Mono" font-size="8" fill="rgba(247,244,238,0.5)" letter-spacing="1">
+              <text x="20" y="138" text-anchor="middle">D</text>
+              <text x="110" y="22" text-anchor="middle">A+</text>
+              <text x="200" y="138" text-anchor="middle">A++</text>
+            </g>
+          </svg>
+
+          <div class="gauge-center">
+            <div class="gauge-score">{t.esgScore}</div>
+            <div class="gauge-of">{t.esgPoints}</div>
+          </div>
+        </div>
+
+        <div class="source">{t.esgSource}</div>
+      </div>
+
+    </div>
+
+    <div class="sustain-foot">
+      <div class="un-badge">
+        <span class="un-mark">UN</span>
+        <span><strong>{t.unText}</strong><br>{t.unSub}</span>
+      </div>
+      <a href={t.ctaHref} class="link-arrow" style="font-size:1rem;">{t.ctaLink} <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.sustain {
+  background: var(--success-soft);
+  padding: var(--section-y) 0;
+  position: relative;
+}
+
+.sustain .section-marker .num { color: var(--success); }
+
+.sustain-head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 3.5rem;
+}
+.sustain-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 540px;
+  margin-top: 1rem;
+}
+.sustain-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--success);
+}
+.sustain-intro {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 420px;
+}
+
+.sustain-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.eco-stats-list { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+
+.eco-stat-card {
+  background: var(--paper);
+  border: 1px solid rgba(77, 124, 95, 0.18);
+  padding: 1.875rem 2rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  transition: all var(--t-med) var(--ease);
+}
+.eco-stat-card:hover {
+  border-color: var(--success);
+  transform: translateY(-2px);
+}
+.eco-stat-num {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 400;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  line-height: 1;
+  color: var(--success);
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+.eco-stat-num .dir {
+  color: var(--ink);
+  font-size: 0.5em;
+  margin-left: 0.15em;
+  vertical-align: 0.5em;
+}
+.eco-stat-body { display: flex; flex-direction: column; gap: 0.5rem; }
+.eco-stat-body .ttl {
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.eco-stat-body .base {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.eco-stat-card .label-num {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: var(--success);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.esg-card {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.esg-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--success), #7BA88B);
+}
+.esg-card .tag {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.55);
+  margin-bottom: 0.75rem;
+}
+.esg-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 480;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  color: var(--paper);
+  margin-bottom: 1.5rem;
+  max-width: 240px;
+}
+.esg-card h3 em { color: var(--success); font-style: italic; }
+
+.gauge {
+  position: relative;
+  margin: 1rem auto;
+  width: 200px;
+}
+.gauge svg { width: 100%; height: auto; }
+.gauge-center {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+.gauge-score {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 400;
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+.gauge-of {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(247, 244, 238, 0.55);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+}
+.esg-card .source {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  color: rgba(247, 244, 238, 0.45);
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.sustain-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(77, 124, 95, 0.2);
+}
+.un-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+.un-badge .un-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--success);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--paper);
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 600;
+  font-size: 0.875rem;
+}
+.un-badge strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 980px) {
+  .sustain-head { grid-template-columns: 1fr; gap: 1.5rem; }
+  .sustain-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .eco-stat-card { grid-template-columns: auto 1fr; gap: 1.25rem; padding: 1.5rem; }
+  .eco-stat-card .label-num { display: none; }
+}
+</style>

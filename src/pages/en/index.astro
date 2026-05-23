@@ -1,51 +1,33 @@
 ---
 /**
- * Homepage (EN) — scaffold
+ * Homepage (EN) — componentized version of mockup index-v2.html
+ * Locale routing handled automatically by getLocale() in each component
  */
 import PageLayout from '../../layouts/PageLayout.astro';
+import Hero from '../../components/home/Hero.astro';
+import AudienceBand from '../../components/home/AudienceBand.astro';
+import ProductMosaic from '../../components/home/ProductMosaic.astro';
+import Manifesto from '../../components/home/Manifesto.astro';
+import InvestorBand from '../../components/home/InvestorBand.astro';
+import StoryBand from '../../components/home/StoryBand.astro';
+import SustainBand from '../../components/home/SustainBand.astro';
+import PressWall from '../../components/home/PressWall.astro';
+import NewsletterCTA from '../../components/home/NewsletterCTA.astro';
 ---
 
 <PageLayout
   title="Sanica Isı — From steel to heat. Made in Türkiye."
   description="Sanica Isı — established Turkish manufacturer of panel radiators, towel warmers, condensing boilers and heating pipes since 1985. BIST: SNICA."
+  showTicker={false}
+  activeAudience="home"
 >
-  <section class="hero-scaffold">
-    <div class="container">
-      <div class="section-marker">
-        <span class="num">00</span><span class="dash">—</span><span class="label">Phase 0 · Scaffold</span>
-      </div>
-      <h1>From steel to <em>heat</em>.</h1>
-      <p class="lead">
-        The mockup-to-Astro component conversion will happen in Phase 1. Currently: header + footer + design tokens + i18n scaffolding in place.
-      </p>
-    </div>
-  </section>
+  <Hero />
+  <AudienceBand />
+  <ProductMosaic />
+  <Manifesto />
+  <InvestorBand />
+  <StoryBand />
+  <SustainBand />
+  <PressWall />
+  <NewsletterCTA />
 </PageLayout>
-
-<style>
-.hero-scaffold {
-  padding-block: clamp(4rem, 8vw, 8rem);
-  background: var(--paper);
-  min-height: 70vh;
-}
-.hero-scaffold h1 {
-  font-family: var(--serif);
-  font-variation-settings: "opsz" 144, "SOFT" 70, "wght" 420;
-  font-size: clamp(3rem, 8vw, 6rem);
-  line-height: 0.95;
-  letter-spacing: -0.025em;
-  color: var(--ink);
-  margin: 1.5rem 0 1.5rem;
-}
-.hero-scaffold h1 em {
-  font-style: italic;
-  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
-  color: var(--terracotta);
-}
-.lead {
-  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
-  line-height: 1.55;
-  color: var(--muted);
-  max-width: 640px;
-}
-</style>
