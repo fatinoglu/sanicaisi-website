@@ -4,7 +4,7 @@ slug: 2024-yili-olagan-genel-kurul-hazirun-cetveli
 title: 2024 Yili Olagan Genel Kurul Hazirun Cetveli
 date: 2025-08-13
 type: genel-kurul
-pdfUrl: "https://pub-e908dbf8aad8f69d98175f7cebb006d0.r2.dev/2025/08/2024-Yili-Olagan-Genel-Kurul-Hazirun-Cetveli.pdf"
+pdfUrl: "https://pub-ac09aed3790d4233a2c890d8b8d8fa16.r2.dev/2025/08/2024-Yili-Olagan-Genel-Kurul-Hazirun-Cetveli.pdf"
 pdfKey: 2025/08/2024-Yili-Olagan-Genel-Kurul-Hazirun-Cetveli.pdf
 pdfSizeBytes: 312923
 year: 2024
