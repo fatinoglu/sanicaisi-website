@@ -1,0 +1,118 @@
+---
+/**
+ * Model detay sayfası (TR) — örn. /urunler/havlupan/aurora
+ */
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import ProductDetailHero from '../../../components/products/ProductDetailHero.astro';
+import ProductSpecs from '../../../components/products/ProductSpecs.astro';
+import ProductSizes from '../../../components/products/ProductSizes.astro';
+import ProductDownloads from '../../../components/products/ProductDownloads.astro';
+import ProductRelated from '../../../components/products/ProductRelated.astro';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products', (p) => p.data.lang === 'tr');
+  return products.map((p) => ({
+    params: { category: p.data.categorySlug, model: p.data.slug },
+    props: { product: p },
+  }));
+}
+
+const { product } = Astro.props;
+const { Content } = await render(product);
+
+// Kategori adını al
+const categories = await getCollection('product-categories', (c) =>
+  c.data.lang === 'tr' && c.data.slug === product.data.categorySlug,
+);
+const categoryName = categories[0]?.data.name ?? product.data.categorySlug;
+---
+
+<PageLayout
+  title={`${product.data.name} — ${categoryName} · Sanica Isı`}
+  description={product.data.tagline}
+>
+  <ProductDetailHero
+    categoryName={categoryName}
+    categorySlug={product.data.categorySlug}
+    name={product.data.name}
+    series={product.data.series}
+    tagline={product.data.tagline}
+    description={product.data.description}
+    coverKind={product.data.coverKind}
+    coverBg={product.data.coverBg}
+    sectionMarkerNum="01"
+  />
+
+  <section class="prod-content">
+    <div class="container">
+      <article class="prod-prose">
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  {product.data.specs.length > 0 && (
+    <ProductSpecs specs={product.data.specs} number="02" />
+  )}
+
+  {product.data.sizes.length > 0 && (
+    <ProductSizes sizes={product.data.sizes} number="03" />
+  )}
+
+  {product.data.downloads.length > 0 && (
+    <ProductDownloads
+      downloads={product.data.downloads}
+      certifications={product.data.certifications}
+      number="04"
+    />
+  )}
+
+  <ProductRelated
+    currentSlug={product.data.slug}
+    categorySlug={product.data.categorySlug}
+    number="05"
+  />
+</PageLayout>
+
+<style>
+.prod-content {
+  background: var(--paper);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+.prod-prose {
+  max-width: 720px;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+.prod-prose :global(h2) {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 60, "wght" 500;
+  font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin: 2.5rem 0 1rem;
+}
+.prod-prose :global(h3) {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 1.25rem;
+  color: var(--ink);
+  margin: 1.75rem 0 0.75rem;
+}
+.prod-prose :global(p) { margin-bottom: 1.25rem; }
+.prod-prose :global(ul) {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.prod-prose :global(li) { margin-bottom: 0.5rem; }
+.prod-prose :global(strong) { color: var(--ink); font-weight: 600; }
+.prod-prose :global(a) {
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+</style>

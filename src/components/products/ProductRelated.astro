@@ -1,0 +1,100 @@
+---
+/**
+ * ProductRelated — ilgili ürünler (aynı kategoriden)
+ */
+import { getCollection } from 'astro:content';
+import { getLocale, type Locale } from '../../lib/i18n';
+import ProductModelCard from './ProductModelCard.astro';
+
+interface Props {
+  currentSlug: string;
+  categorySlug: string;
+  number?: string;
+}
+
+const { currentSlug, categorySlug, number = '05' } = Astro.props;
+const locale: Locale = getLocale(Astro.url.pathname);
+
+const all = await getCollection('products', (p) =>
+  p.data.lang === locale &&
+  p.data.categorySlug === categorySlug &&
+  p.data.slug !== currentSlug,
+);
+const related = all.sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+
+const t = locale === 'tr' ? {
+  marker: 'Benzer Ürünler',
+  h2a: 'Aynı aileden',
+  h2em: 'diğer modeller',
+  h2post: '.',
+  empty: 'Bu kategoride henüz başka model yok.',
+} : {
+  marker: 'Related Products',
+  h2a: 'Other models in',
+  h2em: 'the same family',
+  h2post: '.',
+  empty: 'No other models in this category yet.',
+};
+---
+
+{related.length > 0 && (
+  <section class="related">
+    <div class="container">
+      <div class="sec-head">
+        <div class="section-marker" style="margin-bottom: 1rem;">
+          <span class="num">{number}</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h2>{t.h2a} <em>{t.h2em}</em>{t.h2post}</h2>
+      </div>
+
+      <div class="related-grid">
+        {related.map((p) => (
+          <ProductModelCard
+            slug={p.data.slug}
+            name={p.data.name}
+            series={p.data.series}
+            tagline={p.data.tagline}
+            categorySlug={p.data.categorySlug}
+            coverKind={p.data.coverKind}
+            coverBg={p.data.coverBg}
+            featured={p.data.featured}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+.related {
+  background: var(--paper-soft);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+.sec-head { margin-bottom: 2.5rem; }
+.sec-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+}
+.sec-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 980px) {
+  .related-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .related-grid { grid-template-columns: 1fr; }
+}
+</style>

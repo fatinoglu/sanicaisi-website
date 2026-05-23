@@ -1,0 +1,90 @@
+---
+/**
+ * Products index (EN)
+ */
+import PageLayout from '../../../layouts/PageLayout.astro';
+import ProductCategoryGrid from '../../../components/products/ProductCategoryGrid.astro';
+---
+
+<PageLayout
+  title="Products — Sanica Isı"
+  description="Sanica Isı product range: panel radiators, towel warmers, condensing boilers and PEX-AL-PEX heating pipes."
+>
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/en/">Homepage</a>
+        <span class="sep">/</span>
+        <span class="current">Products</span>
+      </div>
+
+      <div class="page-hero-content">
+        <div class="section-marker">
+          <span class="num">01</span><span class="dash">—</span><span class="label">Products · Ürünler</span>
+        </div>
+        <h1>Four product families.<br><em>One engineering</em> discipline.</h1>
+        <p class="lead">
+          Since 1985 we produce panel radiators, towel warmers, boilers and heating pipes. Each family is developed in our own facilities, by our own engineers.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cat-section">
+    <div class="container">
+      <ProductCategoryGrid />
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+.page-hero {
+  background: var(--paper);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--line);
+}
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+.breadcrumb a:hover { color: var(--terracotta); }
+.breadcrumb .sep { color: var(--line); }
+.breadcrumb .current { color: var(--ink); font-weight: 500; }
+
+.page-hero-content { max-width: 880px; }
+.page-hero-content .section-marker { margin-bottom: 1.25rem; }
+.page-hero-content h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2.5rem, 5.6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.page-hero-content h1 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+.lead {
+  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 640px;
+}
+
+.cat-section {
+  padding-block: clamp(3rem, 6vw, 5rem);
+  background: var(--paper-soft);
+}
+</style>

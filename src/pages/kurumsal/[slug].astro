@@ -1,0 +1,98 @@
+---
+/**
+ * Kurumsal alt sayfa (TR) — dinamik, content collection'dan
+ */
+import { getCollection, render } from 'astro:content';
+import CorporateLayout from '../../layouts/CorporateLayout.astro';
+import CorporatePageHero from '../../components/corporate/CorporatePageHero.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('corporate', (c) => c.data.lang === 'tr');
+  return items.map((item) => ({
+    params: { slug: item.data.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+---
+
+<CorporateLayout
+  title={`${item.data.title} — Sanica Isı`}
+  description={item.data.description}
+  currentSlug={item.data.slug}
+>
+  <CorporatePageHero
+    slot="hero"
+    title={item.data.title}
+    description={item.data.description}
+  />
+
+  <section class="corp-content">
+    <div class="container">
+      <article class="prose">
+        <Content />
+      </article>
+    </div>
+  </section>
+</CorporateLayout>
+
+<style>
+.corp-content {
+  background: var(--paper);
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+.prose {
+  max-width: 720px;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+.prose :global(h2) {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 60, "wght" 500;
+  font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin: 2.5rem 0 1rem;
+}
+.prose :global(h3) {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 1.25rem;
+  color: var(--ink);
+  margin: 1.75rem 0 0.75rem;
+}
+.prose :global(p) { margin-bottom: 1.25rem; }
+.prose :global(ul) {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.prose :global(li) { margin-bottom: 0.5rem; }
+.prose :global(strong) { color: var(--ink); font-weight: 600; }
+.prose :global(a) {
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose :global(blockquote) {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 70, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1.35;
+  color: var(--terracotta);
+  border-left: 3px solid var(--terracotta);
+  padding-left: 1.25rem;
+  margin: 2rem 0;
+  max-width: 600px;
+}
+.prose :global(hr) {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2.5rem 0;
+}
+</style>

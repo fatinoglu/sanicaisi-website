@@ -1,0 +1,138 @@
+---
+/**
+ * ProductIllustration — paylaşılan SVG ürün çizimleri
+ * Faz 4'te gerçek görsele bağlanabilir; şimdilik mimari SVG'ler
+ */
+interface Props {
+  kind: 'radiator' | 'towel' | 'towel-aurora' | 'towel-classic' | 'boiler' | 'pipe' | 'pipe-section';
+  bg?: 'sand' | 'sand-deep' | 'terracotta-soft' | 'paper';
+  label?: string;
+}
+
+const { kind, bg = 'sand', label } = Astro.props;
+
+const bgColor = {
+  sand: '#EDE5D3',
+  'sand-deep': '#D9CFB8',
+  'terracotta-soft': '#FBE6D8',
+  paper: '#F7F4EE',
+}[bg];
+---
+
+<div class="prod-illu" aria-label={label}>
+  {kind === 'radiator' && (
+    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="240" height="180" fill={bgColor} />
+      <rect x="34" y="32" width="172" height="6" fill="#0A0A0A" />
+      <g fill="#0A0A0A">
+        {[44,56,68,80,92,104,116,128,140,152,164,176,188].map((x) => (
+          <rect x={x} y="38" width="3" height="100" />
+        ))}
+      </g>
+      <rect x="34" y="138" width="172" height="6" fill="#0A0A0A" />
+      <circle cx="200" cy="156" r="6" fill="#B8390C" />
+      <rect x="198" y="144" width="4" height="14" fill="#0A0A0A" />
+      <rect x="34" y="148" width="6" height="22" fill="#0A0A0A" />
+    </svg>
+  )}
+
+  {(kind === 'towel' || kind === 'towel-classic') && (
+    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="240" height="180" fill={bgColor} />
+      <rect x="80" y="22" width="4" height="138" fill="#0A0A0A" />
+      <rect x="156" y="22" width="4" height="138" fill="#0A0A0A" />
+      <g fill="#0A0A0A">
+        {[32,48,64,80,96,112,128,144].map((y) => (
+          <rect x="80" y={y} width="80" height="3" />
+        ))}
+      </g>
+      <rect x="62" y="48" width="20" height="3" fill="#6B6258" />
+      <rect x="62" y="132" width="20" height="3" fill="#6B6258" />
+      <circle cx="120" cy="170" r="4" fill="#B8390C" />
+    </svg>
+  )}
+
+  {kind === 'towel-aurora' && (
+    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id={`aurora-bg-${bg}`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FBE6D8" />
+          <stop offset="100%" stop-color="#D9521C" stop-opacity="0.3" />
+        </linearGradient>
+      </defs>
+      <rect width="240" height="180" fill={`url(#aurora-bg-${bg})`} />
+      <rect x="80" y="22" width="3" height="138" fill="#0A0A0A" />
+      <rect x="157" y="22" width="3" height="138" fill="#0A0A0A" />
+      <g fill="#0A0A0A">
+        {[32,46,60,74,88,102,116,130,144].map((y) => (
+          <rect x="83" y={y} width="74" height="2" />
+        ))}
+      </g>
+      <rect x="62" y="48" width="18" height="3" fill="#6B6258" />
+      <rect x="62" y="132" width="18" height="3" fill="#6B6258" />
+      <circle cx="120" cy="170" r="3" fill="#B8390C" />
+    </svg>
+  )}
+
+  {kind === 'boiler' && (
+    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="240" height="180" fill={bgColor} />
+      <line x1="20" y1="36" x2="220" y2="36" stroke="#E5E0D5" stroke-width="1" />
+      <line x1="20" y1="50" x2="220" y2="50" stroke="#E5E0D5" stroke-width="1" />
+      <rect x="76" y="38" width="92" height="116" rx="2" fill="#0A0A0A" />
+      <rect x="86" y="50" width="72" height="22" fill="#FAF8F4" />
+      <text x="94" y="65" font-family="IBM Plex Mono" font-size="9" font-weight="600" fill="#0A0A0A" letter-spacing="0.5">72°</text>
+      <circle cx="146" cy="61" r="2.5" fill="#B8390C" />
+      <circle cx="122" cy="102" r="14" fill="#B8390C" />
+      <circle cx="122" cy="102" r="6" fill="#FBE6D8" />
+      <rect x="92" y="128" width="20" height="3" fill="#6B6258" />
+      <rect x="118" y="128" width="20" height="3" fill="#6B6258" />
+      <rect x="144" y="128" width="14" height="3" fill="#6B6258" />
+      <rect x="98" y="154" width="3" height="12" fill="#0A0A0A" />
+      <rect x="118" y="154" width="3" height="12" fill="#0A0A0A" />
+      <rect x="138" y="154" width="3" height="12" fill="#0A0A0A" />
+    </svg>
+  )}
+
+  {kind === 'pipe' && (
+    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="240" height="180" fill={bgColor} />
+      <path d="M 20 50 L 80 50 Q 92 50 92 62 L 92 118 Q 92 130 104 130 L 148 130 Q 160 130 160 118 L 160 62 Q 160 50 172 50 L 220 50" stroke="#0A0A0A" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M 20 50 L 80 50 Q 92 50 92 62 L 92 118 Q 92 130 104 130 L 148 130 Q 160 130 160 118 L 160 62 Q 160 50 172 50 L 220 50" stroke="#6B6258" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="92" cy="62" r="4" fill="#B8390C" />
+      <circle cx="160" cy="118" r="4" fill="#B8390C" />
+      <rect x="16" y="44" width="6" height="12" fill="#B8390C" />
+      <rect x="218" y="44" width="6" height="12" fill="#B8390C" />
+    </svg>
+  )}
+
+  {kind === 'pipe-section' && (
+    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="240" height="180" fill={bgColor} />
+      <circle cx="120" cy="90" r="68" fill="#0A0A0A" />
+      <circle cx="120" cy="90" r="56" fill="#B8390C" />
+      <circle cx="120" cy="90" r="44" fill="#B8B8B5" />
+      <circle cx="120" cy="90" r="32" fill="#B8390C" />
+      <circle cx="120" cy="90" r="20" fill="#0A0A0A" />
+      <g font-family="IBM Plex Mono" font-size="8" fill="#0A0A0A" letter-spacing="0.5">
+        <text x="200" y="32" text-anchor="end">PEX-c</text>
+        <line x1="160" y1="60" x2="188" y2="32" stroke="#0A0A0A" stroke-width="0.5" />
+        <text x="200" y="160" text-anchor="end">AL bariyer</text>
+        <line x1="160" y1="120" x2="188" y2="156" stroke="#0A0A0A" stroke-width="0.5" />
+      </g>
+    </svg>
+  )}
+</div>
+
+<style>
+.prod-illu {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.prod-illu svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+</style>

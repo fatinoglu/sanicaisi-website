@@ -1,0 +1,202 @@
+---
+/**
+ * ProductDetailHero — model detay sayfası header
+ * Breadcrumb + sol görsel + sağ başlık/açıklama/CTA
+ */
+import { getLocale, localizedUrl } from '../../lib/i18n';
+import ProductIllustration from './ProductIllustration.astro';
+
+interface Props {
+  categoryName: string;
+  categorySlug: string;
+  name: string;
+  series?: string;
+  tagline: string;
+  description?: string;
+  coverKind: 'radiator' | 'towel-aurora' | 'towel-classic' | 'boiler' | 'pipe-section';
+  coverBg: 'sand' | 'sand-deep' | 'terracotta-soft' | 'paper';
+  sectionMarkerNum: string;
+}
+
+const { categoryName, categorySlug, name, series, tagline, description, coverKind, coverBg, sectionMarkerNum } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  home: 'Anasayfa',
+  products: 'Ürünler',
+  bayiCta: 'Bayi Bul',
+  catalogCta: 'Teknik Katalog',
+} : {
+  home: 'Homepage',
+  products: 'Products',
+  bayiCta: 'Find Dealer',
+  catalogCta: 'Technical Catalog',
+};
+
+const homeHref = locale === 'tr' ? '/' : '/en/';
+const productsHref = localizedUrl(locale, locale === 'tr' ? '/urunler' : '/products');
+const categoryHref = localizedUrl(locale, `/${locale === 'tr' ? 'urunler' : 'products'}/${categorySlug}`);
+const bayiHref = locale === 'tr' ? '/bayi-bul' : '/en/find-dealer';
+---
+
+<section class="prod-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href={homeHref}>{t.home}</a>
+      <span class="sep">/</span>
+      <a href={productsHref}>{t.products}</a>
+      <span class="sep">/</span>
+      <a href={categoryHref}>{categoryName}</a>
+      <span class="sep">/</span>
+      <span class="current">{name}</span>
+    </div>
+
+    <div class="prod-hero-grid">
+      <div class="prod-hero-visual">
+        <ProductIllustration kind={coverKind} bg={coverBg} label={name} />
+      </div>
+
+      <div class="prod-hero-text">
+        <div class="section-marker">
+          <span class="num">{sectionMarkerNum}</span><span class="dash">—</span><span class="label">{categoryName}</span>
+        </div>
+
+        {series && <span class="series">{series}</span>}
+        <h1>{name}</h1>
+        <p class="tagline">{tagline}</p>
+        {description && <p class="description">{description}</p>}
+
+        <div class="ctas">
+          <a href="#downloads" class="btn btn-primary">{t.catalogCta} <span class="arrow" aria-hidden="true">→</span></a>
+          <a href={bayiHref} class="btn btn-ghost">{t.bayiCta} <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.prod-hero {
+  background: var(--paper);
+  padding-top: clamp(2rem, 4vw, 3rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+.breadcrumb a:hover { color: var(--terracotta); }
+.breadcrumb .sep { color: var(--line); }
+.breadcrumb .current { color: var(--ink); font-weight: 500; }
+
+.prod-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.prod-hero-visual {
+  background: var(--sand);
+  padding: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prod-hero-visual :global(.prod-illu) {
+  max-width: 480px;
+  aspect-ratio: 4/3;
+}
+
+.prod-hero-text { padding-block: 1rem; }
+.prod-hero-text .section-marker { margin-bottom: 1.25rem; }
+.prod-hero-text .series {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 600;
+  margin-bottom: 0.625rem;
+}
+.prod-hero-text h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 420;
+  font-size: clamp(2.5rem, 5.4vw, 4.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+.prod-hero-text .tagline {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  line-height: 1.45;
+  color: var(--terracotta);
+  margin-bottom: 1.5rem;
+  max-width: 480px;
+}
+.prod-hero-text .description {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 2rem;
+  max-width: 480px;
+}
+
+.ctas {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border: 1px solid;
+  border-radius: 2px;
+  transition: all var(--t-med) var(--ease);
+}
+.btn-primary {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: var(--paper);
+}
+.btn-primary:hover {
+  background: var(--terracotta-deep);
+  transform: translateY(-2px);
+}
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+.btn-ghost:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+.btn .arrow { transition: transform var(--t-med) var(--ease-out); }
+.btn:hover .arrow { transform: translateX(3px); }
+
+@media (max-width: 980px) {
+  .prod-hero-grid { grid-template-columns: 1fr; }
+}
+</style>

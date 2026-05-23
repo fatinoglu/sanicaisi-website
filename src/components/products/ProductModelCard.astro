@@ -1,0 +1,125 @@
+---
+/**
+ * ProductModelCard — kategori sayfasında her model için liste kartı
+ */
+import ProductIllustration from './ProductIllustration.astro';
+import { getLocale, localizedUrl } from '../../lib/i18n';
+
+interface Props {
+  slug: string;
+  name: string;
+  series?: string;
+  tagline: string;
+  categorySlug: string;
+  coverKind: 'radiator' | 'towel-aurora' | 'towel-classic' | 'boiler' | 'pipe-section';
+  coverBg: 'sand' | 'sand-deep' | 'terracotta-soft' | 'paper';
+  featured?: boolean;
+}
+
+const { slug, name, series, tagline, categorySlug, coverKind, coverBg, featured = false } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+
+const base = locale === 'tr' ? 'urunler' : 'products';
+const href = localizedUrl(locale, `/${base}/${categorySlug}/${slug}`);
+
+const t = locale === 'tr' ? { explore: 'Keşfet', featuredLbl: 'Öne Çıkan' } : { explore: 'Explore', featuredLbl: 'Featured' };
+---
+
+<a href={href} class:list={['model-card', { featured }]}>
+  {featured && <span class="badge">● {t.featuredLbl}</span>}
+
+  <div class="model-illu">
+    <ProductIllustration kind={coverKind} bg={coverBg} label={name} />
+  </div>
+
+  <div class="model-body">
+    {series && <span class="series">{series}</span>}
+    <h3>{name}</h3>
+    <p>{tagline}</p>
+    <span class="cta">{t.explore} <span class="arrow" aria-hidden="true">→</span></span>
+  </div>
+</a>
+
+<style>
+.model-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all var(--t-med) var(--ease);
+  overflow: hidden;
+}
+.model-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px -14px rgba(10,10,10,0.18);
+}
+.model-card.featured { border-color: var(--terracotta); }
+
+.badge {
+  position: absolute;
+  top: 0.875rem;
+  left: 0.875rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--terracotta);
+  background: var(--paper);
+  padding: 0.3125rem 0.5625rem;
+  border: 1px solid var(--terracotta);
+  z-index: 2;
+}
+
+.model-illu { background: var(--sand); }
+.model-illu :global(.prod-illu) { aspect-ratio: 4/3; }
+
+.model-body {
+  padding: 1.5rem 1.5rem 1.625rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.model-body .series {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.model-body h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 72, "SOFT" 55, "wght" 500;
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.model-body p {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+.model-body .cta {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+}
+.model-card:hover .cta { color: var(--terracotta); }
+.model-body .cta .arrow { transition: transform var(--t-med) var(--ease-out); }
+.model-card:hover .cta .arrow { transform: translateX(4px); }
+</style>

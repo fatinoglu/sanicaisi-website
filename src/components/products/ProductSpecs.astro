@@ -1,0 +1,141 @@
+---
+/**
+ * ProductSpecs — teknik özellikler tablosu (group destekli)
+ */
+import { getLocale } from '../../lib/i18n';
+
+interface Spec {
+  label: string;
+  value: string;
+  unit?: string;
+  group?: string;
+}
+
+interface Props {
+  specs: Spec[];
+  number?: string;
+}
+
+const { specs, number = '02' } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Teknik Özellikler',
+  h2a: 'Mühendislik',
+  h2em: 'detayları',
+  h2post: '.',
+} : {
+  marker: 'Technical Specs',
+  h2a: 'Engineering',
+  h2em: 'details',
+  h2post: '.',
+};
+
+// Group by frontmatter `group`
+const groups = specs.reduce((acc, s) => {
+  const g = s.group ?? '_';
+  if (!acc[g]) acc[g] = [];
+  acc[g].push(s);
+  return acc;
+}, {} as Record<string, Spec[]>);
+
+const groupNames = Object.keys(groups);
+---
+
+<section class="specs" id="specs">
+  <div class="container">
+
+    <div class="sec-head">
+      <div class="section-marker" style="margin-bottom: 1rem;">
+        <span class="num">{number}</span><span class="dash">—</span><span class="label">{t.marker}</span>
+      </div>
+      <h2>{t.h2a} <em>{t.h2em}</em>{t.h2post}</h2>
+    </div>
+
+    <div class="specs-grid">
+      {groupNames.map((gname) => (
+        <div class="spec-group">
+          {gname !== '_' && <h3 class="group-name">{gname}</h3>}
+          <div class="spec-rows">
+            {groups[gname].map((s) => (
+              <div class="spec-row">
+                <span class="lbl">{s.label}</span>
+                <span class="val">{s.value}{s.unit && <span class="unit"> {s.unit}</span>}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+.specs {
+  background: var(--paper);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.sec-head { margin-bottom: 2.5rem; }
+.sec-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+}
+.sec-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem 3rem;
+}
+
+.spec-group { display: flex; flex-direction: column; }
+.group-name {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  padding-bottom: 0.875rem;
+  margin-bottom: 0.875rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.spec-rows { display: flex; flex-direction: column; }
+.spec-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px dotted var(--line);
+  align-items: baseline;
+}
+.spec-row:last-child { border-bottom: none; }
+.spec-row .lbl {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.spec-row .val {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  text-align: right;
+}
+.spec-row .val .unit {
+  color: var(--muted);
+  font-weight: 400;
+}
+</style>

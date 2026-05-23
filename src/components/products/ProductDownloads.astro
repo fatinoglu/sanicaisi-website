@@ -1,0 +1,253 @@
+---
+/**
+ * ProductDownloads — PDF, BIM, datasheet, manuel indirme kartları
+ */
+import { getLocale, formatBytes } from '../../lib/i18n';
+
+interface Download {
+  label: string;
+  kind: 'catalog' | 'datasheet' | 'bim' | 'manual' | 'warranty' | 'other';
+  url: string;
+  sizeBytes?: number;
+}
+
+interface Props {
+  downloads: Download[];
+  certifications?: string[];
+  number?: string;
+}
+
+const { downloads, certifications = [], number = '04' } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Dokümanlar & Sertifikalar',
+  h2a: 'Mühendisliğinize',
+  h2em: 'destek',
+  h2post: '.',
+  kindLabel: {
+    catalog: 'Katalog', datasheet: 'Datasheet', bim: 'BIM Dosyası',
+    manual: 'Kullanım Kılavuzu', warranty: 'Garanti', other: 'Doküman',
+  },
+  certs: 'Sertifikalar',
+  download: 'İndir',
+} : {
+  marker: 'Documents & Certifications',
+  h2a: 'Support for',
+  h2em: 'your engineering',
+  h2post: '.',
+  kindLabel: {
+    catalog: 'Catalog', datasheet: 'Datasheet', bim: 'BIM File',
+    manual: 'User Manual', warranty: 'Warranty', other: 'Document',
+  },
+  certs: 'Certifications',
+  download: 'Download',
+};
+
+const kindIcon = {
+  catalog: 'book', datasheet: 'sheet', bim: 'cube',
+  manual: 'sheet', warranty: 'shield', other: 'sheet',
+};
+---
+
+<section class="downloads" id="downloads">
+  <div class="container">
+
+    <div class="sec-head">
+      <div class="section-marker" style="margin-bottom: 1rem;">
+        <span class="num">{number}</span><span class="dash">—</span><span class="label">{t.marker}</span>
+      </div>
+      <h2>{t.h2a} <em>{t.h2em}</em>{t.h2post}</h2>
+    </div>
+
+    <div class="dl-layout">
+
+      <div class="dl-list">
+        {downloads.map((d) => (
+          <a href={d.url} class="dl-card" download>
+            <div class="dl-icon" aria-hidden="true">
+              {kindIcon[d.kind] === 'book' && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
+              )}
+              {kindIcon[d.kind] === 'sheet' && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="9" y1="13" x2="15" y2="13" /><line x1="9" y1="17" x2="15" y2="17" /></svg>
+              )}
+              {kindIcon[d.kind] === 'cube' && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z" /><polyline points="2 7 12 12 22 7" /><line x1="12" y1="22" x2="12" y2="12" /></svg>
+              )}
+              {kindIcon[d.kind] === 'shield' && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+              )}
+            </div>
+            <div class="dl-meta">
+              <span class="dl-kind">{t.kindLabel[d.kind]}</span>
+              <span class="dl-name">{d.label}</span>
+              {d.sizeBytes && <span class="dl-size">{formatBytes(d.sizeBytes, locale)}</span>}
+            </div>
+            <span class="dl-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+              {t.download}
+            </span>
+          </a>
+        ))}
+      </div>
+
+      {certifications.length > 0 && (
+        <aside class="cert-aside">
+          <span class="cert-title">{t.certs}</span>
+          <ul class="cert-list">
+            {certifications.map((c) => (
+              <li><span class="dot" aria-hidden="true"></span>{c}</li>
+            ))}
+          </ul>
+        </aside>
+      )}
+
+    </div>
+  </div>
+</section>
+
+<style>
+.downloads {
+  background: var(--paper);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  border-top: 1px solid var(--line);
+}
+.sec-head { margin-bottom: 2.5rem; }
+.sec-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+}
+.sec-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+
+.dl-layout {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 2rem;
+}
+
+.dl-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.dl-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 1.25rem 1.5rem;
+  transition: all var(--t-fast) var(--ease);
+}
+.dl-card:hover {
+  background: var(--sand);
+  border-color: var(--ink);
+}
+
+.dl-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sand);
+  color: var(--ink);
+}
+.dl-card:hover .dl-icon {
+  background: var(--terracotta);
+  color: var(--paper);
+}
+.dl-icon svg { width: 22px; height: 22px; }
+
+.dl-meta { display: flex; flex-direction: column; gap: 0.25rem; }
+.dl-kind {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+.dl-name {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 1rem;
+  color: var(--ink);
+}
+.dl-size {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-top: 0.125rem;
+}
+
+.dl-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.dl-action svg { width: 14px; height: 14px; }
+.dl-card:hover .dl-action { color: var(--terracotta); }
+
+.cert-aside {
+  background: var(--sand);
+  padding: 1.75rem;
+  align-self: start;
+}
+.cert-title {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  display: block;
+}
+.cert-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+.cert-list li {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.cert-list .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--terracotta);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+@media (max-width: 980px) {
+  .dl-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .dl-card { grid-template-columns: auto 1fr; }
+  .dl-action { grid-column: 1 / -1; justify-content: flex-end; }
+}
+</style>

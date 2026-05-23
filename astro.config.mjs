@@ -11,6 +11,7 @@ export default defineConfig({
   output: 'static',
 
   // İki dilli yapı: TR varsayılan (prefix yok), EN /en/ altında
+  // Fallback yok — eksik EN içerik düzgün 404 verir (Faz 6'da çevirilerle dolacak)
   i18n: {
     defaultLocale: 'tr',
     locales: ['tr', 'en'],
@@ -18,7 +19,6 @@ export default defineConfig({
       prefixDefaultLocale: false,
       redirectToDefaultLocale: false,
     },
-    fallback: { en: 'tr' },
   },
 
   // Sayfa geçişlerinde hız için link prefetch

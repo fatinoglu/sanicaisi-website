@@ -1,0 +1,129 @@
+---
+/**
+ * ProductSizes — varyant/boyut tablosu
+ */
+import { getLocale } from '../../lib/i18n';
+
+interface Size {
+  label: string;
+  sku?: string;
+  power?: string;
+}
+
+interface Props {
+  sizes: Size[];
+  number?: string;
+}
+
+const { sizes, number = '03' } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Modeller & Boyutlar',
+  h2a: 'Her proje için',
+  h2em: 'doğru varyant',
+  h2post: '.',
+  th: { name: 'Model / Boyut', sku: 'SKU', power: 'Güç / Detay' },
+} : {
+  marker: 'Models & Sizes',
+  h2a: 'The right variant',
+  h2em: 'for every project',
+  h2post: '.',
+  th: { name: 'Model / Size', sku: 'SKU', power: 'Power / Detail' },
+};
+---
+
+<section class="sizes" id="sizes">
+  <div class="container">
+
+    <div class="sec-head">
+      <div class="section-marker" style="margin-bottom: 1rem;">
+        <span class="num">{number}</span><span class="dash">—</span><span class="label">{t.marker}</span>
+      </div>
+      <h2>{t.h2a} <em>{t.h2em}</em>{t.h2post}</h2>
+    </div>
+
+    <div class="size-table">
+      <div class="row head">
+        <span>{t.th.name}</span>
+        <span class="mono">{t.th.sku}</span>
+        <span class="mono right">{t.th.power}</span>
+      </div>
+      {sizes.map((s) => (
+        <div class="row">
+          <span class="label">{s.label}</span>
+          <span class="mono sku">{s.sku ?? '—'}</span>
+          <span class="mono right">{s.power ?? '—'}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.sizes {
+  background: var(--paper-soft);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.sec-head { margin-bottom: 2rem; }
+.sec-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+}
+.sec-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+
+.size-table {
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+}
+.row:last-child { border-bottom: none; }
+.row.head {
+  background: var(--sand);
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+.row .label {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 500;
+  font-size: 1rem;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.row .mono {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.row .mono.sku { color: var(--muted); }
+.row .mono.right { text-align: right; }
+.row:hover:not(.head) { background: var(--sand); }
+
+@media (max-width: 640px) {
+  .row { grid-template-columns: 1fr; gap: 0.25rem; padding: 0.875rem 1rem; }
+  .row.head { display: none; }
+  .row .mono.right { text-align: left; color: var(--muted); }
+}
+</style>

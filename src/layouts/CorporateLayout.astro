@@ -1,0 +1,23 @@
+---
+/**
+ * CorporateLayout — kurumsal alt sayfalar için layout
+ * PageLayout + CorporateSubnav (sticky)
+ */
+import PageLayout from './PageLayout.astro';
+import CorporateSubnav from '../components/corporate/CorporateSubnav.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  currentSlug?: string;
+}
+
+const { title, description, ogImage, currentSlug } = Astro.props;
+---
+
+<PageLayout {title} {description} {ogImage}>
+  <slot name="hero" />
+  <CorporateSubnav {currentSlug} />
+  <slot />
+</PageLayout>

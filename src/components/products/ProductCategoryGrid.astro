@@ -1,0 +1,134 @@
+---
+/**
+ * ProductCategoryGrid — 4 ana kategori grid (urunler/ ana sayfasında)
+ * Mockup'taki ProductMosaic'in genişletilmiş hali
+ */
+import { getCollection } from 'astro:content';
+import { getLocale, localizedUrl, type Locale } from '../../lib/i18n';
+import ProductIllustration from './ProductIllustration.astro';
+
+const locale: Locale = getLocale(Astro.url.pathname);
+
+const all = await getCollection('product-categories', (c) => c.data.lang === locale);
+const cats = all.sort((a, b) => a.data.order - b.data.order);
+
+const t = locale === 'tr' ? {
+  cta: 'Ürün ailesini gör',
+  series: 'Seri',
+} : {
+  cta: 'See product family',
+  series: 'Series',
+};
+---
+
+<div class="cat-grid">
+  {cats.map((c, i) => (
+    <a href={localizedUrl(locale, `/${locale === 'tr' ? 'urunler' : 'products'}/${c.data.slug}`)} class="cat-card">
+      <div class="cat-num">0{i + 1}</div>
+      <div class="cat-illu">
+        <ProductIllustration
+          kind={c.data.coverKind === 'radiator' ? 'radiator'
+            : c.data.coverKind === 'towel' ? 'towel'
+            : c.data.coverKind === 'boiler' ? 'boiler'
+            : 'pipe'}
+          bg="sand"
+        />
+      </div>
+      <div class="cat-body">
+        <h3>{c.data.name}</h3>
+        <p>{c.data.tagline}</p>
+        <span class="cta">{t.cta} <span class="arrow" aria-hidden="true">→</span></span>
+      </div>
+    </a>
+  ))}
+</div>
+
+<style>
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.cat-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  position: relative;
+  transition: all var(--t-med) var(--ease);
+  overflow: hidden;
+}
+.cat-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -16px rgba(10,10,10,0.15);
+}
+
+.cat-num {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.cat-illu {
+  background: var(--sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.cat-body {
+  padding: 2rem 1.875rem 1.875rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.cat-body h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 55, "wght" 500;
+  font-size: clamp(1.5rem, 2.2vw, 1.875rem);
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin-bottom: 0.625rem;
+}
+.cat-body p {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  max-width: 280px;
+}
+.cat-body .cta {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cat-card:hover .cta { color: var(--terracotta); }
+.cat-body .cta .arrow { transition: transform var(--t-med) var(--ease-out); }
+.cat-card:hover .cta .arrow { transform: translateX(4px); }
+
+@media (max-width: 980px) {
+  .cat-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .cat-card { grid-template-columns: 1fr; }
+  .cat-illu { aspect-ratio: 16/9; }
+}
+</style>
