@@ -1,0 +1,43 @@
+# Cloudflare Pages — _redirects
+# Eski WP URL'lerinden yeni Astro route'lara 301 yönlendirme
+# Format: source  destination  status
+# Splat (*) ve placeholder (:splat) destekli
+#
+# Otomatik üretildi: scripts/migration/08-redirects.ts
+# Manuel düzenleme: bu dosya değil, scripti güncelleyin
+
+/hakkimizda                                                            /kurumsal/hakkimizda                                         301
+/hakkimizda/                                                           /kurumsal/hakkimizda                                         301
+/kvkk                                                                  /kurumsal/kvkk                                               301
+/kvkk/                                                                 /kurumsal/kvkk                                               301
+/iletisim                                                              /iletisim                                                    301
+/yatirimci-iliskileri                                                  /yatirimci-iliskileri                                        301
+/yatirimci-iliskileri/halka-arz                                        /yatirimci-iliskileri#halka-arz                              301
+/yatirimci-iliskileri/kurumsal-yonetim                                 /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/kamuyu-aydinlatma                                /yatirimci-iliskileri/#kap                                   301
+/yatirimci-iliskileri/raporlar                                         /yatirimci-iliskileri/#financial                             301
+/yatirimci-iliskileri/kurumsal-yonetim/ozel-durum-aciklamalari         /yatirimci-iliskileri/#kap                                   301
+/yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu                  /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/kurumsal-yonetim/ortaklik-yapisi                 /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu-komiteleri       /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu-komite-uyeleri   /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/kurumsal-yonetim/politikalar                     /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/kurumsal-yonetim/genel-kurullar                  /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/kurumsal-yonetim/genel-kurul-ic-yonergesi        /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/kurumsal-yonetim/yonetim-ic-yonergesi            /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/kurumsal-yonetim/bagimsiz-denetci                /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/kurumsal-yonetim/sermaye-artirimlari             /yatirimci-iliskileri/#capital                               301
+/yatirimci-iliskileri/raporlar/finansal-raporlar                       /yatirimci-iliskileri/#financial                             301
+/yatirimci-iliskileri/raporlar/faaliyet-raporlari                      /yatirimci-iliskileri/#annual                                301
+/yatirimci-iliskileri/raporlar/kurumsal-yonetim-ilkelerine-uyum-raporlari /yatirimci-iliskileri/#annual                                301
+/yatirimci-iliskileri/raporlar/surdurulebilirlik-raporu                /yatirimci-iliskileri/#annual                                301
+/yatirimci-iliskileri/raporlar/surdurulebilirlik-uyum-raporlari        /yatirimci-iliskileri/#annual                                301
+/yatirimci-iliskileri/raporlar/fon-kullanim-yeri-raporlari             /yatirimci-iliskileri/#annual                                301
+/yatirimci-iliskileri/raporlar/halka-arz-fiyati-degerlendirme-raporlari /yatirimci-iliskileri/#annual                                301
+/yatirimci-iliskileri/raporlar/katilim-finans-ilkeleri-formlari        /yatirimci-iliskileri/#annual                                301
+/bilgi-toplumu-hizmetleri                                              /kurumsal                                                    301
+/sikayet-formu-2                                                       /iletisim                                                    301
+/memnuniyet-formu                                                      /iletisim                                                    301
+/dealer-request-form                                                   /bayi-bul                                                    301
+/haberler                                                              /basinda-biz                                                 301
+/wp-content/uploads/*                                                  https://pub-ac09aed3790d4233a2c890d8b8d8fa16.r2.dev/:splat   301
