@@ -1,0 +1,53 @@
+---
+/**
+ * In the Press — article detail (EN)
+ * EN içerik yoksa TR dosyalarından dinamik üretim
+ */
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PressArticle from '../../../components/press/PressArticle.astro';
+
+export async function getStaticPaths() {
+  const en = await getCollection('press', (p) => p.data.lang === 'en');
+  const tr = await getCollection('press', (p) => p.data.lang === 'tr');
+  const all = en.length > 0 ? en : tr;
+  const sorted = all.sort((a, b) => +b.data.date - +a.data.date);
+  return sorted.map((item, i) => {
+    const prev = sorted[i + 1];
+    const next = sorted[i - 1];
+    return {
+      params: { slug: item.data.slug },
+      props: {
+        item,
+        prev: prev ? { slug: prev.data.slug, title: prev.data.title } : undefined,
+        next: next ? { slug: next.data.slug, title: next.data.title } : undefined,
+      },
+    };
+  });
+}
+
+const { item, prev, next } = Astro.props;
+const { Content } = await render(item);
+const d = item.data;
+---
+
+<PageLayout
+  title={`${d.title} — Sanica Isı`}
+  description={d.excerpt ?? d.title}
+  ogImage={d.heroImage}
+  activeAudience="home"
+>
+  <PressArticle
+    title={d.title}
+    date={d.date}
+    category={d.category}
+    excerpt={d.excerpt}
+    heroImage={d.heroImage}
+    heroImageAlt={d.heroImageAlt}
+    sourceUrl={d.sourceUrl}
+    {prev}
+    {next}
+  >
+    <Content />
+  </PressArticle>
+</PageLayout>

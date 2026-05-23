@@ -1,0 +1,422 @@
+---
+/**
+ * Kurumsal → Yönetim Kurulu (TR)
+ * 6 üye (4 icrai + 2 bağımsız) — SPK Kurumsal Yönetim İlkeleri kapsamında.
+ * Kaynak: https://www.sanicaisi.com.tr/yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu/
+ */
+import CorporateLayout from '../../../layouts/CorporateLayout.astro';
+import CorporatePageHero from '../../../components/corporate/CorporatePageHero.astro';
+
+interface BoardMember {
+  name: string;
+  title: string;
+  role: 'chairman' | 'vice' | 'executive' | 'independent';
+  birth: string;
+  education: string[];
+  bio: string;
+  scope?: string;
+}
+
+const members: BoardMember[] = [
+  {
+    name: 'Hüseyin Nesimi Fatinoğlu',
+    title: 'Yönetim Kurulu Başkanı',
+    role: 'chairman',
+    birth: '20 Nisan 1954 · Ankara',
+    education: ['Mimar Sinan Üniversitesi · Mimarlık'],
+    bio: 'İstanbul\'da oto yedek parça işletmesiyle başlayan iş hayatına keçe üretimi, ambalaj ve denizcilik alanlarında devam etti. 1987\'de kardeşi ile birlikte Pano Seramik\'i kurarak Sanica\'nın temellerini attı. Halen Yönetim Kurulu Başkanı olarak görev yapmaktadır. Evli ve iki çocuk babasıdır.',
+  },
+  {
+    name: 'Ali Fatinoğlu',
+    title: 'Yönetim Kurulu Başkan Vekili',
+    role: 'vice',
+    birth: '11 Eylül 1962 · İstanbul',
+    education: [
+      'Marmara Üniversitesi · İktisadi ve İdari Bilimler (İşletme)',
+      'İstanbul Üniversitesi · MBA',
+    ],
+    bio: 'Spor muhabirliği, bankacılık ve belediye yönetiminde görevler aldıktan sonra 1987\'de Pano Seramik\'in kurucu ortakları arasında yer aldı. Halen Yönetim Kurulu Başkan Vekilliği görevini sürdürmektedir. Evli ve iki çocuk babasıdır.',
+  },
+  {
+    name: 'Uğur Fatinoğlu',
+    title: 'Yönetim Kurulu Üyesi',
+    role: 'executive',
+    scope: 'Altyapı ve Tarım Boru Grup Başkanı · Genel Müdür (Satış & Pazarlama Organizasyonları)',
+    birth: '3 Ekim 1980 · İstanbul',
+    education: [
+      'Beykent Üniversitesi · Mimarlık',
+      'Beykent Üniversitesi · MBA',
+      'San Diego · Dil Eğitimi (1 yıl)',
+    ],
+    bio: 'Satış ve pazarlama organizasyonlarının genel müdürlüğünü yürütmektedir. Yönetim Kurulu Üyesi olarak grup şirketlerinin altyapı ve tarım boru operasyonlarından sorumludur. Evli ve iki çocuk babasıdır.',
+  },
+  {
+    name: 'Emre Fatinoğlu',
+    title: 'Yönetim Kurulu Üyesi',
+    role: 'executive',
+    scope: 'Kombi ve Radyatör Grup Başkanı · Genel Müdür (Üretim & Yönetim Organizasyonları)',
+    birth: '20 Mayıs 1987 · İstanbul',
+    education: ['Drexel University · Pazarlama (Philadelphia)'],
+    bio: 'Üretim ve yönetim organizasyonlarının genel müdürlüğünü yürütmektedir. Yönetim Kurulu Üyesi olarak kombi ve radyatör grubunun stratejik yönetiminden sorumludur.',
+  },
+  {
+    name: 'M. Kağan Turan',
+    title: 'Bağımsız Yönetim Kurulu Üyesi',
+    role: 'independent',
+    birth: '2 Ekim 1975 · Sivas',
+    education: ['Yıldız Teknik Üniversitesi · Makine Mühendisliği (2000)'],
+    bio: 'Isıtma sektöründe 20 yılı aşkın üst düzey yönetim deneyimine sahiptir. Vaillant Türkiye, Immergas Türkiye ve Warmhaus\'ta Genel Müdürlük görevlerinde bulunmuştur. SPK Kurumsal Yönetim İlkeleri kapsamında bağımsız üye olarak görev yapmaktadır.',
+  },
+  {
+    name: 'Tolgahan Üreş',
+    title: 'Bağımsız Yönetim Kurulu Üyesi',
+    role: 'independent',
+    birth: '25 Ağustos 1986 · İstanbul',
+    education: ['Bahçeşehir Üniversitesi · Uluslararası İlişkiler (2010)'],
+    bio: '2010\'dan bu yana finans ve muhasebe alanında uzmanlaşmıştır. Halen Uğur Mali Danışmanlık bünyesinde finansal danışmanlık hizmeti vermektedir. SPK Kurumsal Yönetim İlkeleri kapsamında bağımsız üye olarak görev yapmaktadır.',
+  },
+];
+
+const roleLabel: Record<BoardMember['role'], string> = {
+  chairman: 'Başkan',
+  vice: 'Başkan Vekili',
+  executive: 'İcracı Üye',
+  independent: 'Bağımsız Üye',
+};
+
+const stats = [
+  { val: '6', label: 'Üye' },
+  { val: '4', label: 'İcracı' },
+  { val: '2', label: 'Bağımsız' },
+];
+---
+
+<CorporateLayout
+  title="Yönetim Kurulu — Sanica Isı"
+  description="Sanica Isı Yönetim Kurulu üyeleri ve görev tanımları. 4 icracı + 2 bağımsız üye, SPK Kurumsal Yönetim İlkeleri'ne uygun yapı."
+  currentSlug="yonetim"
+>
+  <CorporatePageHero
+    slot="hero"
+    title="Yönetim Kurulu"
+    description="Sanica Isı'nın strateji, denetim ve risk yönetiminden sorumlu Yönetim Kurulu. Sermaye Piyasası Kurulu Kurumsal Yönetim İlkeleri uyarınca 4 icracı ve 2 bağımsız üyeden oluşan altı kişilik yapı."
+    sectionMarkerNum="03"
+  />
+
+  <section class="board-stats">
+    <div class="container">
+      <ul class="stats-row">
+        {stats.map((s) => (
+          <li>
+            <span class="val">{s.val}</span>
+            <span class="lbl">{s.label}</span>
+          </li>
+        ))}
+        <li class="meta">
+          <span class="meta-label">SPK Kurumsal Yönetim İlkeleri</span>
+          <span class="meta-sub">Bağımsızlık · Şeffaflık · Hesap Verebilirlik</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="board-grid-section">
+    <div class="container">
+      <div class="board-grid">
+        {members.map((m) => (
+          <article class:list={['member-card', `role-${m.role}`]}>
+            <header>
+              <span class="role-tag">{roleLabel[m.role]}</span>
+              <h2>{m.name}</h2>
+              <p class="title">{m.title}</p>
+              {m.scope && <p class="scope">{m.scope}</p>}
+            </header>
+
+            <dl class="meta-list">
+              <div>
+                <dt>Doğum</dt>
+                <dd>{m.birth}</dd>
+              </div>
+              <div>
+                <dt>Eğitim</dt>
+                <dd>
+                  <ul>
+                    {m.education.map((e) => <li>{e}</li>)}
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+
+            <p class="bio">{m.bio}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="governance-cta">
+    <div class="container">
+      <div class="cta-card">
+        <span class="lbl">● Kurumsal Yönetim</span>
+        <h2>Komiteler, esas sözleşme ve <em>politika belgeleri</em>.</h2>
+        <p>
+          Denetim Komitesi, Kurumsal Yönetim Komitesi, Riskin Erken Saptanması
+          Komitesi yapıları ile esas sözleşme, ücret politikası, kâr dağıtım
+          politikası gibi belgelere Yatırımcı İlişkileri bölümünden
+          ulaşabilirsiniz.
+        </p>
+        <div class="cta-actions">
+          <a href="/yatirimci-iliskileri/kurumsal-yonetim" class="btn-primary">
+            Kurumsal Yönetim Belgeleri
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="/yatirimci-iliskileri/kamuyu-aydinlatma" class="btn-ghost">
+            KAP Açıklamaları
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</CorporateLayout>
+
+<style>
+.board-stats {
+  background: var(--paper);
+  padding-block: clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--line);
+}
+.stats-row {
+  list-style: none;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(2rem, 5vw, 4rem);
+  flex-wrap: wrap;
+}
+.stats-row li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.stats-row .val {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.stats-row .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.stats-row .meta {
+  margin-left: auto;
+  align-self: center;
+  text-align: right;
+}
+.stats-row .meta-label {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 600;
+}
+.stats-row .meta-sub {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.board-grid-section {
+  background: var(--paper);
+  padding-block: clamp(3rem, 5vw, 5rem);
+}
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.member-card {
+  background: var(--sand);
+  padding: clamp(1.75rem, 2.5vw, 2.25rem);
+  border-top: 3px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.member-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -16px rgba(0,0,0,0.18);
+}
+.member-card.role-chairman { border-top-color: var(--terracotta); }
+.member-card.role-vice { border-top-color: var(--bist-navy, var(--ink)); }
+.member-card.role-independent { border-top-color: var(--success, #2f6f4f); }
+
+.role-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.3125rem 0.5rem;
+  margin-bottom: 0.875rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+.role-chairman .role-tag { background: var(--terracotta-soft, var(--sand-deep)); color: var(--terracotta); border-color: transparent; }
+.role-vice .role-tag { background: var(--bist-navy-soft, var(--sand-deep)); color: var(--bist-navy, var(--ink)); border-color: transparent; }
+.role-independent .role-tag { background: var(--success-soft, var(--sand-deep)); color: var(--success, #2f6f4f); border-color: transparent; }
+
+.member-card h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 60, "wght" 500;
+  font-size: clamp(1.375rem, 2vw, 1.625rem);
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin-bottom: 0.375rem;
+}
+.member-card .title {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--terracotta);
+  font-weight: 500;
+}
+.member-card .scope {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-top: 0.375rem;
+  line-height: 1.4;
+}
+
+.meta-list {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0.5rem 1rem;
+  padding-block: 1rem;
+  border-top: 1px solid var(--sand-deep, rgba(0,0,0,0.08));
+  border-bottom: 1px solid var(--sand-deep, rgba(0,0,0,0.08));
+}
+.meta-list > div { display: contents; }
+.meta-list dt {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  align-self: start;
+  padding-top: 0.125rem;
+}
+.meta-list dd {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.meta-list dd ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.meta-list dd ul li::before {
+  content: '·';
+  color: var(--terracotta);
+  margin-right: 0.4rem;
+}
+
+.bio {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+/* Governance CTA */
+.governance-cta { background: var(--ink); color: var(--paper); padding: var(--section-y) 0; position: relative; overflow: hidden; }
+.governance-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 85% 30%, rgba(184,57,12,0.18) 0%, transparent 55%);
+  pointer-events: none;
+}
+.cta-card { position: relative; max-width: 760px; }
+.cta-card .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--terracotta-warm, var(--terracotta));
+  display: block;
+  margin-bottom: 1rem;
+}
+.cta-card h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  margin-bottom: 1.25rem;
+}
+.cta-card h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta-warm, var(--terracotta));
+}
+.cta-card > p {
+  color: rgba(247, 244, 238, 0.78);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+  max-width: 640px;
+}
+.cta-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.625rem;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink); background: var(--paper);
+  padding: 0.9375rem 1.5rem;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.btn-primary:hover { background: var(--terracotta-warm, var(--terracotta)); color: var(--paper); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--paper);
+  border: 1px solid rgba(247, 244, 238, 0.25);
+  padding: 0.875rem 1.25rem;
+  transition: all var(--t-fast) var(--ease);
+}
+.btn-ghost:hover { background: rgba(247, 244, 238, 0.08); border-color: var(--paper); }
+
+@media (max-width: 880px) {
+  .board-grid { grid-template-columns: 1fr; }
+  .stats-row .meta { margin-left: 0; text-align: left; width: 100%; }
+}
+@media (max-width: 640px) {
+  .meta-list { grid-template-columns: 64px 1fr; }
+  .cta-actions { flex-direction: column; }
+  .cta-actions a { justify-content: center; }
+}
+</style>
+</CorporateLayout>

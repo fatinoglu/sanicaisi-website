@@ -1,0 +1,50 @@
+---
+/**
+ * Şikayet Formu (TR)
+ * Müşteri şikayet, memnuniyetsizlik ve geri bildirim kaydı.
+ */
+import PageLayout from '../../layouts/PageLayout.astro';
+import FormPageShell from '../../components/forms/FormPageShell.astro';
+import ContactForm from '../../components/forms/ContactForm.astro';
+import type { FormField } from '../../components/forms/ContactForm.astro';
+
+const fields: FormField[] = [
+  { name: 'name', label: 'Adınız Soyadınız', type: 'text', required: true, placeholder: 'Adınız Soyadınız', autocomplete: 'name' },
+  { name: 'email', label: 'E-Posta', type: 'email', required: true, placeholder: 'ornek@sirket.com', autocomplete: 'email' },
+  { name: 'phone', label: 'Cep Telefonu', type: 'tel', placeholder: '+90 ___ ___ __ __', autocomplete: 'tel' },
+  { name: 'orderRef', label: 'Fatura / Servis No', type: 'text', placeholder: 'Varsa fatura, servis fişi veya referans numarası' },
+  {
+    name: 'subject',
+    label: 'Şikayet Konusu',
+    type: 'select',
+    required: true,
+    placeholder: 'Şikayet konusunu seçin',
+    options: ['Ürün Kalitesi', 'Servis Hizmeti', 'Yetkili Bayi', 'Teslimat / Lojistik', 'Garanti & İade', 'Diğer'],
+  },
+  { name: 'message', label: 'Şikayet Detayı', type: 'textarea', required: true, placeholder: 'Şikayetinizi tarih, yer ve olay sırasıyla ayrıntılı şekilde aktarın. Mümkünse fatura/servis bilgisi ekleyin.' },
+];
+---
+
+<PageLayout
+  title="Şikayet Formu · Sanica Isı"
+  description="Sanica Isı müşteri şikayet ve geri bildirim formu. Memnuniyetsizliğinizi, önerinizi veya geri bildiriminizi bize iletin."
+>
+  <FormPageShell
+    marker="Müşteri Memnuniyeti"
+    markerNum="03"
+    title="Şikayet & Geri Bildirim Formu"
+    lead="Yaşadığınız memnuniyetsizliği, öneri veya geri bildirimi bize iletin. Tüm şikayetler kayıt altına alınır, ilgili birim 5 iş günü içinde sizinle iletişime geçer."
+    sideTitle="Müşteri ilişkileri"
+    sideHint="Şikayetiniz kayıt altına alındıktan sonra size bir takip numarası iletilir. Süreç boyunca müşteri ilişkileri ekibimiz çözüm için sizinle iletişim halinde olacaktır."
+    sidePhoneLabel="Müşteri Hattı"
+  >
+    <div slot="form">
+      <ContactForm
+        formId="sikayet-form"
+        subjectPrefix="[Şikayet & Geri Bildirim]"
+        fields={fields}
+        submitLabel="Şikayeti Gönder"
+      />
+    </div>
+  </FormPageShell>
+</PageLayout>

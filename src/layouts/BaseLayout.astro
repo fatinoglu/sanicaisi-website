@@ -62,13 +62,24 @@ const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).toString() : new URL('
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-  <!-- Google Fonts: Fraunces (variable), Inter, IBM Plex Mono -->
+  <!-- Google Fonts: Onest (display/headings, variable wght 100-900),
+                      Inter (body), IBM Plex Mono (mono).
+       DENEME: tırnaklı Fraunces yerine geometrik/modern sans olarak Onest. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,30..100;1,9..144,300..900,30..100&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
+
+  <!-- Google Analytics 4 (gtag.js — G-HGH52XMDSQ) -->
+  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HGH52XMDSQ"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HGH52XMDSQ');
+  </script>
 
   <!-- JSON-LD: Organization (her sayfa) -->
   <script type="application/ld+json" set:html={JSON.stringify({
@@ -81,11 +92,21 @@ const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).toString() : new URL('
     foundingDate: '1985',
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Kocaeli',
+      streetAddress: 'Kavaklı Mah. İstanbul Cad. No:10',
+      postalCode: '34520',
+      addressLocality: 'Beylikdüzü',
+      addressRegion: 'İstanbul',
       addressCountry: 'TR',
     },
+    telephone: '+90-212-855-8080',
+    email: 'info@sanicaisi.com.tr',
     sameAs: [
       'https://www.kap.org.tr/tr/sirket-bilgileri/ozet/2455-sanica-isi-sanayi-a-s',
+      'https://www.linkedin.com/company/sanica-isi-sanayi-a.s.',
+      'https://www.facebook.com/sanicaofficial/',
+      'https://www.instagram.com/sanicaisi/',
+      'https://x.com/sanicaofficial',
+      'https://www.youtube.com/user/Sanicaofficial',
     ],
     tickerSymbol: 'SNICA',
   })} />

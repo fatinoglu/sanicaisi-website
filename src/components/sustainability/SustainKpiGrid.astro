@@ -1,0 +1,200 @@
+---
+/**
+ * SustainKpiGrid — 2024 yıl sonu kapanış verileri tablosu
+ * 8 büyük KPI, yıldan yıla değişim ve hedef rozetiyle
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Performans · 2024',
+  h2a: 'Ölçemediğimizi',
+  h2em: 'iyileştirmeyiz',
+  h2b: '.',
+  intro: '2024 yıl sonu kapanış değerleri. Tüm sera gazı verileri Scope 1 + 2\'yi kapsar; bağımsız güvence raporu PwC Türkiye tarafından düzenlenmiştir.',
+  cols: ['Gösterge', '2024', '2023', 'Δ', 'Birim'],
+  rows: [
+    { k: 'Sera gazı yoğunluğu (Scope 1+2)', v24: '0,42', v23: '0,49', d: '−14,3%', u: 'tCO₂e / ton ürün', good: true },
+    { k: 'Toplam enerji tüketimi', v24: '186', v23: '194', d: '−4,1%', u: 'GWh', good: true },
+    { k: 'Yenilenebilir elektrik payı', v24: '%100', v23: '%87', d: '+13 puan', u: 'elektrik tüketimi', good: true },
+    { k: 'Su çekimi', v24: '128.400', v23: '141.200', d: '−9,1%', u: 'm³', good: true },
+    { k: 'Geri kazanılan atık', v24: '%89', v23: '%82', d: '+7 puan', u: 'toplam atık', good: true },
+    { k: 'LTIFR (kayıp gün/200K saat)', v24: '1,38', v23: '1,62', d: '−14,8%', u: '×', good: true },
+    { k: 'Kadın istihdam oranı', v24: '%34', v23: '%31', d: '+3 puan', u: 'toplam çalışan', good: true },
+    { k: 'Tedarikçi ESG denetimi', v24: '126', v23: '108', d: '+16,7%', u: 'denetim/yıl', good: true },
+  ],
+  legend: 'Kaynak · Sanica Isı 2024 TSRS Uyumlu Sürdürülebilirlik Raporu',
+} : {
+  marker: 'Performance · 2024',
+  h2a: 'What we don\'t measure,',
+  h2em: 'we don\'t improve',
+  h2b: '.',
+  intro: 'Year-end 2024 closing values. All greenhouse gas data cover Scope 1 + 2; independent assurance issued by PwC Türkiye.',
+  cols: ['Indicator', '2024', '2023', 'Δ', 'Unit'],
+  rows: [
+    { k: 'GHG intensity (Scope 1+2)', v24: '0.42', v23: '0.49', d: '−14.3%', u: 'tCO₂e / t product', good: true },
+    { k: 'Total energy consumption', v24: '186', v23: '194', d: '−4.1%', u: 'GWh', good: true },
+    { k: 'Renewable electricity share', v24: '100%', v23: '87%', d: '+13 pp', u: 'of electricity use', good: true },
+    { k: 'Water withdrawal', v24: '128,400', v23: '141,200', d: '−9.1%', u: 'm³', good: true },
+    { k: 'Waste recovered', v24: '89%', v23: '82%', d: '+7 pp', u: 'of total waste', good: true },
+    { k: 'LTIFR (lost-day / 200K hrs)', v24: '1.38', v23: '1.62', d: '−14.8%', u: '×', good: true },
+    { k: 'Female workforce ratio', v24: '34%', v23: '31%', d: '+3 pp', u: 'of total employees', good: true },
+    { k: 'Supplier ESG audits', v24: '126', v23: '108', d: '+16.7%', u: 'audits / year', good: true },
+  ],
+  legend: 'Source · Sanica Isı 2024 TSRS-Aligned Sustainability Report',
+};
+---
+
+<section class="kpi-grid">
+  <div class="container">
+    <div class="kpi-head">
+      <div>
+        <div class="section-marker">
+          <span class="num">03</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h2>{t.h2a} <em>{t.h2em}</em>{t.h2b}</h2>
+      </div>
+      <p class="intro">{t.intro}</p>
+    </div>
+
+    <div class="table-wrap" role="region" aria-label={locale === 'tr' ? 'KPI tablosu' : 'KPI table'} tabindex="0">
+      <table>
+        <thead>
+          <tr>
+            {t.cols.map((c, i) => <th class:list={[{ 'num-col': i > 0 && i < 4 }]}>{c}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {t.rows.map((r) => (
+            <tr>
+              <th scope="row">{r.k}</th>
+              <td class="num-col"><strong>{r.v24}</strong></td>
+              <td class="num-col num-old">{r.v23}</td>
+              <td class:list={['num-col', 'delta', { good: r.good }]}>{r.d}</td>
+              <td class="u">{r.u}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="legend">{t.legend}</p>
+  </div>
+</section>
+
+<style>
+.kpi-grid { background: var(--paper-soft); padding: var(--section-y) 0; }
+
+.kpi-head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 2.5rem;
+}
+.kpi-head .section-marker .num { color: var(--success); }
+.kpi-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.6vw, 2.875rem);
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-top: 1rem;
+  max-width: 560px;
+}
+.kpi-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--success);
+}
+.kpi-head .intro {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 460px;
+}
+
+.table-wrap {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+thead th {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: left;
+  padding: 1.125rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-soft);
+}
+thead th.num-col { text-align: right; }
+tbody th {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--ink);
+  text-align: left;
+  padding: 1.125rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+tbody td {
+  font-size: 0.9375rem;
+  color: var(--text);
+  padding: 1.125rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+tbody tr:last-child th,
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: rgba(77, 124, 95, 0.04); }
+
+.num-col {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.9375rem;
+}
+.num-col strong {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 1.0625rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+.num-old { color: var(--muted); }
+.delta { font-weight: 600; }
+.delta.good { color: var(--success); }
+.u {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.legend {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 1rem;
+}
+
+@media (max-width: 980px) {
+  .kpi-head { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+@media (max-width: 720px) {
+  thead th, tbody th, tbody td { padding: 0.875rem 0.875rem; font-size: 0.8125rem; }
+  .num-col, .num-col strong { font-size: 0.8125rem; }
+}
+</style>

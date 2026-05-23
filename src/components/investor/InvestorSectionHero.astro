@@ -1,0 +1,96 @@
+---
+/**
+ * InvestorSectionHero — IR alt sayfa açılışı (breadcrumb + büyük başlık + özet)
+ * Yatırımcı Layout'una `hero` slot olarak takılır.
+ */
+import { getLocale } from '../../lib/i18n';
+
+interface Props {
+  title: string;
+  description: string;
+  sectionMarkerNum?: string;
+}
+const { title, description, sectionMarkerNum = '01' } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  home: 'Anasayfa',
+  ir: 'Yatırımcı İlişkileri',
+  marker: 'Yatırımcı İlişkileri · Investor Relations',
+} : {
+  home: 'Homepage',
+  ir: 'Investor Relations',
+  marker: 'Investor Relations · Yatırımcı İlişkileri',
+};
+
+const homeHref = locale === 'tr' ? '/' : '/en/';
+const irHref = locale === 'tr' ? '/yatirimci-iliskileri' : '/en/investor-relations';
+---
+
+<section class="ir-page-hero" slot="hero">
+  <div class="container">
+    <nav class="breadcrumb" aria-label={locale === 'tr' ? 'Konum' : 'Breadcrumb'}>
+      <a href={homeHref}>{t.home}</a>
+      <span class="sep">/</span>
+      <a href={irHref}>{t.ir}</a>
+      <span class="sep">/</span>
+      <span class="current">{title}</span>
+    </nav>
+
+    <div class="hero-content">
+      <div class="section-marker">
+        <span class="num">{sectionMarkerNum}</span><span class="dash">—</span><span class="label">{t.marker}</span>
+      </div>
+      <h1>{title}</h1>
+      <p class="lead">{description}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+.ir-page-hero {
+  background: var(--paper);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+.breadcrumb a:hover { color: var(--terracotta); }
+.breadcrumb .sep { color: var(--line); }
+.breadcrumb .current { color: var(--ink); font-weight: 500; }
+
+.hero-content { max-width: 880px; }
+.section-marker { margin-bottom: 1.25rem; color: var(--bist-navy); }
+.section-marker .num { color: var(--bist-navy); }
+.section-marker .label { color: var(--ink); }
+
+.hero-content h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.lead {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--bist-navy);
+  max-width: 720px;
+}
+</style>

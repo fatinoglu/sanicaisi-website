@@ -4,8 +4,9 @@ slug: panel-radyator
 name: Panel Radyatör
 tagline: Türkiye'nin standart ısıtma elemanı.
 description: Her oda için sessizce çalışan, yüksek verimli klasik. Düşük su hacmi, hızlı ısınma, dayanıklı çelik gövde.
-order: 1
+order: 2
 coverKind: radiator
+parentGroup: Radyatör
 ---
 
 Sanica panel radyatörleri, 1985'ten beri Türk evlerinin standart ısıtma elemanıdır. TYP 11'den TYP 33'e kadar geniş ürün gamı, 300–900 mm yükseklik ve 400–3000 mm uzunluk seçenekleri ile her proje için doğru çözüm.

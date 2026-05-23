@@ -1,78 +1,55 @@
 ---
 /**
- * InvestorSubnav — sticky sub-navigation for IR sections
- * Header altında yapışır, scroll'a göre aktif bölüm otomatik vurgulanır
+ * InvestorSubnav — IR alt sayfalar arası sticky gezinti
+ * 4 ana sekme: Halka Arz, Kurumsal Yönetim, Raporlar, Kamuyu Aydınlatma
+ * + Hub için "Genel Bakış" girişi
  */
-import { getLocale } from '../../lib/i18n';
-const locale = getLocale(Astro.url.pathname);
+import { getLocale, localizedUrl, type Locale } from '../../lib/i18n';
+
+interface Props {
+  current?: 'overview' | 'halka-arz' | 'kurumsal-yonetim' | 'raporlar' | 'kamuyu-aydinlatma';
+}
+const { current = 'overview' } = Astro.props;
+const locale: Locale = getLocale(Astro.url.pathname);
+
+const base = locale === 'tr' ? '/yatirimci-iliskileri' : '/investor-relations';
 
 const t = locale === 'tr' ? {
   label: 'Bölümler',
   items: [
-    { href: '#performance', text: 'Hisse Performansı' },
-    { href: '#kap', text: 'KAP Açıklamaları' },
-    { href: '#financial', text: 'Finansal Raporlar' },
-    { href: '#annual', text: 'Faaliyet Raporları' },
-    { href: '#capital', text: 'Sermaye Yapısı' },
-    { href: '#contact', text: 'İletişim' },
+    { key: 'overview', text: 'Genel Bakış', href: '' },
+    { key: 'halka-arz', text: 'Halka Arz', href: '/halka-arz' },
+    { key: 'kurumsal-yonetim', text: 'Kurumsal Yönetim', href: '/kurumsal-yonetim' },
+    { key: 'raporlar', text: 'Raporlar', href: '/raporlar' },
+    { key: 'kamuyu-aydinlatma', text: 'Kamuyu Aydınlatma', href: '/kamuyu-aydinlatma' },
   ],
 } : {
   label: 'Sections',
   items: [
-    { href: '#performance', text: 'Stock Performance' },
-    { href: '#kap', text: 'PDP Disclosures' },
-    { href: '#financial', text: 'Financial Reports' },
-    { href: '#annual', text: 'Annual Reports' },
-    { href: '#capital', text: 'Capital Structure' },
-    { href: '#contact', text: 'Contact' },
+    { key: 'overview', text: 'Overview', href: '' },
+    { key: 'halka-arz', text: 'IPO', href: '/ipo' },
+    { key: 'kurumsal-yonetim', text: 'Corporate Governance', href: '/governance' },
+    { key: 'raporlar', text: 'Reports', href: '/reports' },
+    { key: 'kamuyu-aydinlatma', text: 'Public Disclosures', href: '/disclosures' },
   ],
-};
+} as const;
 ---
 
-<nav class="subnav" aria-label={locale === 'tr' ? 'Yatırımcı sayfa içi navigasyon' : 'Investor page navigation'}>
+<nav class="subnav" aria-label={locale === 'tr' ? 'Yatırımcı bölümleri' : 'Investor sections'}>
   <div class="container">
     <div class="subnav-inner">
       <span class="subnav-label">{t.label}</span>
-      {t.items.map((it, i) => (
-        <a href={it.href} class:list={[{ 'is-active': i === 0 }]}>{it.text}</a>
+      {t.items.map((it) => (
+        <a
+          href={localizedUrl(locale, `${base}${it.href}`)}
+          class:list={[{ 'is-active': it.key === current }]}
+        >
+          {it.text}
+        </a>
       ))}
     </div>
   </div>
 </nav>
-
-<script>
-  // Scrollspy — subnav linklerinin aktif state'ini scroll konumuna göre günceller
-  const subnavLinks = Array.from(document.querySelectorAll('.subnav a')) as HTMLAnchorElement[];
-  const sections = Array.from(document.querySelectorAll('section[id]')) as HTMLElement[];
-
-  function updateActive() {
-    const scrollY = window.scrollY + 240; // header + subnav offset
-    let activeId = sections[0]?.id;
-    for (const s of sections) {
-      if (s.offsetTop <= scrollY) activeId = s.id;
-    }
-    for (const a of subnavLinks) {
-      const href = a.getAttribute('href') ?? '';
-      a.classList.toggle('is-active', href === '#' + activeId);
-    }
-  }
-
-  window.addEventListener('scroll', updateActive, { passive: true });
-  updateActive();
-
-  // Smooth anchor scroll
-  for (const a of subnavLinks) {
-    a.addEventListener('click', (e) => {
-      const id = a.getAttribute('href');
-      if (!id || id.length < 2) return;
-      const el = document.querySelector(id);
-      if (el) {
-        e.preventDefault();
-        (el as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  }
-</script>
 
 <style>
 .subnav {

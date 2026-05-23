@@ -1,0 +1,427 @@
+---
+/**
+ * Bayi Portalı (TR) — B2B portal yönlendirme sayfası.
+ * Mevcut bayiler satis.sanica.com.tr'ye giriş yapar, yeni başvurular bayi-talep-formuna gider.
+ */
+import PageLayout from '../../layouts/PageLayout.astro';
+import { contact } from '../../lib/contact';
+
+const portalUrl = 'https://satis.sanica.com.tr/';
+
+const features = [
+  { title: 'Sipariş Takibi', text: 'Yeni sipariş açma, geçmiş siparişlerin durumu ve sevkiyat takibi tek panelden.' },
+  { title: 'Cari Hesap', text: 'Güncel cari bakiye, açık fatura ve ödeme geçmişi anlık erişim.' },
+  { title: 'Stok & Fiyat', text: 'Bayinize özel fiyat listesi, stok mevcudu ve kampanya bilgileri.' },
+  { title: 'Belge Arşivi', text: 'Fatura, irsaliye, sertifika ve teknik dokümanlar dijital arşivde.' },
+];
+---
+
+<PageLayout
+  title="Bayi Portalı · Sanica Isı"
+  description="Sanica Isı yetkili bayileri için B2B sipariş ve cari hesap portalı. satis.sanica.com.tr üzerinden giriş yapın veya bayi başvurusunda bulunun."
+>
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Anasayfa</a>
+        <span class="sep">/</span>
+        <span class="current">Bayi Portalı</span>
+      </div>
+      <div class="hero-content">
+        <div class="section-marker">
+          <span class="num">01</span><span class="dash">—</span><span class="label">B2B · Dealer Portal</span>
+        </div>
+        <h1>Bayi Portalı</h1>
+        <p class="lead">
+          Sanica Isı yetkili bayilerinin sipariş, cari hesap, stok ve fatura
+          işlemlerini yürüttüğü B2B portalı. Mevcut bayilerimiz aşağıdaki
+          bağlantıdan portala giriş yapabilir; bayi olmak isteyen firmalar
+          başvuru formuna yönlendirilir.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-grid">
+
+        <article class="cta-card cta-primary">
+          <span class="lbl">● Mevcut Bayiler</span>
+          <h2>Portala <em>giriş yap</em>.</h2>
+          <p>
+            Yetkili bayi giriş bilgilerinizle <strong>satis.sanica.com.tr</strong>
+            adresine bağlanın. Şifrenizi unuttuysanız bölge müdürünüz veya
+            müşteri hizmetlerimizle iletişime geçebilirsiniz.
+          </p>
+          <div class="cta-actions">
+            <a href={portalUrl} target="_blank" rel="noopener" class="btn-primary">
+              satis.sanica.com.tr
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a href={contact.phones.service.href} class="btn-ghost-dark">
+              <span class="btn-icon" aria-hidden="true">☎</span>
+              {contact.phones.service.display}
+            </a>
+          </div>
+        </article>
+
+        <article class="cta-card cta-secondary">
+          <span class="lbl">● Yeni Başvuru</span>
+          <h2>Sanica <em>bayisi olun</em>.</h2>
+          <p>
+            Yetkili bayi ağımıza katılmak için online başvuru formunu doldurun.
+            Bölge müdürlerimiz başvurunuzu değerlendirip 10 iş günü içinde
+            sizinle iletişime geçer.
+          </p>
+          <div class="cta-actions">
+            <a href="/bayi-talep-formu" class="btn-secondary">
+              Bayi Başvuru Formu
+              <span aria-hidden="true">→</span>
+            </a>
+            <a href="/iletisim" class="btn-link">
+              Önce iletişime geçeyim
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="features-section">
+    <div class="container">
+      <div class="features-head">
+        <div class="section-marker">
+          <span class="num">02</span><span class="dash">—</span><span class="label">Portal Olanakları</span>
+        </div>
+        <h2>Tek panelden <em>tüm bayilik operasyonu</em>.</h2>
+      </div>
+      <div class="features-grid">
+        {features.map((f) => (
+          <article class="feature-card">
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="support-section">
+    <div class="container">
+      <div class="support-card">
+        <span class="lbl">● Destek</span>
+        <h2>Portal kullanımı için <em>yardım</em>.</h2>
+        <p>
+          Giriş, şifre sıfırlama, sipariş veya cari bakiye konularında soru ve
+          taleplerinizi müşteri hizmetlerimize iletebilirsiniz. Hafta içi
+          08:30–18:30 arası ulaşılabiliriz.
+        </p>
+        <ul class="support-list">
+          <li><span class="tag">Müşteri Hattı</span><a href={contact.phones.service.href}>{contact.phones.service.display}</a></li>
+          <li><span class="tag">Santral</span><a href={contact.phones.main.href}>{contact.phones.main.display}</a></li>
+          <li><span class="tag">E-Posta</span><a href={`mailto:${contact.emails.info}`}>{contact.emails.info}</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+.page-hero {
+  background: var(--paper);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+.breadcrumb {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+.breadcrumb a:hover { color: var(--terracotta); }
+.breadcrumb .sep { color: var(--line); }
+.breadcrumb .current { color: var(--ink); font-weight: 500; }
+.hero-content { max-width: 880px; }
+.hero-content .section-marker { margin-bottom: 1.25rem; }
+.hero-content h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2.5rem, 5.6vw, 4.5rem);
+  line-height: 1; letter-spacing: -0.025em; color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+.lead {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.55; color: var(--bist-navy, var(--ink)); max-width: 720px;
+}
+
+.section-marker {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.section-marker .num { color: var(--terracotta); font-weight: 700; }
+.section-marker .dash { margin: 0 0.5rem; color: var(--line); }
+.section-marker .label { color: var(--ink); }
+
+/* CTA grid */
+.cta-section { background: var(--paper); padding-bottom: var(--section-y); }
+.cta-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(1.5rem, 3vw, 2rem);
+}
+.cta-card {
+  padding: clamp(2rem, 3.5vw, 2.75rem);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 360px;
+}
+.cta-primary {
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+}
+.cta-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 70% at 85% 30%, rgba(184,57,12,0.22) 0%, transparent 55%);
+  pointer-events: none;
+}
+.cta-primary > * { position: relative; }
+.cta-secondary {
+  background: var(--sand);
+  border: 1px solid var(--line);
+}
+.cta-card .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.cta-primary .lbl { color: var(--terracotta-warm, var(--terracotta)); }
+.cta-secondary .lbl { color: var(--terracotta); }
+.cta-card h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 460;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  margin-bottom: 1rem;
+}
+.cta-primary h2 { color: var(--paper); }
+.cta-secondary h2 { color: var(--ink); }
+.cta-card h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+}
+.cta-primary h2 em { color: var(--terracotta-warm, var(--terracotta)); }
+.cta-secondary h2 em { color: var(--terracotta); }
+
+.cta-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+  flex: 1;
+}
+.cta-primary p { color: rgba(247, 244, 238, 0.78); }
+.cta-secondary p { color: var(--text); }
+.cta-card strong { font-weight: 600; }
+.cta-primary strong { color: var(--paper); }
+.cta-secondary strong { color: var(--ink); }
+
+.cta-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.625rem;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: lowercase;
+  color: var(--ink); background: var(--paper);
+  padding: 0.9375rem 1.5rem;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+  font-variant-numeric: tabular-nums;
+}
+.btn-primary:hover { background: var(--terracotta-warm, var(--terracotta)); color: var(--paper); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 0.625rem;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--paper); background: var(--ink);
+  padding: 0.9375rem 1.5rem;
+  transition: background var(--t-fast) var(--ease);
+}
+.btn-secondary:hover { background: var(--terracotta); }
+
+.btn-ghost-dark {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--paper);
+  border: 1px solid rgba(247, 244, 238, 0.25);
+  padding: 0.875rem 1.25rem;
+  transition: all var(--t-fast) var(--ease);
+  font-variant-numeric: tabular-nums;
+}
+.btn-ghost-dark:hover {
+  background: rgba(247, 244, 238, 0.08);
+  border-color: var(--paper);
+}
+.btn-ghost-dark .btn-icon { font-size: 0.875rem; }
+
+.btn-link {
+  font-family: var(--mono); font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--terracotta);
+  padding: 0.5rem 0;
+  transition: color var(--t-fast) var(--ease);
+}
+.btn-link:hover { color: var(--ink); }
+
+/* Features */
+.features-section { background: var(--sand); padding: var(--section-y) 0; }
+.features-head { margin-bottom: 2.5rem; max-width: 720px; }
+.features-head .section-marker { margin-bottom: 1rem; }
+.features-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.features-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+.feature-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 1.75rem 1.5rem;
+  transition: border-color var(--t-fast) var(--ease);
+}
+.feature-card:hover { border-color: var(--terracotta); }
+.feature-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 500;
+  font-size: 1.125rem;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.feature-card p {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* Support */
+.support-section { background: var(--paper); padding: var(--section-y) 0; }
+.support-card {
+  background: var(--sand);
+  padding: clamp(2rem, 3.5vw, 2.75rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 3rem);
+  align-items: center;
+}
+.support-card .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 1rem;
+}
+.support-card h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.support-card h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+.support-card > div p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.support-card > div { display: contents; }
+.support-card > .lbl, .support-card > h2, .support-card > p { grid-column: 1; }
+.support-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  grid-column: 2;
+  align-self: center;
+}
+.support-list li {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--line);
+}
+.support-list li:last-child { border-bottom: none; }
+.support-list .tag {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.support-list a {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--t-fast) var(--ease);
+}
+.support-list a:hover { color: var(--terracotta); }
+
+@media (max-width: 980px) {
+  .cta-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .support-card { grid-template-columns: 1fr; }
+  .support-card > div { display: block; }
+  .support-list { grid-column: auto; }
+}
+@media (max-width: 640px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .cta-actions { flex-direction: column; align-items: stretch; }
+  .cta-actions a { justify-content: center; }
+  .support-list li { grid-template-columns: 90px 1fr; }
+}
+</style>
+</PageLayout>

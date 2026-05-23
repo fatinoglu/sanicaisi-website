@@ -23,6 +23,8 @@ const productCategories = defineCollection({
     description: z.string().optional(),
     order: z.number().default(99),
     coverKind: z.enum(['radiator', 'towel', 'boiler', 'pipe']).optional(),
+    // UI menü/grup başlığı — ör. "Radyatör" (panel-radyator, dizayn-radyator, radyator-aksesuar bunun altında listelenir)
+    parentGroup: z.string().optional(),
   }),
 });
 
@@ -33,12 +35,35 @@ const products = defineCollection({
     lang: locale,
     slug: z.string(),
     name: z.string(),
-    categorySlug: z.enum(['panel-radyator', 'havlupan', 'kombi', 'boru']),
+    categorySlug: z.enum([
+      'panel-radyator',
+      'dizayn-radyator',
+      'radyator-aksesuar',
+      'havlupan',
+      'kombi',
+      'boru',
+    ]),
     series: z.string().optional(),
     tagline: z.string(),
     description: z.string().optional(),
     featured: z.boolean().default(false),
     order: z.number().default(99),
+
+    // Resmi ürün görseli (CDN/eski siteden). coverKind illüstrasyona düşmenin yedeği.
+    heroImage: z.string().url().optional(),
+    heroImageAlt: z.string().optional(),
+    gallery: z.array(z.object({
+      url: z.string().url(),
+      alt: z.string().optional(),
+      caption: z.string().optional(),
+    })).default([]),
+
+    // Modeller içinde alt-model listesi (ör. Aluminyum serisinin LUGO, CORDOBA, MALAGA…)
+    variants: z.array(z.object({
+      name: z.string(),
+      image: z.string().url().optional(),
+      note: z.string().optional(),
+    })).default([]),
 
     specs: z.array(z.object({
       label: z.string(),
@@ -155,17 +180,33 @@ const investorDocuments = defineCollection({
   }),
 });
 
-/* ── Basında biz (Faz 4'te dolar) ─────────────────────────── */
+/* ── Legal — KVKK, Bilgi Toplumu Hizmetleri, Çerez, Aydınlatma ── */
+const legal = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/legal' }),
+  schema: z.object({
+    lang: locale,
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    updatedAt: z.date().optional(),
+    order: z.number().default(99),
+  }),
+});
+
+/* ── Basında biz — WP blog/news migration ─────────────────── */
 const press = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/press' }),
   schema: z.object({
     lang: locale,
-    publication: z.enum(['bloomberg-ht', 'dunya', 'para', 'capital', 'fortune', 'forbes', 'anadolu', 'other']),
-    publicationName: z.string().optional(),
-    date: z.date(),
+    slug: z.string(),
     title: z.string(),
-    externalUrl: z.string().url().optional(),
+    date: z.date(),
+    category: z.enum(['bizden-haberler', 'sosyal-sorumluluk', 'halka-arz']),
     excerpt: z.string().optional(),
+    heroImage: z.string().url().optional(),
+    heroImageAlt: z.string().optional(),
+    sourceUrl: z.string().url().optional(),
+    wpId: z.number().int().optional(),
   }),
 });
 
@@ -178,4 +219,5 @@ export const collections = {
   'annual-reports': annualReports,
   'investor-documents': investorDocuments,
   press,
+  legal,
 };

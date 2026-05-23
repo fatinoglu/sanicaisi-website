@@ -2,51 +2,69 @@
 lang: tr
 slug: tarihce
 title: Tarihçe
-description: 1985'ten 2026'ya Sanica Isı'nın 40 yıllık üretim yolculuğu.
+description: 1987'de Pano Küvet ve Seramik ile başlayan, 1993'te Sanica markasıyla genişleyen ve 2022'de Borsa İstanbul Yıldız Pazar'a açılan üretim hikâyesi.
 section: history
 order: 2
 ---
 
-## 1985 — Kuruluş
+Sanica Isı, **Fatinoğlu Holding** bünyesinde 1987'de atılan temellerin uzantısıdır.
+Grubun ilk şirketi **Pano Küvet ve Seramik** ile başlayan üretim yolculuğu, 1993'te
+Sanica markasının doğuşuyla ısıtma ve sıhhi tesisat alanına genişlemiş; 2022'de
+Borsa İstanbul Yıldız Pazar'da hisseleri işlem görmeye başlamıştır.
 
-Sanica Isı, Kocaeli'de **küçük bir panel radyatör üretim hattı** olarak kurulur. İlk yıl 12.000 adet üretim. Tek tesis, 8 çalışan, tek vardiya.
+## 1987 — Kuruluş
 
-## 1992 — İhracata açılım
+Fatinoğlu Holding'in temelleri **Pano Küvet ve Seramik** adıyla atılır. Türkiye'nin
+**ilk akrilik küvet üreticisi** olarak banyo donanımları sektörüne girer.
 
-Bulgaristan ve Romanya'ya **ilk ihracat siparişleri**. Avrupa pazarına giriş.
+## 1988–1990 — Ürün ailesinin genişlemesi
 
-## 1998 — Sakarya tesisi
+Hidromasajlı küvet, su deposu, mutfak tezgahı, mermerit lavabo, banyo dolabı ve
+polyester klozet kapağı üretimi sırasıyla devreye alınır.
 
-İkinci üretim tesisi Sakarya'da açılır. **Yıllık kapasite 500.000 adete** ulaşır.
+## 1992 — İlk ihracat
 
-## 2003 — Havlupan serisi
+**Rusya pazarına ilk ihracat** gerçekleştirilir. Uluslararası satışın ilk adımı.
 
-**Havlupan üretimine geçiş**. Banyo radyatörü pazarına Türkiye'nin ilk yerli üreticisi olarak adım atış.
+## 1993 — Sanica markasının doğuşu
 
-## 2008 — Kombi üretimi
+Grup şirketleri tek bir marka çatısı altında birleştirilir: **Sanica**. Banyo ve
+ısıtma ürünlerinin yurt içi/yurt dışı pazarlama faaliyetleri bu marka altında
+yürütülmeye başlar.
 
-Yoğuşmalı kombi serisi devreye alınır. Sanica artık **dört ürün ailesinde** üretim yapan tek Türk firmasıdır.
+## 1999 — Silivri Fabrikası
 
-## 2014 — ISO 9001 + ISO 14001
+**Silivri'de küvet fabrikası** faaliyete geçer. Üretim kapasitesi ciddi şekilde
+artırılır.
 
-Kalite ve çevre yönetim sistemleri **tam sertifikasyon**. Ardından ISO 45001 (iş sağlığı) eklenir.
+## 2005 — Energy Isı Market
 
-## 2018 — Stratejik ortaklık
+Perakende kanalı kurulur: **Energy Isı Market** ilk şubesi İstanbul'da açılır.
+Doğrudan tüketiciye satış ve servis ağının başlangıcı.
 
-Avrupalı bir yatırımcı grup ile **stratejik ortaklık** kurulur, kapasite genişletme yatırımları başlar.
+## 2009 — Beylikdüzü Tesisi
 
-## 2020 — PEX-AL-PEX boru
+**Beylikdüzü plastik boru üretim tesisi** faaliyete başlar. Aynı bölgede yer alan
+grup merkez ofisi bugünkü adresine yerleşir: *Kavaklı Mah. İstanbul Cad. No:10,
+Beylikdüzü/İstanbul*.
 
-Çok katmanlı boru üretim hattı devreye alınır. **Tesisat tarafına dikey entegrasyon** tamamlanır.
+## 2016 — Akhisar Cam Tesisi
 
-## 2022 — Halka arz (IPO)
+Manisa **Akhisar'da cam üretim tesisi** açılır. Grup, ısı ve banyo ürünlerinin
+yanı sıra cam alanında da dikey entegrasyona ulaşır.
 
-**24 Kasım 2022** — Sanica Isı, Borsa İstanbul Yıldız Pazar'da işlem görmeye başlar. Halka arz talep **11 kat aşılır**. Hisse senedi: **SNICA**.
+## 2022 — Borsa İstanbul Yıldız Pazar
 
-## 2024 — Aurora Serisi
+**Sanica Isı Sanayi A.Ş.**, halka arz sürecini tamamlayarak hisseleri Borsa
+İstanbul Yıldız Pazar'da işlem görmeye başlar. Hisse kodu: **SNICA**.
 
-Premium havlupan serisi **Aurora** lansmanı. İnce profilli paslanmaz çelik, 9 renk.
+> Halka açılma, kurumsal yönetim ve şeffaflık standartlarımızın yatırımcı
+> paydaşlarla paylaşıldığı yeni bir aşamadır. SPK düzenlemeleri ve KAP
+> bildirimleri çerçevesinde sürekli kamuyu aydınlatma yükümlülüğümüzü yerine
+> getirmekteyiz.
 
-## 2026 — Üretim kapasitesi artırımı
+## Bugün
 
-Sakarya tesisi 3. faz yatırım kararı. **Yıllık kapasite 4,2 milyon adetten 5,5 milyona** çıkacak. Avrupa pazarına yeni satış ofisi (Almanya).
+Bugün Sanica Isı, **Beylikdüzü merkez ofisi** ve farklı bölgelerdeki üretim
+tesisleriyle panel radyatör, havlupan, kombi ve tesisat boruları portföyünü
+hem yurt içi pazara hem de **35'ten fazla ülkeye** ihraç etmektedir.

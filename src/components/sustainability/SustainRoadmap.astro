@@ -1,0 +1,242 @@
+---
+/**
+ * SustainRoadmap — 2030 / 2040 sürdürülebilirlik yol haritası
+ * Dikey timeline; her durakta hedef, taahhüt, ölçü ve durum rozeti
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Yol Haritası · 2030 · 2040',
+  h2a: 'Net sıfıra giden',
+  h2em: 'somut adımlar',
+  h2b: '.',
+  intro: 'SBTi (Science Based Targets) ilkelerine uygun, 1,5°C senaryosuyla hizalı orta ve uzun vadeli hedefler. Yıllık ilerleme TSRS raporunda doğrulanır.',
+  statusLabels: { done: 'Tamamlandı', track: 'Hedefte', risk: 'Risk altında' },
+  rows: [
+    { year: '2024', title: 'Yenilenebilir elektrikte %100', detail: 'Çatı solar + I-REC sertifikalı tedarikle tüm tesisler', status: 'done' as const, ach: '%100' },
+    { year: '2025', title: 'TSRS 1 & 2 zorunlu raporlama', detail: 'KAP üzerinden bağımsız güvenceli sürdürülebilirlik raporu', status: 'track' as const, ach: '2024 yayını yapıldı' },
+    { year: '2027', title: 'Scope 1+2 yoğunluk: −%40', detail: '2020 baz yılına kıyasla ürün başına emisyon azaltımı', status: 'track' as const, ach: '−%32 (2024)' },
+    { year: '2028', title: 'Su yoğunluğu: −%35', detail: 'Boyahane kapalı devre + yağmur suyu hasadı genişlemesi', status: 'track' as const, ach: '−%18 (2024)' },
+    { year: '2030', title: 'Tedarikçilerde %90 ESG denetimi', detail: 'Toplam alımın %90\'ı saha denetimli tedarikçilerden', status: 'track' as const, ach: '%74 (2024)' },
+    { year: '2030', title: 'Scope 3 envanteri tam kapsam', detail: 'Kategori 1, 3, 4, 11 ve 12 için detaylı raporlama', status: 'risk' as const, ach: 'Pilot 2025 Q2' },
+    { year: '2040', title: 'Net sıfır taahhüdü', detail: 'Scope 1+2 net sıfır; Scope 3 için yoğun azaltım + offset', status: 'track' as const, ach: 'Yol haritası onaylı' },
+  ],
+} : {
+  marker: 'Roadmap · 2030 · 2040',
+  h2a: 'Concrete steps toward',
+  h2em: 'net zero',
+  h2b: '.',
+  intro: 'Mid- and long-term targets aligned with the SBTi (Science Based Targets) initiative and a 1.5°C scenario. Annual progress is verified in the TSRS report.',
+  statusLabels: { done: 'Achieved', track: 'On track', risk: 'At risk' },
+  rows: [
+    { year: '2024', title: '100% renewable electricity', detail: 'All facilities on rooftop solar + I-REC certified supply', status: 'done' as const, ach: '100%' },
+    { year: '2025', title: 'Mandatory TSRS 1 & 2 reporting', detail: 'Assured sustainability report filed via Public Disclosure Platform', status: 'track' as const, ach: '2024 report issued' },
+    { year: '2027', title: 'Scope 1+2 intensity: −40%', detail: 'Emissions per product unit vs. 2020 baseline', status: 'track' as const, ach: '−32% (2024)' },
+    { year: '2028', title: 'Water intensity: −35%', detail: 'Closed-loop paint shop + expanded rainwater harvesting', status: 'track' as const, ach: '−18% (2024)' },
+    { year: '2030', title: '90% supplier ESG coverage', detail: '90% of procurement value from on-site audited suppliers', status: 'track' as const, ach: '74% (2024)' },
+    { year: '2030', title: 'Full Scope 3 inventory', detail: 'Detailed reporting across categories 1, 3, 4, 11 and 12', status: 'risk' as const, ach: 'Pilot Q2 2025' },
+    { year: '2040', title: 'Net-zero commitment', detail: 'Net-zero on Scope 1+2; deep cuts plus offsets on Scope 3', status: 'track' as const, ach: 'Roadmap approved' },
+  ],
+};
+---
+
+<section class="roadmap">
+  <div class="container">
+    <div class="rd-head">
+      <div>
+        <div class="section-marker">
+          <span class="num">04</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h2>{t.h2a} <em>{t.h2em}</em>{t.h2b}</h2>
+      </div>
+      <p class="intro">{t.intro}</p>
+    </div>
+
+    <ol class="timeline">
+      {t.rows.map((r) => (
+        <li class="step">
+          <div class="dot" aria-hidden="true">
+            <span class="dot-inner"></span>
+          </div>
+          <div class="content">
+            <div class="meta">
+              <span class="year">{r.year}</span>
+              <span class:list={['status', r.status]}>
+                <span class="indicator" aria-hidden="true"></span>
+                {t.statusLabels[r.status]}
+              </span>
+            </div>
+            <h3>{r.title}</h3>
+            <p class="detail">{r.detail}</p>
+            <div class="ach">
+              <span class="ach-label">{locale === 'tr' ? 'Mevcut' : 'Current'}</span>
+              <span class="ach-val">{r.ach}</span>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+.roadmap { background: var(--paper); padding: var(--section-y) 0; }
+
+.rd-head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+.rd-head .section-marker .num { color: var(--success); }
+.rd-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.6vw, 2.875rem);
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-top: 1rem;
+  max-width: 560px;
+}
+.rd-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--success);
+}
+.rd-head .intro {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 460px;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  padding-left: 1.25rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--line);
+}
+.step {
+  position: relative;
+  padding: 1.25rem 0 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.step + .step { border-top: 1px solid var(--line); }
+.dot {
+  position: absolute;
+  left: -1.25rem;
+  top: 1.625rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1.5px solid var(--success);
+  display: grid;
+  place-items: center;
+}
+.dot-inner {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--success);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr auto;
+  gap: 1.5rem 2rem;
+  align-items: start;
+}
+
+.meta { display: flex; flex-direction: column; gap: 0.5rem; }
+.year {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 55, "wght" 480;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  width: max-content;
+}
+.status .indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.status.done { color: var(--success); }
+.status.done .indicator { background: var(--success); }
+.status.track { color: var(--text); }
+.status.track .indicator { background: var(--steel); }
+.status.risk { color: var(--terracotta); }
+.status.risk .indicator { background: var(--terracotta); }
+
+.step h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.detail {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.ach {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+.ach-label {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ach-val {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 60, "wght" 480;
+  font-size: 1.125rem;
+  color: var(--success);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 980px) {
+  .rd-head { grid-template-columns: 1fr; gap: 1.5rem; }
+  .content { grid-template-columns: 1fr; gap: 0.75rem; }
+  .ach { text-align: left; flex-direction: row; gap: 0.75rem; align-items: baseline; }
+}
+</style>

@@ -24,7 +24,7 @@ const t = locale === 'tr' ? {
 <div class="cat-grid">
   {cats.map((c, i) => (
     <a href={localizedUrl(locale, `/${locale === 'tr' ? 'urunler' : 'products'}/${c.data.slug}`)} class="cat-card">
-      <div class="cat-num">0{i + 1}</div>
+      <div class="cat-num">{String(i + 1).padStart(2, '0')}</div>
       <div class="cat-illu">
         <ProductIllustration
           kind={c.data.coverKind === 'radiator' ? 'radiator'
@@ -35,6 +35,7 @@ const t = locale === 'tr' ? {
         />
       </div>
       <div class="cat-body">
+        {c.data.parentGroup && <span class="cat-parent">{c.data.parentGroup}</span>}
         <h3>{c.data.name}</h3>
         <p>{c.data.tagline}</p>
         <span class="cta">{t.cta} <span class="arrow" aria-hidden="true">→</span></span>
@@ -46,8 +47,11 @@ const t = locale === 'tr' ? {
 <style>
 .cat-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
+}
+@media (max-width: 1200px) {
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 .cat-card {
@@ -92,6 +96,15 @@ const t = locale === 'tr' ? {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.cat-parent {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 0.625rem;
 }
 .cat-body h3 {
   font-family: var(--serif);

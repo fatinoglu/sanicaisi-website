@@ -8,10 +8,13 @@ import CorporatePageHero from '../../components/corporate/CorporatePageHero.astr
 
 export async function getStaticPaths() {
   const items = await getCollection('corporate', (c) => c.data.lang === 'tr');
-  return items.map((item) => ({
-    params: { slug: item.data.slug },
-    props: { item },
-  }));
+  // 'yonetim' özel layout ile pages/kurumsal/yonetim/index.astro üzerinden render edilir.
+  return items
+    .filter((item) => item.data.slug !== 'yonetim')
+    .map((item) => ({
+      params: { slug: item.data.slug },
+      props: { item },
+    }));
 }
 
 const { item } = Astro.props;

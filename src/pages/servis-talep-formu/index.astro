@@ -1,0 +1,51 @@
+---
+/**
+ * Servis Talep Formu (TR)
+ * Yetkili servis çağrısı, ürün arızası ve teknik destek talepleri için form.
+ */
+import PageLayout from '../../layouts/PageLayout.astro';
+import FormPageShell from '../../components/forms/FormPageShell.astro';
+import ContactForm from '../../components/forms/ContactForm.astro';
+import type { FormField } from '../../components/forms/ContactForm.astro';
+
+const fields: FormField[] = [
+  { name: 'name', label: 'Adınız Soyadınız', type: 'text', required: true, placeholder: 'Adınız Soyadınız', autocomplete: 'name' },
+  { name: 'phone', label: 'Telefon', type: 'tel', required: true, placeholder: '+90 ___ ___ __ __', autocomplete: 'tel' },
+  { name: 'email', label: 'E-Posta', type: 'email', required: true, placeholder: 'ornek@sirket.com', autocomplete: 'email' },
+  { name: 'company', label: 'Firma', type: 'text', placeholder: 'Firma adı (opsiyonel)', autocomplete: 'organization' },
+  {
+    name: 'product',
+    label: 'Ürün Grubu',
+    type: 'select',
+    required: true,
+    placeholder: 'Ürün grubunu seçin',
+    options: ['Panel Radyatör', 'Dizayn Radyatör', 'Havlupan', 'Yoğuşmalı Kombi', 'PEX-AL-PEX Boru', 'Diğer'],
+  },
+  { name: 'model', label: 'Model / Seri No', type: 'text', placeholder: 'Etiket veya fatura üzerinde yer alan model bilgisi' },
+  { name: 'city', label: 'Şehir / İlçe', type: 'text', placeholder: 'Servis bölgesi' },
+  { name: 'message', label: 'Arıza / Talep Açıklaması', type: 'textarea', required: true, placeholder: 'Yaşadığınız sorunu, arızayı veya talebi mümkün olduğunca detaylı yazın.' },
+];
+---
+
+<PageLayout
+  title="Servis Talep Formu · Sanica Isı"
+  description="Sanica Isı ürünlerinizle ilgili yetkili servis çağrısı, arıza bildirimi ve teknik destek için online başvuru formu."
+>
+  <FormPageShell
+    marker="Servis · Yetkili Hizmet"
+    markerNum="01"
+    title="Servis Talep Formu"
+    lead="Ürünleriniz için yetkili servis çağrısı, arıza bildirimi veya teknik destek talebi başlatın. Bölgenize en yakın yetkili servis ekibimiz en kısa sürede dönüş yapacaktır."
+    sideTitle="Acil servis hattı"
+    sideHint="Acil arıza durumlarında doğrudan müşteri hizmetlerimizi arayabilirsiniz. Hafta içi mesai saatleri içinde ortalama dönüş süresi 1 iş günüdür."
+  >
+    <div slot="form">
+      <ContactForm
+        formId="servis-form"
+        subjectPrefix="[Servis Talebi]"
+        fields={fields}
+        submitLabel="Servis Talebini Gönder"
+      />
+    </div>
+  </FormPageShell>
+</PageLayout>

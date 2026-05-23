@@ -1,0 +1,184 @@
+---
+/**
+ * LegalPageLayout — KVKK, Çerez, Aydınlatma vb. yasal/bilgi sayfaları için
+ * paylaşılan layout. Hero (breadcrumb + başlık + açıklama) + prose içerik.
+ */
+import PageLayout from './PageLayout.astro';
+import { getLocale } from '../lib/i18n';
+
+interface Props {
+  title: string;
+  description?: string;
+  updatedAt?: Date;
+  pageTitle?: string;
+}
+
+const { title, description, updatedAt, pageTitle } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+const homeHref = locale === 'tr' ? '/' : '/en/';
+const homeLabel = locale === 'tr' ? 'Anasayfa' : 'Homepage';
+
+const updatedLabel = locale === 'tr' ? 'Güncellenme' : 'Last updated';
+const dateFmt = updatedAt
+  ? new Intl.DateTimeFormat(locale === 'tr' ? 'tr-TR' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)
+  : null;
+---
+
+<PageLayout title={pageTitle ?? `${title} — Sanica Isı`} description={description}>
+  <section class="legal-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href={homeHref}>{homeLabel}</a>
+        <span class="sep">/</span>
+        <span class="current">{title}</span>
+      </div>
+
+      <div class="legal-hero-content">
+        <div class="section-marker">
+          <span class="num">§</span><span class="dash">—</span><span class="label">{locale === 'tr' ? 'Yasal Bilgilendirme' : 'Legal Notice'}</span>
+        </div>
+        <h1>{title}</h1>
+        {description && <p class="lead">{description}</p>}
+        {dateFmt && <p class="meta">{updatedLabel}: <time datetime={updatedAt!.toISOString()}>{dateFmt}</time></p>}
+      </div>
+    </div>
+  </section>
+
+  <section class="legal-content">
+    <div class="container">
+      <article class="prose">
+        <slot />
+      </article>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+.legal-hero {
+  background: var(--paper);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--line);
+}
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+.breadcrumb a:hover { color: var(--terracotta); }
+.breadcrumb .sep { color: var(--line); }
+.breadcrumb .current { color: var(--ink); font-weight: 500; }
+
+.legal-hero-content { max-width: 880px; }
+.legal-hero-content .section-marker { margin-bottom: 1.25rem; }
+.legal-hero-content h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+.lead {
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 640px;
+  margin-bottom: 1rem;
+}
+.meta {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.legal-content {
+  background: var(--paper-soft);
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+.prose {
+  max-width: 760px;
+  background: var(--paper);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--line);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+.prose :global(h2) {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 60, "wght" 500;
+  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 2.25rem 0 0.875rem;
+}
+.prose :global(h2:first-child) { margin-top: 0; }
+.prose :global(h3) {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 1.125rem;
+  color: var(--ink);
+  margin: 1.5rem 0 0.625rem;
+}
+.prose :global(p) { margin-bottom: 1.125rem; }
+.prose :global(ul), .prose :global(ol) {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.prose :global(li) { margin-bottom: 0.5rem; }
+.prose :global(strong) { color: var(--ink); font-weight: 600; }
+.prose :global(a) {
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose :global(a:hover) { color: var(--terracotta-deep); }
+.prose :global(hr) {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2rem 0;
+}
+
+/* Tablo (Bilgi Toplumu Hizmetleri sayfası) */
+.prose :global(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9375rem;
+}
+.prose :global(th), .prose :global(td) {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.prose :global(thead th) {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--sand);
+}
+.prose :global(tbody th) {
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--paper-soft);
+  width: 38%;
+}
+</style>

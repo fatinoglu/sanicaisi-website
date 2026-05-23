@@ -10,9 +10,10 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  current?: 'overview' | 'halka-arz' | 'kurumsal-yonetim' | 'raporlar' | 'kamuyu-aydinlatma';
 }
 
-const { title, description, ogImage } = Astro.props;
+const { title, description, ogImage, current = 'overview' } = Astro.props;
 ---
 
 <PageLayout
@@ -23,6 +24,6 @@ const { title, description, ogImage } = Astro.props;
   activeAudience="investor"
 >
   <slot name="hero" />
-  <InvestorSubnav />
+  <InvestorSubnav {current} />
   <slot />
 </PageLayout>

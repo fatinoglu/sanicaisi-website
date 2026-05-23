@@ -1,0 +1,270 @@
+---
+/**
+ * ShareholderTable — Ortaklık Yapısı tablosu
+ * Canlı WP /yatirimci-iliskileri/kurumsal-yonetim/ortaklik-yapisi içeriğinden port
+ * A Grubu pay = 5 oy hakkı, B Grubu pay = 1 oy hakkı (Esas Sözleşme md. 17)
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+interface Row {
+  name: string;
+  group: 'A' | 'B';
+  capital: string;
+  pct: string;
+  votes: string;
+  votePct: string;
+  isTotal?: boolean;
+}
+
+const t = locale === 'tr' ? {
+  marker: '02 — Ortaklık Yapısı',
+  h2a: 'Kontrol aile,',
+  h2em: 'serbest dolaşım büyük',
+  h2b: '.',
+  intro: '%53,59 halka açıklık oranıyla SNICA, BIST Yıldız Pazar\'da işlem görüyor. A Grubu paylar genel kurul oylamasında 5x oy ağırlığına sahip (Esas Sözleşme md. 17).',
+  cols: ['Ortak', 'Grup', 'Sermaye (TL)', 'Pay Oranı', 'Oy Hakkı', 'Oy Oranı'],
+  rows: [
+    { name: 'Hüseyin Nesimi Fatinoğlu', group: 'A', capital: '53.333.333,33', pct: '%8,89',  votes: '266.666.666,67', votePct: '%27,91' },
+    { name: '',                          group: 'B', capital: '106.068.526,47', pct: '%17,68', votes: '106.068.526,47', votePct: '%11,10' },
+    { name: 'Ali Fatinoğlu',             group: 'A', capital: '26.666.666,67',  pct: '%4,44',  votes: '133.333.333,33', votePct: '%13,95' },
+    { name: '',                          group: 'B', capital: '56.399.998,91',  pct: '%9,40',  votes: '56.399.998,91',  votePct: '%5,90'  },
+    { name: 'Uğur Fatinoğlu',            group: 'A', capital: '4.444.444,44',   pct: '%0,74',  votes: '22.222.222,22',  votePct: '%2,33'  },
+    { name: '',                          group: 'B', capital: '13.333.334,33',  pct: '%2,22',  votes: '13.333.334,33',  votePct: '%1,40'  },
+    { name: 'Emre Fatinoğlu',            group: 'A', capital: '4.444.444,44',   pct: '%0,74',  votes: '22.222.222,22',  votePct: '%2,33'  },
+    { name: '',                          group: 'B', capital: '13.333.334,33',  pct: '%2,22',  votes: '13.333.334,33',  votePct: '%1,40'  },
+    { name: 'Saadet Fatinoğlu',          group: 'B', capital: '444.444,44',     pct: '%0,07',  votes: '444.444,44',     votePct: '%0,05'  },
+    { name: 'Halka Açık',                group: 'B', capital: '321.531.472,63', pct: '%53,59', votes: '321.531.472,63', votePct: '%33,65' },
+    { name: 'TOPLAM',                    group: 'A', capital: '88.888.888,89',  pct: '%14,81', votes: '444.444.444,44', votePct: '%46,51', isTotal: true },
+    { name: 'TOPLAM',                    group: 'B', capital: '511.111.111,11', pct: '%85,19', votes: '511.111.111,11', votePct: '%53,49', isTotal: true },
+    { name: 'GENEL TOPLAM',              group: 'A', capital: '600.000.000,00', pct: '%100,00', votes: '955.555.555,56', votePct: '%100,00', isTotal: true },
+  ] as Row[],
+  esasNote: 'A Grubu payların yönetim kurulu üye seçiminde imtiyazı vardır. 5 üyeli kurulda 2 üye, 6-7 üyeli kurulda 3 üye A Grubu paylar adına gösterilen adaylar arasından seçilir (Esas Sözleşme md. 10).',
+  esasLink: 'Güncel Esas Sözleşme · PDF',
+  esasHref: 'https://pub-ac09aed3790d4233a2c890d8b8d8fa16.r2.dev/2024/09/Sanica-Isi-Guncel-Esas-Sozlesme-Eylul-2024.pdf',
+} : {
+  marker: '02 — Ownership Structure',
+  h2a: 'Family-controlled,',
+  h2em: 'broadly held',
+  h2b: '.',
+  intro: 'With 53.59% free float, SNICA trades on the BIST Star Market. Group A shares carry 5× voting weight in general assembly votes (Articles of Association art. 17).',
+  cols: ['Shareholder', 'Group', 'Capital (TL)', 'Share', 'Votes', 'Vote %'],
+  rows: [
+    { name: 'Hüseyin Nesimi Fatinoğlu', group: 'A', capital: '53,333,333.33', pct: '8.89%',  votes: '266,666,666.67', votePct: '27.91%' },
+    { name: '',                          group: 'B', capital: '106,068,526.47', pct: '17.68%', votes: '106,068,526.47', votePct: '11.10%' },
+    { name: 'Ali Fatinoğlu',             group: 'A', capital: '26,666,666.67',  pct: '4.44%',  votes: '133,333,333.33', votePct: '13.95%' },
+    { name: '',                          group: 'B', capital: '56,399,998.91',  pct: '9.40%',  votes: '56,399,998.91',  votePct: '5.90%'  },
+    { name: 'Uğur Fatinoğlu',            group: 'A', capital: '4,444,444.44',   pct: '0.74%',  votes: '22,222,222.22',  votePct: '2.33%'  },
+    { name: '',                          group: 'B', capital: '13,333,334.33',  pct: '2.22%',  votes: '13,333,334.33',  votePct: '1.40%'  },
+    { name: 'Emre Fatinoğlu',            group: 'A', capital: '4,444,444.44',   pct: '0.74%',  votes: '22,222,222.22',  votePct: '2.33%'  },
+    { name: '',                          group: 'B', capital: '13,333,334.33',  pct: '2.22%',  votes: '13,333,334.33',  votePct: '1.40%'  },
+    { name: 'Saadet Fatinoğlu',          group: 'B', capital: '444,444.44',     pct: '0.07%',  votes: '444,444.44',     votePct: '0.05%'  },
+    { name: 'Free Float',                group: 'B', capital: '321,531,472.63', pct: '53.59%', votes: '321,531,472.63', votePct: '33.65%' },
+    { name: 'SUBTOTAL',                  group: 'A', capital: '88,888,888.89',  pct: '14.81%', votes: '444,444,444.44', votePct: '46.51%', isTotal: true },
+    { name: 'SUBTOTAL',                  group: 'B', capital: '511,111,111.11', pct: '85.19%', votes: '511,111,111.11', votePct: '53.49%', isTotal: true },
+    { name: 'TOTAL',                     group: 'A', capital: '600,000,000.00', pct: '100.00%', votes: '955,555,555.56', votePct: '100.00%', isTotal: true },
+  ] as Row[],
+  esasNote: 'Group A shares hold privileges for board member elections: 2 of 5 (or 3 of 6-7) board seats are nominated by Group A majority holders (Articles of Association art. 10).',
+  esasLink: 'Current Articles of Association · PDF',
+  esasHref: 'https://pub-ac09aed3790d4233a2c890d8b8d8fa16.r2.dev/2024/09/Sanica-Isi-Guncel-Esas-Sozlesme-Eylul-2024.pdf',
+};
+---
+
+<section class="shareholders">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="marker">{t.marker}</span>
+        <h2>{t.h2a} <em>{t.h2em}</em>{t.h2b}</h2>
+      </div>
+      <p class="intro">{t.intro}</p>
+    </div>
+
+    <div class="table-wrap" role="region" tabindex="0" aria-label={locale === 'tr' ? 'Ortaklık tablosu' : 'Ownership table'}>
+      <table>
+        <thead>
+          <tr>
+            {t.cols.map((c, i) => <th class:list={[{ 'num': i >= 2 }]}>{c}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {t.rows.map((r, i) => (
+            <tr class:list={[{ total: r.isTotal, 'continuation': r.name === '' }, `grp-${r.group.toLowerCase()}`]}>
+              <th scope="row">{r.name || <span class="hd-cont">↳</span>}</th>
+              <td class="grp"><span class:list={['grp-pill', `g${r.group.toLowerCase()}`]}>{r.group}</span></td>
+              <td class="num">{r.capital}</td>
+              <td class="num pct">{r.pct}</td>
+              <td class="num">{r.votes}</td>
+              <td class="num pct">{r.votePct}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">{t.esasNote}</p>
+    <a class="esas" href={t.esasHref} target="_blank" rel="noopener">
+      <span class="pdf">PDF</span>
+      {t.esasLink}
+      <span class="arr" aria-hidden="true">↗</span>
+    </a>
+  </div>
+</section>
+
+<style>
+.shareholders { background: var(--paper-soft); padding: clamp(3rem, 6vw, 5rem) 0; }
+
+.head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 2.5rem;
+}
+.marker {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bist-navy);
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+.head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 520px;
+}
+.head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--bist-navy);
+}
+.head .intro {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 460px;
+}
+
+.table-wrap {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+thead th {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-soft);
+}
+thead th.num { text-align: right; }
+tbody th {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-align: left;
+  padding: 0.875rem 1rem;
+}
+tbody td {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--text);
+  padding: 0.875rem 1rem;
+  text-align: right;
+}
+tbody td.grp { text-align: left; }
+tbody td.pct {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+tbody tr { border-bottom: 1px solid var(--line); }
+tbody tr:hover:not(.total) { background: rgba(26, 43, 71, 0.03); }
+
+.hd-cont { color: var(--line); margin-left: 1rem; }
+tr.continuation { border-bottom: 1px solid var(--line); }
+tr.continuation th { padding-top: 0.25rem; }
+
+.grp-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--paper);
+  border-radius: 2px;
+}
+.grp-pill.ga { background: var(--bist-navy); }
+.grp-pill.gb { background: var(--steel); }
+
+tr.total {
+  border-top: 2px solid var(--ink);
+  background: var(--paper-soft);
+  font-weight: 600;
+}
+tr.total th, tr.total td { color: var(--ink); font-weight: 600; }
+tr.total:last-child {
+  border-top: 2px solid var(--bist-navy);
+  background: var(--bist-navy-soft);
+}
+tr.total:last-child th, tr.total:last-child td { color: var(--bist-navy); }
+
+.note {
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: var(--paper);
+  border-left: 3px solid var(--terracotta);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+.esas {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-top: 1rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  transition: color var(--t-fast) var(--ease);
+}
+.esas:hover { color: var(--bist-navy); }
+.esas .pdf {
+  padding: 0.1875rem 0.5rem;
+  border: 1px solid var(--ink);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+.esas .arr { color: var(--bist-navy); font-size: 1rem; }
+
+@media (max-width: 980px) {
+  .head { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+@media (max-width: 720px) {
+  thead th, tbody th, tbody td { padding: 0.625rem 0.625rem; font-size: 0.75rem; }
+  tbody td.pct { font-size: 0.8125rem; }
+}
+</style>

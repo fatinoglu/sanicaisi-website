@@ -1,0 +1,341 @@
+---
+/**
+ * İletişim Sayfası (TR)
+ * Şirket iletişim bilgileri, harita, genel iletişim formu ve form sayfalarına yönlendirme.
+ */
+import PageLayout from '../../layouts/PageLayout.astro';
+import ContactForm from '../../components/forms/ContactForm.astro';
+import type { FormField } from '../../components/forms/ContactForm.astro';
+import { contact } from '../../lib/contact';
+
+const fields: FormField[] = [
+  { name: 'name', label: 'Adınız Soyadınız', type: 'text', required: true, placeholder: 'Adınız Soyadınız', autocomplete: 'name' },
+  { name: 'email', label: 'E-Posta', type: 'email', required: true, placeholder: 'ornek@sirket.com', autocomplete: 'email' },
+  { name: 'phone', label: 'Telefon', type: 'tel', placeholder: '+90 ___ ___ __ __', autocomplete: 'tel' },
+  { name: 'company', label: 'Firma', type: 'text', placeholder: 'Firma adı (opsiyonel)', autocomplete: 'organization' },
+  { name: 'subject', label: 'Konu', type: 'text', required: true, placeholder: 'Mesajınızın konusu' },
+  { name: 'message', label: 'Mesajınız', type: 'textarea', required: true, placeholder: 'Bize iletmek istediğiniz mesaj…' },
+];
+
+const paths = [
+  { title: 'Servis Talebi', desc: 'Yetkili servis çağrısı ve ürün arızası bildirimleri için.', href: '/servis-talep-formu' },
+  { title: 'Bayi Başvurusu', desc: 'Sanica yetkili bayi ağına katılmak için başvuru.', href: '/bayi-talep-formu' },
+  { title: 'Şikayet & Geri Bildirim', desc: 'Memnuniyetsizlik, öneri ve şikayet bildirimi.', href: '/sikayet-formu' },
+];
+---
+
+<PageLayout
+  title="İletişim · Sanica Isı"
+  description="Sanica Isı iletişim bilgileri: merkez adresi, müşteri hizmetleri, faks, e-posta. Servis, bayi ve şikayet form sayfaları için yönlendirme."
+>
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Anasayfa</a>
+        <span class="sep">/</span>
+        <span class="current">İletişim</span>
+      </div>
+      <div class="page-hero-content">
+        <div class="section-marker">
+          <span class="num">01</span><span class="dash">—</span><span class="label">İletişim · Contact</span>
+        </div>
+        <h1>İletişim</h1>
+        <p class="lead">
+          Sorularınız, talepleriniz ve önerileriniz için size en uygun kanalı seçin.
+          Hafta içi 08:30–18:30 arası müşteri hizmetleri ekibimiz ulaşılabilirdir.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="container">
+      <div class="info-grid">
+
+        <div class="info-cards">
+          <article class="info-card">
+            <span class="lbl">● Merkez Ofis</span>
+            <h3>Adres</h3>
+            <p class="info-body">{contact.address.street}<br />{contact.address.postal} {contact.address.district}/{contact.address.city}<br />{contact.address.country}</p>
+            <a href={contact.mapLinkUrl} target="_blank" rel="noopener" class="info-link">Haritada Aç <span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="info-card">
+            <span class="lbl">● Telefon</span>
+            <h3>Bize ulaşın</h3>
+            <ul class="info-list">
+              <li><span class="tag">Santral</span><a href={contact.phones.main.href}>{contact.phones.main.display}</a></li>
+              <li><span class="tag">Müş. Hiz.</span><a href={contact.phones.service.href}>{contact.phones.service.display}</a></li>
+              <li><span class="tag">Faks</span><a href={contact.phones.fax.href}>{contact.phones.fax.display}</a></li>
+            </ul>
+          </article>
+
+          <article class="info-card">
+            <span class="lbl">● E-Posta & Saatler</span>
+            <h3>Yazın & uğrayın</h3>
+            <ul class="info-list">
+              <li><span class="tag">Genel</span><a href={`mailto:${contact.emails.info}`}>{contact.emails.info}</a></li>
+              <li><span class="tag">Yatırımcı</span><a href={`mailto:${contact.emails.investor}`}>{contact.emails.investor}</a></li>
+              <li><span class="tag">Saatler</span><span class="hours">{contact.hours.weekdaysTR}</span></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="map-wrap">
+          <iframe
+            src={contact.mapEmbedUrl}
+            title="Sanica Isı merkez ofis konumu"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="paths-section">
+    <div class="container">
+      <div class="paths-head">
+        <div class="section-marker">
+          <span class="num">02</span><span class="dash">—</span><span class="label">Doğrudan Form Sayfaları</span>
+        </div>
+        <h2>Talebinizi <em>doğru kanaldan</em> iletin.</h2>
+      </div>
+      <div class="paths-grid">
+        {paths.map((p) => (
+          <a href={p.href} class="path-card">
+            <h3>{p.title}</h3>
+            <p>{p.desc}</p>
+            <span class="path-arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="container">
+      <div class="form-head">
+        <div class="section-marker">
+          <span class="num">03</span><span class="dash">—</span><span class="label">Genel İletişim Formu</span>
+        </div>
+        <h2>Mesajınızı <em>doğrudan</em> bize iletin.</h2>
+        <p>Aşağıdaki formu kullanarak iletinizi gönderebilirsiniz. Konunuza uygun başlık seçmeniz, talebinizin en kısa sürede ilgili birime ulaşmasını sağlar.</p>
+      </div>
+      <ContactForm
+        formId="general-contact"
+        subjectPrefix="[İletişim Formu]"
+        fields={fields}
+      />
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+.page-hero { background: var(--paper); padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: clamp(2rem, 4vw, 3rem); }
+.breadcrumb {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+.breadcrumb a:hover { color: var(--terracotta); }
+.breadcrumb .sep { color: var(--line); }
+.breadcrumb .current { color: var(--ink); font-weight: 500; }
+.page-hero-content { max-width: 880px; }
+.page-hero-content .section-marker { margin-bottom: 1.25rem; }
+.page-hero-content h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2.5rem, 5.6vw, 4.5rem);
+  line-height: 1; letter-spacing: -0.025em; color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.lead {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.55; color: var(--bist-navy, var(--ink)); max-width: 720px;
+}
+
+.info-section { background: var(--paper); padding-bottom: clamp(3rem, 5vw, 4.5rem); }
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: stretch;
+}
+.info-cards { display: grid; gap: 1rem; }
+.info-card {
+  background: var(--sand);
+  padding: 1.75rem 1.75rem 1.5rem;
+  position: relative;
+}
+.info-card .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 0.5rem;
+  display: block;
+  font-weight: 600;
+}
+.info-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 480;
+  font-size: 1.25rem;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-bottom: 0.875rem;
+}
+.info-body {
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+.info-link {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 600;
+}
+.info-link:hover { color: var(--ink); }
+
+.info-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.info-list li { display: grid; grid-template-columns: 90px 1fr; gap: 0.5rem; align-items: baseline; }
+.info-list .tag {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.info-list a {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--t-fast) var(--ease);
+}
+.info-list a:hover { color: var(--terracotta); }
+.info-list .hours {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.map-wrap {
+  position: relative;
+  background: var(--sand);
+  min-height: 420px;
+  border: 1px solid var(--line);
+}
+.map-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: grayscale(0.4) contrast(1.05);
+}
+
+.paths-section { background: var(--sand); padding: var(--section-y) 0; }
+.paths-head { margin-bottom: 2.5rem; max-width: 720px; }
+.paths-head .section-marker { margin-bottom: 1rem; }
+.paths-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.paths-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+.paths-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.path-card {
+  position: relative;
+  display: block;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 1.75rem 1.5rem 3rem;
+  transition: all var(--t-med) var(--ease);
+  min-height: 200px;
+}
+.path-card:hover {
+  border-color: var(--terracotta);
+  transform: translateY(-2px);
+}
+.path-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 500;
+  font-size: 1.25rem;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-bottom: 0.625rem;
+}
+.path-card p {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.path-arrow {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.5rem;
+  font-family: var(--mono);
+  font-size: 1.25rem;
+  color: var(--terracotta);
+  transition: transform var(--t-fast) var(--ease);
+}
+.path-card:hover .path-arrow { transform: translateX(6px); }
+
+.form-section { background: var(--paper); padding: var(--section-y) 0; }
+.form-head { max-width: 720px; margin-bottom: 2.5rem; }
+.form-head .section-marker { margin-bottom: 1rem; }
+.form-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.form-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+.form-head p {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 640px;
+}
+
+@media (max-width: 980px) {
+  .info-grid { grid-template-columns: 1fr; }
+  .paths-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .paths-grid { grid-template-columns: 1fr; }
+  .info-list li { grid-template-columns: 72px 1fr; }
+}
+</style>
+</PageLayout>

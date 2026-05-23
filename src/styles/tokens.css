@@ -20,10 +20,10 @@
   --muted: #6B6258;
 
   /* Brand accent — Terracotta */
-  --terracotta: #B8390C;
-  --terracotta-warm: #D9521C;
+  --terracotta: #ff8f00;
+  --terracotta-warm: #ffa431;
   --terracotta-soft: #FBE6D8;
-  --terracotta-deep: #8C2A06;
+  --terracotta-deep: #d78317;
 
   /* Industrial counterpoint — Steel */
   --steel: #4A4D52;
@@ -43,8 +43,10 @@
   --up: #5AB670;
   --down: #D14747;
 
-  /* Typography stacks */
-  --serif: 'Fraunces', Georgia, "Times New Roman", serif;
+  /* Typography stacks
+     NOT: --serif token'ı geriye-uyumluluk için korundu (heading bileşenleri bu adı kullanıyor).
+     DENEME: gövde Fraunces (tırnaklı) → Onest (tırnaksız, geometrik modern sans). */
+  --serif: 'Onest', 'Inter', -apple-system, "Segoe UI", sans-serif;
   --sans:  'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --mono:  'IBM Plex Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 

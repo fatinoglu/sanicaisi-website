@@ -1,0 +1,28 @@
+---
+/**
+ * Sustainability — homepage (EN)
+ * 7 sections: Hero + Pillars + KPIs + Roadmap + Certs + Reports + Contact
+ */
+import PageLayout from '../../../layouts/PageLayout.astro';
+import SustainHero from '../../../components/sustainability/SustainHero.astro';
+import SustainPillars from '../../../components/sustainability/SustainPillars.astro';
+import SustainKpiGrid from '../../../components/sustainability/SustainKpiGrid.astro';
+import SustainRoadmap from '../../../components/sustainability/SustainRoadmap.astro';
+import SustainCertifications from '../../../components/sustainability/SustainCertifications.astro';
+import SustainReports from '../../../components/sustainability/SustainReports.astro';
+import SustainContact from '../../../components/sustainability/SustainContact.astro';
+---
+
+<PageLayout
+  title="Sustainability — Sanica Isı"
+  description="Sanica Isı sustainability approach: TSRS-aligned reporting, 100% renewable electricity, 2030 & 2040 net-zero roadmap, ESG performance."
+  activeAudience="home"
+>
+  <SustainHero />
+  <SustainPillars />
+  <SustainKpiGrid />
+  <SustainRoadmap />
+  <SustainCertifications />
+  <SustainReports />
+  <SustainContact />
+</PageLayout>

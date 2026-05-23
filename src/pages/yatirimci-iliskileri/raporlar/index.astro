@@ -1,0 +1,71 @@
+---
+/**
+ * Yatırımcı İlişkileri → Raporlar (TR)
+ * 7 alt başlık: Finansal · Faaliyet · Kurumsal Yönetim Uyum · Sürdürülebilirlik Uyum
+ *              · Katılım Finans · Fon Kullanım · Halka Arz Fiyatı Değerlendirme
+ */
+import InvestorLayout from '../../../layouts/InvestorLayout.astro';
+import InvestorSectionHero from '../../../components/investor/InvestorSectionHero.astro';
+import FinancialReportsGrid from '../../../components/investor/FinancialReportsGrid.astro';
+import AnnualReportsGrid from '../../../components/investor/AnnualReportsGrid.astro';
+import DocListSection from '../../../components/investor/DocListSection.astro';
+---
+
+<InvestorLayout
+  title="Raporlar — Yatırımcı İlişkileri · Sanica Isı"
+  description="Sanica Isı raporları: finansal raporlar, faaliyet raporları, kurumsal yönetim uyum raporları, sürdürülebilirlik raporları, katılım finans formları ve fon kullanım raporları."
+  current="raporlar"
+>
+  <InvestorSectionHero
+    slot="hero"
+    sectionMarkerNum="04"
+    title="Raporlar"
+    description="Çeyreklik ve yıllık finansal tablolar, faaliyet raporları, kurumsal yönetim ve sürdürülebilirlik uyum raporları ile halka arz dönemine ait fon kullanım belgeleri."
+  />
+
+  <FinancialReportsGrid />
+  <AnnualReportsGrid />
+
+  <DocListSection
+    markerNum="03"
+    title="Kurumsal Yönetim İlkelerine Uyum Raporları"
+    intro="Sermaye Piyasası Kurulu'nun Kurumsal Yönetim İlkeleri'ne uyum durumunu açıklayan yıllık raporlar ve kurumsal yönetim bilgi formları."
+    filterType="kurumsal-yonetim"
+    variant="light"
+  />
+
+  <DocListSection
+    markerNum="04"
+    title="Sürdürülebilirlik Uyum Raporları"
+    intro="TSRS uyumlu sürdürülebilirlik raporları ve önceki yıllara ait sürdürülebilirlik uyum raporları."
+    filterType="surdurulebilirlik"
+    variant="soft"
+  />
+
+  <DocListSection
+    markerNum="05"
+    title="Katılım Finans İlkeleri Formları"
+    intro="Borsa İstanbul Katılım Finans İlkeleri'ne uyum durumunu açıklayan altı aylık ve yıllık bilgi formları."
+    filterType="katilim-finans"
+    variant="light"
+  />
+
+  <DocListSection
+    markerNum="06"
+    title="Fon Kullanım Yeri Raporları"
+    intro="Halka arz dönemine ait fon kullanım yeri raporları."
+    filterType="halka-arz"
+    filterSlugIncludes={['fon-kullanim']}
+    variant="soft"
+  />
+
+  <DocListSection
+    markerNum="07"
+    title="Halka Arz Fiyatı Değerlendirme Raporları (FTR)"
+    intro="Halka arz fiyatına ilişkin beklentilerin gerçekleşme durumunu değerlendiren dönemsel raporlar."
+    filterType="halka-arz"
+    filterSlugIncludes={['ftr', 'degerlendirme']}
+    filterSlugExcludes={['fon-kullanim']}
+    variant="light"
+  />
+</InvestorLayout>

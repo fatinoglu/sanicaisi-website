@@ -1,0 +1,16 @@
+---
+import { getEntry, render } from 'astro:content';
+import LegalPageLayout from '../layouts/LegalPageLayout.astro';
+
+const entry = await getEntry('legal', 'bilgi-toplumu-hizmetleri');
+if (!entry) throw new Error('legal/bilgi-toplumu-hizmetleri content entry not found');
+const { Content } = await render(entry);
+---
+
+<LegalPageLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  updatedAt={entry.data.updatedAt}
+>
+  <Content />
+</LegalPageLayout>

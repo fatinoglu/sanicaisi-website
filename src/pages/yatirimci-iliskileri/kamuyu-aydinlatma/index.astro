@@ -1,0 +1,26 @@
+---
+/**
+ * Yatırımcı İlişkileri → Kamuyu Aydınlatma (TR)
+ * KAP özel durum açıklamaları (KapList) + IR contact
+ */
+import InvestorLayout from '../../../layouts/InvestorLayout.astro';
+import InvestorSectionHero from '../../../components/investor/InvestorSectionHero.astro';
+import KapList from '../../../components/investor/KapList.astro';
+import IRContactSection from '../../../components/investor/IRContactSection.astro';
+---
+
+<InvestorLayout
+  title="Kamuyu Aydınlatma — Yatırımcı İlişkileri · Sanica Isı"
+  description="Sanica Isı KAP açıklamaları: özel durum açıklamaları, finansal bildirimler, genel kurul ilanları, yatırım kararları ve sürdürülebilirlik duyurularının kronolojik arşivi."
+  current="kamuyu-aydinlatma"
+>
+  <InvestorSectionHero
+    slot="hero"
+    sectionMarkerNum="05"
+    title="Kamuyu Aydınlatma"
+    description="Borsa İstanbul Kamuyu Aydınlatma Platformu (KAP) üzerinden yayınlanan tüm özel durum açıklamalarının kronolojik arşivi. Yıl, kategori ve serbest metinle filtrelenebilir."
+  />
+
+  <KapList />
+  <IRContactSection />
+</InvestorLayout>

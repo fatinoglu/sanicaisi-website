@@ -9,6 +9,7 @@ import ProductSpecs from '../../../components/products/ProductSpecs.astro';
 import ProductSizes from '../../../components/products/ProductSizes.astro';
 import ProductDownloads from '../../../components/products/ProductDownloads.astro';
 import ProductRelated from '../../../components/products/ProductRelated.astro';
+import ProductVariants from '../../../components/products/ProductVariants.astro';
 
 export async function getStaticPaths() {
   const products = await getCollection('products', (p) => p.data.lang === 'tr');
@@ -42,6 +43,8 @@ const categoryName = categories[0]?.data.name ?? product.data.categorySlug;
     coverKind={product.data.coverKind}
     coverBg={product.data.coverBg}
     sectionMarkerNum="01"
+    heroImage={product.data.heroImage}
+    heroImageAlt={product.data.heroImageAlt}
   />
 
   <section class="prod-content">
@@ -52,26 +55,30 @@ const categoryName = categories[0]?.data.name ?? product.data.categorySlug;
     </div>
   </section>
 
+  {product.data.variants.length > 0 && (
+    <ProductVariants variants={product.data.variants} number="02" />
+  )}
+
   {product.data.specs.length > 0 && (
-    <ProductSpecs specs={product.data.specs} number="02" />
+    <ProductSpecs specs={product.data.specs} number={product.data.variants.length > 0 ? '03' : '02'} />
   )}
 
   {product.data.sizes.length > 0 && (
-    <ProductSizes sizes={product.data.sizes} number="03" />
+    <ProductSizes sizes={product.data.sizes} number="04" />
   )}
 
   {product.data.downloads.length > 0 && (
     <ProductDownloads
       downloads={product.data.downloads}
       certifications={product.data.certifications}
-      number="04"
+      number="05"
     />
   )}
 
   <ProductRelated
     currentSlug={product.data.slug}
     categorySlug={product.data.categorySlug}
-    number="05"
+    number="06"
   />
 </PageLayout>
 

@@ -1,0 +1,144 @@
+---
+/**
+ * IndependentAuditor — Bağımsız denetçi yıllık atama tablosu
+ * Canlı WP /yatirimci-iliskileri/kurumsal-yonetim/bagimsiz-denetci içeriğinden port
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: '07 — Bağımsız Denetçi',
+  h2a: 'Her yıl, yeniden',
+  h2em: 'genel kurul onayıyla',
+  h2b: '.',
+  intro: 'Yıllık olağan genel kurulda atanan bağımsız denetim şirketi. Atama kararı Denetimden Sorumlu Komite\'nin önerisiyle Yönetim Kurulu tarafından onaya sunulur.',
+  cols: ['Yıl', 'Bağımsız Denetim Şirketi'],
+  rows: [
+    { year: '2025', firm: 'Bilgin Global Bağımsız Denetim A.Ş.' },
+    { year: '2024', firm: 'Akademik Bağımsız Denetim A.Ş.' },
+    { year: '2023', firm: 'Akademik Bağımsız Denetim A.Ş.' },
+    { year: '2022', firm: 'Güreli Yeminli Mali Müşavirlik ve Bağımsız Denetim Hizmetleri A.Ş.' },
+    { year: '2021', firm: 'Güreli Yeminli Mali Müşavirlik ve Bağımsız Denetim Hizmetleri A.Ş.' },
+  ],
+} : {
+  marker: '07 — Independent Auditor',
+  h2a: 'Each year, ratified',
+  h2em: 'by the general assembly',
+  h2b: '.',
+  intro: 'The independent audit firm appointed at the annual ordinary general assembly. The appointment is proposed by the Audit Committee and submitted to the Board for approval.',
+  cols: ['Year', 'Independent Audit Firm'],
+  rows: [
+    { year: '2025', firm: 'Bilgin Global Bağımsız Denetim A.Ş.' },
+    { year: '2024', firm: 'Akademik Bağımsız Denetim A.Ş.' },
+    { year: '2023', firm: 'Akademik Bağımsız Denetim A.Ş.' },
+    { year: '2022', firm: 'Güreli Yeminli Mali Müşavirlik ve Bağımsız Denetim Hizmetleri A.Ş.' },
+    { year: '2021', firm: 'Güreli Yeminli Mali Müşavirlik ve Bağımsız Denetim Hizmetleri A.Ş.' },
+  ],
+};
+---
+
+<section class="auditor">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="marker">{t.marker}</span>
+        <h2>{t.h2a} <em>{t.h2em}</em>{t.h2b}</h2>
+      </div>
+      <p class="intro">{t.intro}</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            {t.cols.map((c) => <th>{c}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {t.rows.map((r) => (
+            <tr>
+              <td class="year">{r.year}</td>
+              <td class="firm">{r.firm}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style>
+.auditor { background: var(--paper); padding: clamp(3rem, 6vw, 5rem) 0; }
+
+.head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 2.5rem;
+}
+.marker {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bist-navy);
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+.head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 520px;
+}
+.head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--bist-navy);
+}
+.head .intro {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 460px;
+}
+
+.table-wrap { background: var(--paper-soft); border: 1px solid var(--line); }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+tbody tr { border-bottom: 1px solid var(--line); }
+tbody tr:last-child { border-bottom: 0; }
+tbody td { padding: 1.125rem 1.25rem; }
+.year {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 55, "wght" 480;
+  font-size: 1.5rem;
+  color: var(--bist-navy);
+  font-variant-numeric: tabular-nums;
+  width: 120px;
+}
+.firm {
+  font-size: 0.9375rem;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+@media (max-width: 980px) {
+  .head { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+</style>

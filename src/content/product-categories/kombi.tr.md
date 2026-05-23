@@ -1,11 +1,12 @@
 ---
 lang: tr
 slug: kombi
-name: Yoğuşmalı Kombi
+name: Kombi
 tagline: Sessiz, ekonomik, güvenli motor.
-description: Aileniz için sessiz çalışan, A+ enerji sınıfı yoğuşmalı kombi serisi. ErP uyumlu, NOx Class 6.
-order: 3
+description: Hermetik ve yoğuşmalı kombi ailesi. A sınıfı verim, ErP uyumluluk, modülasyonlu fan, paslanmaz çelik eşanjör.
+order: 1
 coverKind: boiler
+parentGroup: Isıtma Sistemleri
 ---
 
 Sanica yoğuşmalı kombi serisi, modern evler için optimum güç-verim dengesi. Akıllı modülasyon, sessiz brülör tasarımı, geniş su sıcaklık aralığı ve uzaktan kumanda uyumluluğu.

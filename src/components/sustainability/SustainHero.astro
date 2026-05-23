@@ -1,0 +1,184 @@
+---
+/**
+ * SustainHero — sürdürülebilirlik sayfası açılış bölümü
+ * Breadcrumb + section marker + büyük başlık + lead + 3 hızlı KPI bandı
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  home: 'Anasayfa',
+  here: 'Sürdürülebilirlik',
+  marker: 'Sürdürülebilirlik · Sustainability',
+  h1a: 'Ölçülen söz.',
+  h1em: 'Üretilen sorumluluk',
+  h1b: '.',
+  lead: 'Sanica için sürdürülebilirlik bir iletişim teması değil, üretim hattındaki her kararın taşıdığı maliyettir. Karbonu ölçer, suyu yeniden kullanır, enerjiyi kendi çatımızdan üretiriz.',
+  ticks: [
+    { k: 'Karbon yoğunluğu', v: '%32 ↓', sub: '2020 baz yılına göre' },
+    { k: 'Yenilenebilir elektrik', v: '%100', sub: 'I-REC sertifikalı + çatı solar' },
+    { k: 'TSRS uyumlu rapor', v: '2024–', sub: 'Bağımsız üçüncü taraf güvence' },
+  ],
+} : {
+  home: 'Home',
+  here: 'Sustainability',
+  marker: 'Sustainability · Sürdürülebilirlik',
+  h1a: 'Measured promise.',
+  h1em: 'Manufactured responsibility',
+  h1b: '.',
+  lead: 'For Sanica, sustainability is not a communications theme — it is the cost carried by every decision on the production line. We measure carbon, recycle water, and generate energy on our own roofs.',
+  ticks: [
+    { k: 'Carbon intensity', v: '32% ↓', sub: 'vs. 2020 baseline' },
+    { k: 'Renewable electricity', v: '100%', sub: 'I-REC certified + rooftop solar' },
+    { k: 'TSRS-aligned report', v: '2024–', sub: 'Independent third-party assurance' },
+  ],
+};
+
+const homeHref = locale === 'tr' ? '/' : '/en/';
+---
+
+<section class="sust-hero">
+  <div class="container">
+    <nav class="breadcrumb" aria-label={locale === 'tr' ? 'Konum' : 'Breadcrumb'}>
+      <a href={homeHref}>{t.home}</a>
+      <span class="sep">/</span>
+      <span class="current">{t.here}</span>
+    </nav>
+
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="section-marker">
+          <span class="num">01</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h1>{t.h1a}<br><em>{t.h1em}</em>{t.h1b}</h1>
+        <p class="lead">{t.lead}</p>
+      </div>
+
+      <ul class="hero-ticks">
+        {t.ticks.map((tk) => (
+          <li>
+            <span class="v">{tk.v}</span>
+            <span class="k">{tk.k}</span>
+            <span class="sub">{tk.sub}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+.sust-hero {
+  background: var(--success-soft);
+  padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
+  position: relative;
+  overflow: hidden;
+}
+.sust-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(77, 124, 95, 0.16), transparent 45%),
+    radial-gradient(circle at 0% 100%, rgba(77, 124, 95, 0.10), transparent 50%);
+  pointer-events: none;
+}
+.sust-hero > .container { position: relative; }
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+.breadcrumb a:hover { color: var(--success); }
+.breadcrumb .sep { color: rgba(77, 124, 95, 0.3); }
+.breadcrumb .current { color: var(--ink); font-weight: 500; }
+
+.section-marker .num { color: var(--success); }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 4rem;
+  align-items: end;
+}
+.hero-left .section-marker { margin-bottom: 1.5rem; }
+.hero-left h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2.5rem, 5.6vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  max-width: 720px;
+}
+.hero-left h1 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380, "ital" 1;
+  color: var(--success);
+}
+.hero-left .lead {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 560px;
+}
+
+.hero-ticks {
+  display: grid;
+  gap: 0.875rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hero-ticks li {
+  background: var(--paper);
+  border: 1px solid rgba(77, 124, 95, 0.18);
+  border-left: 3px solid var(--success);
+  padding: 1.125rem 1.25rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 1.25rem;
+  align-items: baseline;
+}
+.hero-ticks .v {
+  grid-row: 1 / span 2;
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 420;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--success);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.hero-ticks .k {
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.hero-ticks .sub {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.125rem;
+}
+
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+</style>

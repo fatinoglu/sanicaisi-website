@@ -14,9 +14,11 @@ interface Props {
   coverKind: 'radiator' | 'towel-aurora' | 'towel-classic' | 'boiler' | 'pipe-section';
   coverBg: 'sand' | 'sand-deep' | 'terracotta-soft' | 'paper';
   featured?: boolean;
+  heroImage?: string;
+  heroImageAlt?: string;
 }
 
-const { slug, name, series, tagline, categorySlug, coverKind, coverBg, featured = false } = Astro.props;
+const { slug, name, series, tagline, categorySlug, coverKind, coverBg, featured = false, heroImage, heroImageAlt } = Astro.props;
 const locale = getLocale(Astro.url.pathname);
 
 const base = locale === 'tr' ? 'urunler' : 'products';
@@ -28,8 +30,12 @@ const t = locale === 'tr' ? { explore: 'Keşfet', featuredLbl: 'Öne Çıkan' } 
 <a href={href} class:list={['model-card', { featured }]}>
   {featured && <span class="badge">● {t.featuredLbl}</span>}
 
-  <div class="model-illu">
-    <ProductIllustration kind={coverKind} bg={coverBg} label={name} />
+  <div class:list={['model-illu', { 'has-photo': !!heroImage }]}>
+    {heroImage ? (
+      <img src={heroImage} alt={heroImageAlt ?? name} loading="lazy" />
+    ) : (
+      <ProductIllustration kind={coverKind} bg={coverBg} label={name} />
+    )}
   </div>
 
   <div class="model-body">
@@ -73,7 +79,23 @@ const t = locale === 'tr' ? { explore: 'Keşfet', featuredLbl: 'Öne Çıkan' } 
   z-index: 2;
 }
 
-.model-illu { background: var(--sand); }
+.model-illu {
+  background: var(--sand);
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.model-illu.has-photo { background: var(--paper-soft); padding: 0.875rem; }
+.model-illu img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform var(--t-med) var(--ease);
+}
+.model-card:hover .model-illu img { transform: scale(1.04); }
 .model-illu :global(.prod-illu) { aspect-ratio: 4/3; }
 
 .model-body {

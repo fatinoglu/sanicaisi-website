@@ -6,7 +6,7 @@ categorySlug: boru
 series: Multi
 tagline: Beş katmanlı, oksijen geçirmez omurga.
 description: Yerden ısıtma ve radyatör tesisatı için 5 katmanlı PEX-AL-PEX boru. 4 çap seçeneği.
-order: 1
+order: 2
 coverKind: pipe-section
 coverBg: sand
 specs:

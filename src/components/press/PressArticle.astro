@@ -1,0 +1,364 @@
+---
+/**
+ * PressArticle — basın haberi detay layout'u
+ * Breadcrumb + meta + hero görsel + içerik + paylaş + sonraki/önceki
+ */
+import { getLocale, formatDate, localizedUrl } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+interface Nav { slug: string; title: string }
+
+interface Props {
+  title: string;
+  date: Date;
+  category: 'bizden-haberler' | 'sosyal-sorumluluk' | 'halka-arz';
+  excerpt?: string;
+  heroImage?: string;
+  heroImageAlt?: string;
+  sourceUrl?: string;
+  prev?: Nav;
+  next?: Nav;
+}
+const { title, date, category, excerpt, heroImage, heroImageAlt, sourceUrl, prev, next } = Astro.props;
+
+const catLabel = locale === 'tr' ? {
+  'bizden-haberler': 'Bizden Haberler',
+  'sosyal-sorumluluk': 'Sosyal Sorumluluk',
+  'halka-arz': 'Halka Arz',
+} : {
+  'bizden-haberler': 'Our News',
+  'sosyal-sorumluluk': 'Social Responsibility',
+  'halka-arz': 'IPO',
+};
+
+const t = locale === 'tr' ? {
+  home: 'Anasayfa',
+  index: 'Basında Biz',
+  source: 'Orijinal kaynak',
+  back: 'Tüm haberler',
+  prev: 'Önceki',
+  next: 'Sonraki',
+  share: 'Paylaş',
+} : {
+  home: 'Home',
+  index: 'In the Press',
+  source: 'Original source',
+  back: 'All news',
+  prev: 'Previous',
+  next: 'Next',
+  share: 'Share',
+};
+
+const homeHref = locale === 'tr' ? '/' : '/en/';
+const indexHref = locale === 'tr' ? '/basinda-biz' : '/en/press';
+const detailHref = (slug: string) => localizedUrl(locale, `${locale === 'tr' ? '/basinda-biz' : '/press'}/${slug}`);
+---
+
+<article class="press-article">
+  <header class="art-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label={locale === 'tr' ? 'Konum' : 'Breadcrumb'}>
+        <a href={homeHref}>{t.home}</a>
+        <span class="sep">/</span>
+        <a href={indexHref}>{t.index}</a>
+        <span class="sep">/</span>
+        <span class="current">{catLabel[category]}</span>
+      </nav>
+
+      <div class="meta">
+        <span class:list={['cat-pill', category]}>{catLabel[category]}</span>
+        <time class="date" datetime={date.toISOString()}>{formatDate(date, locale)}</time>
+      </div>
+
+      <h1>{title}</h1>
+      {excerpt && <p class="lead">{excerpt}</p>}
+    </div>
+  </header>
+
+  {heroImage && (
+    <figure class="hero-img-wrap">
+      <div class="container">
+        <img src={heroImage} alt={heroImageAlt ?? title} loading="eager" />
+      </div>
+    </figure>
+  )}
+
+  <div class="art-body">
+    <div class="container">
+      <div class="prose">
+        <slot />
+      </div>
+
+      {sourceUrl && (
+        <aside class="source">
+          <span class="src-label">{t.source}</span>
+          <a href={sourceUrl} target="_blank" rel="noopener">{sourceUrl}</a>
+        </aside>
+      )}
+
+      <nav class="art-nav" aria-label={locale === 'tr' ? 'Haber gezinme' : 'Story navigation'}>
+        {prev ? (
+          <a class="np prev" href={detailHref(prev.slug)}>
+            <span class="lbl"><span aria-hidden="true">←</span> {t.prev}</span>
+            <span class="ttl">{prev.title}</span>
+          </a>
+        ) : <span />}
+        <a class="back" href={indexHref}>
+          <span class="grid-dot" aria-hidden="true"></span>
+          {t.back}
+        </a>
+        {next ? (
+          <a class="np next" href={detailHref(next.slug)}>
+            <span class="lbl">{t.next} <span aria-hidden="true">→</span></span>
+            <span class="ttl">{next.title}</span>
+          </a>
+        ) : <span />}
+      </nav>
+    </div>
+  </div>
+</article>
+
+<style>
+.press-article { background: var(--paper); }
+
+.art-hero {
+  padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(2rem, 4vw, 3rem);
+}
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.75rem;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+.breadcrumb a:hover { color: var(--terracotta); }
+.breadcrumb .sep { color: var(--line); }
+.breadcrumb .current { color: var(--ink); font-weight: 500; }
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+.cat-pill {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.3125rem 0.75rem;
+  background: var(--paper-soft);
+  color: var(--ink);
+  border-radius: 2px;
+}
+.cat-pill.bizden-haberler { color: var(--terracotta); background: var(--terracotta-soft); }
+.cat-pill.sosyal-sorumluluk { color: var(--success); background: var(--success-soft); }
+.cat-pill.halka-arz { color: var(--bist-navy); background: var(--bist-navy-soft); }
+.date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.art-hero h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2rem, 4.6vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  max-width: 880px;
+  margin-bottom: 1.25rem;
+}
+.lead {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--text);
+  max-width: 720px;
+}
+
+.hero-img-wrap {
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+.hero-img-wrap img {
+  display: block;
+  width: 100%;
+  max-height: 560px;
+  object-fit: cover;
+  background: var(--sand);
+}
+
+.art-body {
+  padding-bottom: var(--section-y);
+}
+
+.prose {
+  max-width: 720px;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+.prose :global(p) { margin-bottom: 1.25rem; }
+.prose :global(h2) {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 60, "wght" 500;
+  font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin: 2.5rem 0 1rem;
+}
+.prose :global(h3) {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 1.25rem;
+  color: var(--ink);
+  margin: 1.75rem 0 0.75rem;
+}
+.prose :global(ul), .prose :global(ol) {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.prose :global(li) { margin-bottom: 0.5rem; }
+.prose :global(strong) { color: var(--ink); font-weight: 600; }
+.prose :global(a) {
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose :global(a:hover) { color: var(--terracotta-deep); }
+.prose :global(blockquote) {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 70, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: 1.375rem;
+  line-height: 1.4;
+  color: var(--terracotta);
+  border-left: 3px solid var(--terracotta);
+  padding-left: 1.25rem;
+  margin: 2rem 0;
+}
+.prose :global(img) {
+  display: block;
+  width: 100%;
+  max-width: 880px;
+  margin: 2rem auto;
+  background: var(--sand);
+}
+.prose :global(em:has(+ :not(em))),
+.prose :global(p > em:only-child) {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-align: center;
+  display: block;
+}
+
+.source {
+  margin: 3rem 0 0;
+  padding: 1.25rem 1.5rem;
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--terracotta);
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  max-width: 720px;
+}
+.src-label {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.source a {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--ink);
+  word-break: break-all;
+  transition: color var(--t-fast) var(--ease);
+}
+.source a:hover { color: var(--terracotta); }
+
+.art-nav {
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+.np {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  color: var(--text);
+  max-width: 320px;
+  transition: color var(--t-fast) var(--ease);
+}
+.np.next { text-align: right; align-items: flex-end; }
+.np .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 600;
+}
+.np .ttl {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.np:hover .ttl { color: var(--terracotta); }
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--line);
+  transition: all var(--t-fast) var(--ease);
+}
+.back:hover { border-color: var(--ink); }
+.back .grid-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--terracotta);
+}
+
+@media (max-width: 720px) {
+  .art-nav { grid-template-columns: 1fr; }
+  .np.next { text-align: left; align-items: flex-start; }
+  .back { justify-self: start; }
+}
+</style>

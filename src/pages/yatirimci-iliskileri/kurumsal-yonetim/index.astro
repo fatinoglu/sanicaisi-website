@@ -1,0 +1,64 @@
+---
+/**
+ * Yatırımcı İlişkileri → Kurumsal Yönetim (TR)
+ * Yönetim Kurulu · Ortaklık Yapısı · Komiteler · Politikalar · Genel Kurullar
+ * Sermaye Artırımları · Bağımsız Denetçi
+ */
+import InvestorLayout from '../../../layouts/InvestorLayout.astro';
+import InvestorSectionHero from '../../../components/investor/InvestorSectionHero.astro';
+import BoardMembers from '../../../components/investor/BoardMembers.astro';
+import ShareholderTable from '../../../components/investor/ShareholderTable.astro';
+import DocListSection from '../../../components/investor/DocListSection.astro';
+import IndependentAuditor from '../../../components/investor/IndependentAuditor.astro';
+---
+
+<InvestorLayout
+  title="Kurumsal Yönetim — Yatırımcı İlişkileri · Sanica Isı"
+  description="Sanica Isı kurumsal yönetim: yönetim kurulu, ortaklık yapısı, komiteler, politikalar, genel kurullar, sermaye artırımları ve bağımsız denetçi."
+  current="kurumsal-yonetim"
+>
+  <InvestorSectionHero
+    slot="hero"
+    sectionMarkerNum="03"
+    title="Kurumsal Yönetim"
+    description="Yönetim kurulu, ortaklık yapısı, komite görev esasları, politikalar ve genel kurul belgeleri. Tüm dokümanlar Sermaye Piyasası Mevzuatı'na uygundur."
+  />
+
+  <BoardMembers />
+  <ShareholderTable />
+
+  <DocListSection
+    markerNum="03"
+    title="Yönetim Kurulu Komiteleri"
+    intro="Denetimden Sorumlu, Kurumsal Yönetim ve Riskin Erken Saptanması komitelerinin görev ve çalışma esasları."
+    filterType="komite"
+    variant="light"
+  />
+
+  <DocListSection
+    markerNum="04"
+    title="Politikalar"
+    intro="Ücret politikası, kar dağıtım politikası gibi şirket politika dokümanları."
+    filterType="politika"
+    variant="soft"
+  />
+
+  <DocListSection
+    markerNum="05"
+    title="Genel Kurullar"
+    intro="Yıllar itibariyle olağan ve olağanüstü genel kurullara ait çağrı, bilgilendirme, vekaletname, hazirun cetveli ve toplantı tutanakları."
+    filterType="genel-kurul"
+    variant="light"
+  />
+
+  <DocListSection
+    markerNum="06"
+    title="Sermaye Artırımları"
+    intro="Bedelsiz sermaye artırımları için SPK onay yazıları, ihraç belgeleri ve tadil tasarıları."
+    filterType="diger"
+    filterSlugIncludes={['bedelsiz-sermaye-artirimi', 'esas-sozlesme']}
+    variant="soft"
+  />
+
+  <IndependentAuditor />
+</InvestorLayout>

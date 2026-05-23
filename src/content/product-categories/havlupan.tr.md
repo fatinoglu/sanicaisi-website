@@ -4,8 +4,9 @@ slug: havlupan
 name: Havlupan
 tagline: Banyonun sıcak iskeleti, tasarımın ısısı.
 description: İnce profilli paslanmaz çelik gövde, mimari projelerde aranan tasarım radyatör. 9 renk, 40+ boyut.
-order: 2
+order: 5
 coverKind: towel
+parentGroup: Banyo
 ---
 
 Sanica havlupan koleksiyonu, Aurora ve klasik serilerle modern banyolar için tasarım radyatör çözümleri sunar. Mimar ve iç mimarların projelerine uyumlu renk seçenekleri (RAL paleti) ve tek/çift bağlantı varyantları.

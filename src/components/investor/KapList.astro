@@ -52,11 +52,30 @@ const sorted = all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 // Yıllar (mevcut veride hangileri var)
 const years = [...new Set(sorted.map((e) => e.data.date.getFullYear()))].sort((a, b) => b - a);
 
-// İlk sayfa (ilk 9 kayıt) — Faz 7'de URL parametresi ile gerçek pagination
 const PER_PAGE = 9;
-const visible = sorted.slice(0, PER_PAGE);
 const totalCount = sorted.length;
-const showingCount = visible.length;
+const totalPages = Math.max(1, Math.ceil(totalCount / PER_PAGE));
+
+// Server-side initial pagination iskeleti — JS yüklenmeden de görünür kalsın.
+type PageBtn = { label: string; page?: number; active?: boolean; disabled?: boolean; gap?: boolean };
+function computePageButtons(current: number, total: number): PageBtn[] {
+  const buttons: PageBtn[] = [];
+  buttons.push({ label: '‹', page: Math.max(1, current - 1), disabled: current === 1 });
+  const pages = new Set<number>([1, total]);
+  for (let p = current - 1; p <= current + 1; p++) {
+    if (p >= 1 && p <= total) pages.add(p);
+  }
+  const sortedPages = Array.from(pages).sort((a, b) => a - b);
+  let prev = 0;
+  for (const p of sortedPages) {
+    if (p - prev > 1) buttons.push({ label: '…', gap: true });
+    buttons.push({ label: String(p), page: p, active: p === current });
+    prev = p;
+  }
+  buttons.push({ label: '›', page: Math.min(total, current + 1), disabled: current === total });
+  return buttons;
+}
+const initialButtons = computePageButtons(1, totalPages);
 
 // Kategori tag CSS class map (frontmatter category → renkli tag)
 const tagClassMap: Record<string, string> = {
@@ -110,9 +129,14 @@ const tagClassMap: Record<string, string> = {
     </div>
 
     <!-- List -->
-    <div class="kap-list">
-      {visible.map((item) => (
-        <article class="kap-row">
+    <div class="kap-list" data-per-page={PER_PAGE}>
+      {sorted.map((item) => (
+        <article
+          class="kap-row"
+          data-year={item.data.date.getFullYear()}
+          data-cat={item.data.category}
+          data-search={item.data.title.toLowerCase()}
+        >
           <div class="date">{formatDateShort(item.data.date, locale)}</div>
           <span class:list={['tag', tagClassMap[item.data.category]]}>
             {t.tagLabels[item.data.category as keyof typeof t.tagLabels]}
@@ -134,17 +158,20 @@ const tagClassMap: Record<string, string> = {
           </div>
         </article>
       ))}
+      <div class="kap-empty" hidden>{locale === 'tr' ? 'Bu filtrelerle eşleşen açıklama bulunamadı.' : 'No disclosures match these filters.'}</div>
     </div>
 
-    <!-- Pagination (Faz 7'de URL'e bağlanır) -->
-    <div class="pagination">
-      <span class="count"><strong>1–{showingCount}</strong> · {totalCount} {t.paginationLbl}</span>
+    <!-- Pagination (server-side iskelet, JS overrride eder) -->
+    <div class="pagination" data-label={t.paginationLbl}>
+      <span class="count"><strong>1–{Math.min(PER_PAGE, totalCount)}</strong> · {totalCount} {t.paginationLbl}</span>
       <div class="page-nums">
-        <button disabled>‹</button>
-        <button class="active">1</button>
-        {totalCount > PER_PAGE && <button>2</button>}
-        {totalCount > PER_PAGE * 2 && <button class="gap">…</button>}
-        <button disabled={totalCount <= PER_PAGE}>›</button>
+        {initialButtons.map((b) => (
+          <button
+            class:list={[b.active && 'active', b.gap && 'gap']}
+            disabled={b.disabled || b.gap}
+            data-init-page={b.page}
+          >{b.label}</button>
+        ))}
       </div>
     </div>
 
@@ -249,6 +276,16 @@ const tagClassMap: Record<string, string> = {
 .kap-count strong { color: var(--ink); font-weight: 600; }
 
 .kap-list { border-top: 1px solid var(--line); }
+.kap-empty {
+  padding: 3rem 1rem;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
 .kap-row {
   display: grid;
   grid-template-columns: 100px 130px 1fr auto;
@@ -381,13 +418,130 @@ const tagClassMap: Record<string, string> = {
 </style>
 
 <script>
-  // Filter pill cosmetic toggle — gerçek filtering Faz 7'de Pagefind ile
-  document.querySelectorAll('.pill-group').forEach((group) => {
-    group.querySelectorAll('button').forEach((b) => {
+  type Row = HTMLElement;
+
+  const section = document.getElementById('kap');
+  if (section) {
+    const listEl = section.querySelector<HTMLElement>('.kap-list')!;
+    const rows = Array.from(listEl.querySelectorAll<HTMLElement>('.kap-row'));
+    const emptyEl = listEl.querySelector<HTMLElement>('.kap-empty')!;
+    const yearPills = section.querySelector<HTMLElement>('.year-pills')!;
+    const catPills = section.querySelector<HTMLElement>('.cat-pills')!;
+    const searchInput = section.querySelector<HTMLInputElement>('.search-input input')!;
+    const countEl = section.querySelector<HTMLElement>('.kap-count strong')!;
+    const pagEl = section.querySelector<HTMLElement>('.pagination')!;
+    const pagNumsEl = pagEl.querySelector<HTMLElement>('.page-nums')!;
+    const pagCountEl = pagEl.querySelector<HTMLElement>('.count')!;
+    const perPage = parseInt(listEl.dataset.perPage || '9', 10);
+    const recordsLbl = pagEl.dataset.label || '';
+
+    const state = {
+      year: 'all' as string,
+      cat: 'all' as string,
+      search: '',
+      page: 1,
+    };
+
+    let filtered: Row[] = rows.slice();
+
+    function applyFilter() {
+      const q = state.search.trim().toLowerCase();
+      filtered = rows.filter((r) => {
+        if (state.year !== 'all' && r.dataset.year !== state.year) return false;
+        if (state.cat !== 'all' && r.dataset.cat !== state.cat) return false;
+        if (q && !(r.dataset.search || '').includes(q)) return false;
+        return true;
+      });
+      state.page = 1;
+      render();
+    }
+
+    function setCount(start: number, end: number, total: number) {
+      pagCountEl.replaceChildren();
+      const strong = document.createElement('strong');
+      strong.textContent = total === 0 ? '0' : `${start + 1}–${Math.min(end, total)}`;
+      pagCountEl.append(strong, ` · ${total} ${recordsLbl}`);
+    }
+
+    function render() {
+      const total = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(total / perPage));
+      if (state.page > totalPages) state.page = totalPages;
+      const start = (state.page - 1) * perPage;
+      const end = start + perPage;
+
+      const visibleSet = new Set(filtered.slice(start, end));
+      rows.forEach((r) => {
+        r.hidden = !visibleSet.has(r);
+      });
+      emptyEl.hidden = total !== 0;
+
+      countEl.textContent = String(total);
+      setCount(start, end, total);
+
+      pagNumsEl.replaceChildren();
+      const mkBtn = (label: string, opts: { active?: boolean; disabled?: boolean; gap?: boolean; page?: number } = {}) => {
+        const b = document.createElement('button');
+        b.textContent = label;
+        if (opts.active) b.classList.add('active');
+        if (opts.gap) b.classList.add('gap');
+        if (opts.disabled) b.disabled = true;
+        if (opts.page !== undefined && !opts.disabled && !opts.gap) {
+          b.addEventListener('click', () => {
+            state.page = opts.page!;
+            render();
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        }
+        return b;
+      };
+
+      pagNumsEl.appendChild(mkBtn('‹', { disabled: state.page === 1, page: state.page - 1 }));
+
+      const pages = new Set<number>();
+      pages.add(1);
+      pages.add(totalPages);
+      for (let p = state.page - 1; p <= state.page + 1; p++) {
+        if (p >= 1 && p <= totalPages) pages.add(p);
+      }
+      const sortedPages = Array.from(pages).sort((a, b) => a - b);
+      let prev = 0;
+      for (const p of sortedPages) {
+        if (p - prev > 1) pagNumsEl.appendChild(mkBtn('…', { gap: true }));
+        pagNumsEl.appendChild(mkBtn(String(p), { active: p === state.page, page: p }));
+        prev = p;
+      }
+
+      pagNumsEl.appendChild(mkBtn('›', { disabled: state.page === totalPages, page: state.page + 1 }));
+    }
+
+    yearPills.querySelectorAll('button').forEach((b) => {
       b.addEventListener('click', () => {
-        group.querySelectorAll('button').forEach((x) => x.classList.remove('active'));
+        yearPills.querySelectorAll('button').forEach((x) => x.classList.remove('active'));
         b.classList.add('active');
+        state.year = b.dataset.year || 'all';
+        applyFilter();
       });
     });
-  });
+
+    catPills.querySelectorAll('button').forEach((b) => {
+      b.addEventListener('click', () => {
+        catPills.querySelectorAll('button').forEach((x) => x.classList.remove('active'));
+        b.classList.add('active');
+        state.cat = b.dataset.cat || 'all';
+        applyFilter();
+      });
+    });
+
+    let searchTimer: number | undefined;
+    searchInput.addEventListener('input', () => {
+      window.clearTimeout(searchTimer);
+      searchTimer = window.setTimeout(() => {
+        state.search = searchInput.value;
+        applyFilter();
+      }, 150);
+    });
+
+    applyFilter();
+  }
 </script>

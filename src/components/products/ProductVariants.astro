@@ -1,0 +1,442 @@
+---
+/**
+ * ProductVariants — bir ürünün alt model/serisinin liste görünümü.
+ * Örn. Alüminyum Radyatör → LUGO, CORDOBA, MALAGA...
+ *
+ * Her kart bir <button>: tıklayınca <dialog> içinde büyük görsel + detay.
+ */
+import { getLocale } from '../../lib/i18n';
+
+interface Variant {
+  name: string;
+  image?: string;
+  note?: string;
+}
+
+interface Props {
+  variants: Variant[];
+  number?: string;
+  heading?: string;
+}
+
+const { variants, number = '02', heading } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Seri Modelleri',
+  h2pre: 'Aile içinde',
+  h2em: 'farklı karakter',
+  h2post: '.',
+  close: 'Kapat',
+  prev: 'Önceki',
+  next: 'Sonraki',
+  detail: 'Detayı görüntüle',
+} : {
+  marker: 'Series Models',
+  h2pre: 'Distinct characters',
+  h2em: 'within the family',
+  h2post: '.',
+  close: 'Close',
+  prev: 'Previous',
+  next: 'Next',
+  detail: 'View detail',
+};
+---
+
+<section class="variants" id="variants">
+  <div class="container">
+    <div class="sec-head">
+      <div class="section-marker" style="margin-bottom: 1rem;">
+        <span class="num">{number}</span><span class="dash">—</span><span class="label">{heading ?? t.marker}</span>
+      </div>
+      <h2>{t.h2pre} <em>{t.h2em}</em>{t.h2post}</h2>
+    </div>
+
+    <ul class="variant-grid" data-variant-list>
+      {variants.map((v, i) => (
+        <li>
+          <button
+            type="button"
+            class="variant"
+            data-variant-trigger
+            data-index={i}
+            data-name={v.name}
+            data-image={v.image ?? ''}
+            data-note={v.note ?? ''}
+            aria-label={`${v.name} — ${t.detail}`}
+          >
+            {v.image && (
+              <div class="thumb">
+                <img src={v.image} alt={v.name} loading="lazy" />
+                <span class="zoom-hint" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m21 21-4.3-4.3" />
+                    <path d="M11 8v6M8 11h6" />
+                  </svg>
+                </span>
+              </div>
+            )}
+            <div class="text">
+              <span class="name">{v.name}</span>
+              {v.note && <span class="note">{v.note}</span>}
+            </div>
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <dialog class="variant-dialog" data-variant-dialog aria-labelledby="variant-dialog-title">
+    <div class="dialog-inner">
+      <button type="button" class="dialog-close" data-dialog-close aria-label={t.close}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+
+      <button type="button" class="dialog-nav prev" data-dialog-prev aria-label={t.prev}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+      </button>
+      <button type="button" class="dialog-nav next" data-dialog-next aria-label={t.next}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </button>
+
+      <div class="dialog-media">
+        <img data-dialog-image src="" alt="" />
+      </div>
+
+      <div class="dialog-text">
+        <span class="dialog-counter" data-dialog-counter></span>
+        <h3 id="variant-dialog-title" data-dialog-title></h3>
+        <p class="dialog-note" data-dialog-note></p>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<script>
+  /* Lightbox controller — bu bileşenin tüm instance'larını bağımsız yönetir. */
+  document.querySelectorAll<HTMLElement>('[data-variant-list]').forEach((list) => {
+    const section = list.closest('section');
+    if (!section) return;
+
+    const dialog = section.querySelector<HTMLDialogElement>('[data-variant-dialog]');
+    if (!dialog) return;
+
+    const triggers = Array.from(list.querySelectorAll<HTMLButtonElement>('[data-variant-trigger]'));
+    const imgEl = dialog.querySelector<HTMLImageElement>('[data-dialog-image]');
+    const titleEl = dialog.querySelector<HTMLElement>('[data-dialog-title]');
+    const noteEl = dialog.querySelector<HTMLElement>('[data-dialog-note]');
+    const counterEl = dialog.querySelector<HTMLElement>('[data-dialog-counter]');
+    const closeBtn = dialog.querySelector<HTMLButtonElement>('[data-dialog-close]');
+    const prevBtn = dialog.querySelector<HTMLButtonElement>('[data-dialog-prev]');
+    const nextBtn = dialog.querySelector<HTMLButtonElement>('[data-dialog-next]');
+
+    let currentIndex = -1;
+
+    function render(index: number) {
+      if (index < 0 || index >= triggers.length) return;
+      currentIndex = index;
+      const t = triggers[index];
+      const image = t.dataset.image ?? '';
+      const name = t.dataset.name ?? '';
+      const note = t.dataset.note ?? '';
+
+      if (imgEl) {
+        imgEl.src = image;
+        imgEl.alt = name;
+        imgEl.style.display = image ? 'block' : 'none';
+      }
+      if (titleEl) titleEl.textContent = name;
+      if (noteEl) {
+        noteEl.textContent = note;
+        noteEl.style.display = note ? 'block' : 'none';
+      }
+      if (counterEl) counterEl.textContent = `${index + 1} / ${triggers.length}`;
+    }
+
+    function openAt(index: number) {
+      render(index);
+      if (!dialog.open) dialog.showModal();
+    }
+
+    triggers.forEach((t, i) => {
+      t.addEventListener('click', () => openAt(i));
+    });
+
+    closeBtn?.addEventListener('click', () => dialog.close());
+    prevBtn?.addEventListener('click', () => render((currentIndex - 1 + triggers.length) % triggers.length));
+    nextBtn?.addEventListener('click', () => render((currentIndex + 1) % triggers.length));
+
+    /* Klavye gezinmesi — Escape native, sol/sağ ok eklendi */
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        render((currentIndex - 1 + triggers.length) % triggers.length);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        render((currentIndex + 1) % triggers.length);
+      }
+    });
+
+    /* Backdrop tıklamasında kapat */
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+  });
+</script>
+
+<style>
+.variants {
+  background: var(--paper);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  border-top: 1px solid var(--line);
+}
+.sec-head { margin-bottom: 2rem; }
+.sec-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+}
+.sec-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+
+.variant-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 0;
+}
+@media (max-width: 1024px) { .variant-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 720px) { .variant-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .variant-grid { grid-template-columns: 1fr; } }
+
+.variant {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  transition: border-color var(--t-fast) var(--ease), transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease);
+}
+.variant:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -14px rgba(10, 10, 10, 0.18);
+}
+.variant:focus-visible {
+  outline: 2px solid var(--terracotta-warm);
+  outline-offset: 3px;
+}
+
+.thumb {
+  position: relative;
+  aspect-ratio: 4/3;
+  background: var(--paper-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform var(--t-med) var(--ease);
+}
+.variant:hover .thumb img { transform: scale(1.04); }
+
+.zoom-hint {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(247, 244, 238, 0.9);
+  color: var(--ink);
+  border-radius: 999px;
+  opacity: 0;
+  transition: opacity var(--t-fast) var(--ease);
+}
+.variant:hover .zoom-hint,
+.variant:focus-visible .zoom-hint { opacity: 1; }
+
+.text {
+  padding: 0.875rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.name {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 500;
+  font-size: 1rem;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.note {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* ────────────────────────────────────────────────────────
+   Lightbox dialog
+   ──────────────────────────────────────────────────────── */
+.variant-dialog {
+  /* Global reset (* { margin: 0 }) native dialog'un margin: auto centering'ini
+     eziyor — viewport ortasına yerleştirmek için açık margin: auto + inset. */
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(1100px, 92vw);
+  max-width: 92vw;
+  max-height: 92vh;
+  border: none;
+  padding: 0;
+  background: var(--paper);
+  box-shadow: 0 40px 80px -20px rgba(10, 10, 10, 0.45);
+  color: var(--ink);
+  overflow: visible;
+}
+.variant-dialog::backdrop {
+  background: rgba(10, 10, 10, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.dialog-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  min-height: 420px;
+  max-height: 92vh;
+}
+@media (max-width: 820px) {
+  .dialog-inner { grid-template-columns: 1fr; min-height: 0; }
+}
+
+.dialog-media {
+  background: var(--paper-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 2.5rem);
+  overflow: hidden;
+}
+.dialog-media img {
+  max-width: 100%;
+  max-height: 72vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+@media (max-width: 820px) {
+  .dialog-media img { max-height: 50vh; }
+}
+
+.dialog-text {
+  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.5rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.875rem;
+  border-left: 1px solid var(--line);
+}
+@media (max-width: 820px) {
+  .dialog-text { border-left: none; border-top: 1px solid var(--line); }
+}
+
+.dialog-counter {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+}
+.dialog-text h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 60, "wght" 500;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+}
+.dialog-note {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+
+/* Close & nav */
+.dialog-close {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  z-index: 3;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+}
+.dialog-close:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+.dialog-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  z-index: 3;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+}
+.dialog-nav:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.dialog-nav.prev { left: 0.625rem; }
+.dialog-nav.next {
+  /* Yatay ekranda görsel kolonu içinde değil, dialog'un sağ kenarına yakın yerleştir */
+  left: calc((100% / 2.4) - 22px);
+}
+@media (max-width: 820px) {
+  .dialog-nav.next { left: auto; right: 0.625rem; }
+  .dialog-nav.prev, .dialog-nav.next { top: calc(25vh + 10px); transform: none; }
+}
+</style>

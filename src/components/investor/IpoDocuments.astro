@@ -1,0 +1,191 @@
+---
+/**
+ * IpoDocuments — Halka Arz mevzuat dokümanları (SPK onaylı)
+ * Canlı WP /yatirimci-iliskileri/halka-arz tablosundan port (10 PDF)
+ * URL'ler sanicaisi.com.tr/wp-content/uploads altında, regülasyon belgeleri olduğu için
+ * orijinal kalıyor (R2 mirror'ı ek migration ister).
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: '02 — Mevzuat Dokümanları',
+  h2a: 'SPK onaylı',
+  h2em: 'halka arz dosyaları',
+  h2b: '.',
+  intro: 'İzahname, fiyat tespit, denetim, hukuk ve değerleme raporları — yatırımcının halka arz sürecinde başvurması gereken tüm referans dokümanlar.',
+  docs: [
+    { n: '01', title: 'İzahname', kind: 'SPK onaylı izahname', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/SPK-Onayli-Izahname.pdf' },
+    { n: '02', title: 'Tasarruf Sahiplerine Satış Duyurusu', kind: 'Duyuru', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Tasarruf-Sahiplerine-Satis-Duyurusu.pdf' },
+    { n: '03', title: 'Bağımsız Denetim Raporları', kind: '2019-2021 + 30.06.2022 ara dönem', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2023/01/Ek-3-2019-2020-ve-2021-yillik-hesap-donemleri-ile-30.06.2022-tarihinde-sona-eren-ara-doneme-ait-Finansal-Tablolar.pdf' },
+    { n: '04', title: 'Hukukçu Raporu', kind: 'Ek-9a', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-9a-Hukukcu-Raporu.pdf' },
+    { n: '04b', title: 'Hukukçu Raporu Ekleri', kind: 'Ek-9b', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-9b-Hukukcu-Raporu-Eki.pdf' },
+    { n: '05', title: 'Gayrimenkul Değerleme Raporu — Elazığ', kind: 'Ek-7a', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-7a-Gayrimenkul-Degerleme-Raporu-Elazig.pdf' },
+    { n: '05b', title: 'Gayrimenkul Değerleme Raporu — Manisa', kind: 'Ek-7b', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-7b-Gayrimenkul-Degerleme-Raporu-Manisa.pdf' },
+    { n: '06', title: 'Fiyat Tespit Raporu', kind: 'Ek-4', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/EK-4-Fiyat-Tespit-Raporu.pdf' },
+    { n: '07', title: 'Bağımsız Denetim Kuruluşu Sorumluluk Beyanı', kind: 'Ek-6', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-6-Bagimsiz-Denetim-Kurulusu-Sorumluluk-Beyani.pdf' },
+    { n: '08', title: 'Gayrimenkul Değerleme Kuruluşu Sorumluluk Beyanı', kind: 'Sorumluluk beyanı', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2023/01/Gayrimenkul-Degerleme-Kurulusu-Sorumluluk-Beyani.pdf' },
+    { n: '09', title: 'Hukukçu Sorumluluk Beyanı', kind: 'Sorumluluk beyanı', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2023/01/Hukukcu-Sorumluluk-Beyani.pdf' },
+    { n: '10', title: 'Fon Kullanım Yeri Raporu ve Yönetim Kurulu Kararı', kind: 'Ek-5', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-5-Fon-Kullanim-Yeri-Raporu-ve-Yonetim-Kurulu-Karari.pdf' },
+  ],
+  open: 'PDF\'i aç',
+} : {
+  marker: '02 — Regulatory documents',
+  h2a: 'SPK-approved',
+  h2em: 'IPO documents',
+  h2b: '.',
+  intro: 'Prospectus, price determination, audit, legal and valuation reports — every reference document a prospective investor may need.',
+  docs: [
+    { n: '01', title: 'Prospectus', kind: 'SPK-approved prospectus', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/SPK-Onayli-Izahname.pdf' },
+    { n: '02', title: 'Public Offering Notice', kind: 'Notice to investors', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Tasarruf-Sahiplerine-Satis-Duyurusu.pdf' },
+    { n: '03', title: 'Independent Audit Reports', kind: '2019-2021 + 30.06.2022 interim', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2023/01/Ek-3-2019-2020-ve-2021-yillik-hesap-donemleri-ile-30.06.2022-tarihinde-sona-eren-ara-doneme-ait-Finansal-Tablolar.pdf' },
+    { n: '04', title: 'Legal Counsel Report', kind: 'Annex 9a', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-9a-Hukukcu-Raporu.pdf' },
+    { n: '04b', title: 'Legal Counsel Report Annexes', kind: 'Annex 9b', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-9b-Hukukcu-Raporu-Eki.pdf' },
+    { n: '05', title: 'Real Estate Valuation Report — Elazığ', kind: 'Annex 7a', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-7a-Gayrimenkul-Degerleme-Raporu-Elazig.pdf' },
+    { n: '05b', title: 'Real Estate Valuation Report — Manisa', kind: 'Annex 7b', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-7b-Gayrimenkul-Degerleme-Raporu-Manisa.pdf' },
+    { n: '06', title: 'Price Determination Report', kind: 'Annex 4', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/EK-4-Fiyat-Tespit-Raporu.pdf' },
+    { n: '07', title: 'Independent Audit Firm Statement of Responsibility', kind: 'Annex 6', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-6-Bagimsiz-Denetim-Kurulusu-Sorumluluk-Beyani.pdf' },
+    { n: '08', title: 'Real Estate Valuation Firm Statement of Responsibility', kind: 'Statement of responsibility', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2023/01/Gayrimenkul-Degerleme-Kurulusu-Sorumluluk-Beyani.pdf' },
+    { n: '09', title: 'Legal Counsel Statement of Responsibility', kind: 'Statement of responsibility', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2023/01/Hukukcu-Sorumluluk-Beyani.pdf' },
+    { n: '10', title: 'Fund Usage Report & Board Resolution', kind: 'Annex 5', url: 'https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/Ek-5-Fon-Kullanim-Yeri-Raporu-ve-Yonetim-Kurulu-Karari.pdf' },
+  ],
+  open: 'Open PDF',
+};
+---
+
+<section class="ipo-docs">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="marker">{t.marker}</span>
+        <h2>{t.h2a} <em>{t.h2em}</em>{t.h2b}</h2>
+      </div>
+      <p class="intro">{t.intro}</p>
+    </div>
+
+    <ol class="doc-list">
+      {t.docs.map((d) => (
+        <li class="doc">
+          <span class="n">{d.n}</span>
+          <div class="meta">
+            <h3>{d.title}</h3>
+            <span class="kind">{d.kind}</span>
+          </div>
+          <a class="open" href={d.url} target="_blank" rel="noopener">
+            <span class="pdf">PDF</span>
+            <span class="lbl">{t.open}</span>
+            <span class="arr" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+.ipo-docs { background: var(--ink); color: var(--paper); padding: clamp(3rem, 6vw, 5rem) 0; }
+
+.head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+.marker {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.6);
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+.head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  color: var(--paper);
+  max-width: 480px;
+}
+.head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: #8BAACF;
+}
+.head .intro {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(247, 244, 238, 0.7);
+  max-width: 480px;
+}
+
+.doc-list { list-style: none; padding: 0; margin: 0; counter-reset: doc; }
+.doc {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.375rem 0;
+  border-top: 1px solid rgba(247, 244, 238, 0.12);
+  transition: background var(--t-fast) var(--ease), padding var(--t-fast) var(--ease);
+}
+.doc:last-child { border-bottom: 1px solid rgba(247, 244, 238, 0.12); }
+.doc:hover { background: rgba(247, 244, 238, 0.04); padding-inline: 1rem; }
+
+.n {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #8BAACF;
+}
+.meta { display: flex; flex-direction: column; gap: 0.25rem; }
+.meta h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 480;
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  color: var(--paper);
+}
+.kind {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.55);
+}
+
+.open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: rgba(247, 244, 238, 0.85);
+  transition: color var(--t-fast) var(--ease);
+  white-space: nowrap;
+}
+.open:hover { color: #8BAACF; }
+.pdf {
+  padding: 0.1875rem 0.5rem;
+  border: 1px solid rgba(247, 244, 238, 0.3);
+  border-radius: 2px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--paper);
+}
+.arr { color: #8BAACF; font-size: 1rem; }
+
+@media (max-width: 720px) {
+  .head { grid-template-columns: 1fr; gap: 1.5rem; }
+  .doc { grid-template-columns: 40px 1fr; }
+  .open { grid-column: 1 / -1; justify-content: flex-end; }
+  .lbl { display: none; }
+}
+</style>

@@ -1,0 +1,26 @@
+---
+/**
+ * Yatırımcı İlişkileri → Halka Arz (TR)
+ * Özet bilgiler tablosu + 10 SPK mevzuat dokümanı
+ */
+import InvestorLayout from '../../../layouts/InvestorLayout.astro';
+import InvestorSectionHero from '../../../components/investor/InvestorSectionHero.astro';
+import IpoSummary from '../../../components/investor/IpoSummary.astro';
+import IpoDocuments from '../../../components/investor/IpoDocuments.astro';
+---
+
+<InvestorLayout
+  title="Halka Arz — Yatırımcı İlişkileri · Sanica Isı"
+  description="Sanica Isı halka arz özet bilgileri, izahname, fiyat tespit raporu, hukuk ve denetim raporları, fon kullanım yeri raporu."
+  current="halka-arz"
+>
+  <InvestorSectionHero
+    slot="hero"
+    sectionMarkerNum="02"
+    title="Halka Arz"
+    description="40 milyon TL nominal payın SPK onaylı izahname ve mevzuat dokümanları. 15-18 Kasım 2022 talep toplama, 24 Kasım 2022 Yıldız Pazar'da işlem başlangıcı."
+  />
+
+  <IpoSummary />
+  <IpoDocuments />
+</InvestorLayout>

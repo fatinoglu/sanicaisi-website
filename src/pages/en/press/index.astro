@@ -1,0 +1,35 @@
+---
+/**
+ * In the Press — listing page (EN)
+ */
+import { getCollection } from 'astro:content';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PressHero from '../../../components/press/PressHero.astro';
+import PressFilters from '../../../components/press/PressFilters.astro';
+import PressGrid from '../../../components/press/PressGrid.astro';
+
+// EN içerikler yoksa fallback: TR koleksiyonunu göster (haber çoğu TR-only)
+const tr = await getCollection('press', (p) => p.data.lang === 'tr');
+const en = await getCollection('press', (p) => p.data.lang === 'en');
+const all = en.length > 0 ? en : tr;
+const items = all
+  .map((p) => p.data)
+  .sort((a, b) => +b.date - +a.date);
+
+const counts: Record<string, number> = {};
+for (const i of items) counts[i.category] = (counts[i.category] ?? 0) + 1;
+
+const hint = items.length > 0
+  ? `${items[items.length - 1].date.getFullYear()} – ${items[0].date.getFullYear()}`
+  : undefined;
+---
+
+<PageLayout
+  title="In the Press — Sanica Isı"
+  description="Sanica Isı news: IPO journey, social responsibility projects, trade fair participation and the latest from us."
+  activeAudience="home"
+>
+  <PressHero total={items.length} hint={hint} />
+  <PressFilters counts={counts} total={items.length} />
+  <PressGrid items={items} />
+</PageLayout>

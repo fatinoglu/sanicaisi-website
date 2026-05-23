@@ -1,0 +1,505 @@
+---
+/**
+ * Kariyer Sayfası (TR)
+ * Sanica Isı insan kaynakları politikası, işe alım süreci, çalışan hakları,
+ * eğitim & gelişim ve Kariyer.net üzerinden açık pozisyonlara yönlendirme.
+ */
+import PageLayout from '../../layouts/PageLayout.astro';
+import { contact } from '../../lib/contact';
+
+const kariyerNetUrl = 'https://www.kariyer.net/is-ilanlari?ckw=sanica%20isi%20sanayi%20as.&is=1';
+
+const hiringSteps = [
+  { num: '01', title: 'Başvuru', text: 'Açık pozisyonlar Kariyer.net üzerinden ilan edilir. Başvurular KVKK kapsamında kabul edilir.' },
+  { num: '02', title: 'Ön Değerlendirme', text: 'CV ve özgeçmiş incelemesi, pozisyon-yetkinlik eşleşmesi.' },
+  { num: '03', title: 'Mülakat', text: 'Grup mülakatı, vaka çalışması, sunum ve gerektiğinde İngilizce mülakat.' },
+  { num: '04', title: 'Referans', text: 'Referans araştırması ve önceki iş tecrübelerinin teyidi.' },
+  { num: '05', title: 'Teklif & İşe Başlama', text: 'Maaş, yan haklar ve başlangıç tarihi ile tekliflendirme; oryantasyon programı.' },
+];
+
+const benefits = [
+  { title: 'SGK Güvencesi', text: 'Tüm çalışanlarımız tam zamanlı SGK güvencesi altında istihdam edilir.' },
+  { title: 'Servis & Ulaşım', text: 'Tesis ve merkez ofisler için düzenli servis veya toplu taşıma imkânı.' },
+  { title: 'Catering', text: 'Tesislerde ve merkez ofiste catering hizmeti.' },
+  { title: 'Performans Bazlı Ücret', text: 'Yılda bir kez performans değerlendirmesi ile ücret revizyonu.' },
+  { title: 'Eğitim Programları', text: 'İSG eğitimleri, işbaşı eğitim ve oryantasyon programları sürekli işletilir.' },
+  { title: 'İç Kariyer', text: 'Yönetici pozisyonları öncelikli olarak iç kaynaklardan doldurulur.' },
+];
+
+const leaveTable = [
+  { range: '1 – 5 yıl', days: '14 iş günü' },
+  { range: '6 – 14 yıl', days: '20 iş günü' },
+  { range: '15 yıl ve üzeri', days: '26 iş günü' },
+];
+---
+
+<PageLayout
+  title="Kariyer · Sanica Isı"
+  description="Sanica Isı insan kaynakları politikası, işe alım süreci, eğitim & gelişim programları ve çalışan hakları. Açık pozisyonlar Kariyer.net üzerinden ilan edilir."
+>
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Anasayfa</a>
+        <span class="sep">/</span>
+        <span class="current">Kariyer</span>
+      </div>
+      <div class="hero-content">
+        <div class="section-marker">
+          <span class="num">01</span><span class="dash">—</span><span class="label">İnsan Kaynakları · Careers</span>
+        </div>
+        <h1>Kariyer</h1>
+        <p class="lead">
+          Çelikten ısıya, hammaddeden ihracata uzanan üretim disiplinimizi paylaşan
+          ekip arkadaşlarıyla büyüyoruz. Açık pozisyonlarımıza başvurun, gelişim
+          yolculuğunuzu Sanica'da sürdürün.
+        </p>
+        <div class="hero-cta">
+          <a href={kariyerNetUrl} target="_blank" rel="noopener" class="btn-primary">
+            Açık Pozisyonları Gör
+            <span aria-hidden="true">↗</span>
+          </a>
+          <span class="cta-hint">Kariyer.net üzerinden başvuru</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="policy-section">
+    <div class="container">
+      <div class="two-col">
+        <div>
+          <div class="section-marker">
+            <span class="num">02</span><span class="dash">—</span><span class="label">İK Politikası</span>
+          </div>
+          <h2>Nitelikli hizmet, <em>akılcı çözüm</em>.</h2>
+        </div>
+        <div class="policy-body">
+          <p>
+            İnsan kaynakları uygulamalarımızı; <strong>nitelikli hizmet anlayışı
+            sunmak</strong>, <strong>akılcı çözümler üretmek</strong> ve verimlilik
+            hedeflerini yakalamak ekseninde yapılandırıyoruz. Aday seçiminde
+            görevin gerektirdiği bilgi ve tecrübeye sahip, yetkinlikleriyle
+            Sanica'yı temsil edebilecek kişileri tercih ediyoruz.
+          </p>
+          <p>
+            Performansını artıran çalışanlar üst seviyelere yükselme fırsatı
+            bulur. <strong>Yönetici pozisyonları sıklıkla iç kaynaklardan
+            doldurulur</strong>; uzun soluklu kariyer planlaması bizim için
+            stratejik bir tercihtir.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps-section">
+    <div class="container">
+      <div class="steps-head">
+        <div class="section-marker">
+          <span class="num">03</span><span class="dash">—</span><span class="label">İşe Alım Süreci</span>
+        </div>
+        <h2>Başvurudan işe başlamaya <em>5 adım</em>.</h2>
+      </div>
+      <ol class="steps-list">
+        {hiringSteps.map((s) => (
+          <li class="step-card">
+            <span class="step-num">{s.num}</span>
+            <div>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="benefits-section">
+    <div class="container">
+      <div class="benefits-head">
+        <div class="section-marker">
+          <span class="num">04</span><span class="dash">—</span><span class="label">Çalışan Hakları</span>
+        </div>
+        <h2>Yan haklar ve <em>gelişim olanakları</em>.</h2>
+      </div>
+      <div class="benefits-grid">
+        {benefits.map((b) => (
+          <article class="benefit-card">
+            <h3>{b.title}</h3>
+            <p>{b.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="leave-section">
+    <div class="container">
+      <div class="leave-grid">
+        <div>
+          <div class="section-marker">
+            <span class="num">05</span><span class="dash">—</span><span class="label">Yıllık İzin</span>
+          </div>
+          <h2>Hizmet yılına göre <em>izin hakkı</em>.</h2>
+          <p>
+            4857 sayılı İş Kanunu uyarınca yıllık ücretli izin sürelerimiz aşağıdaki
+            şekilde uygulanmaktadır. Resmi tatiller, doğum ve mazeret izinleri
+            kanun çerçevesinde ayrıca verilmektedir.
+          </p>
+        </div>
+        <table class="leave-table">
+          <thead>
+            <tr>
+              <th scope="col">Hizmet Süresi</th>
+              <th scope="col">Yıllık İzin</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leaveTable.map((row) => (
+              <tr>
+                <td>{row.range}</td>
+                <td>{row.days}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="apply-section">
+    <div class="container">
+      <div class="apply-card">
+        <span class="lbl">● Başvuru</span>
+        <h2>Açık pozisyonlar <em>Kariyer.net'te</em>.</h2>
+        <p>
+          Güncel iş ilanlarımız <strong>Kariyer.net</strong> üzerinden yayınlanır.
+          Pozisyon detayını inceleyip ilgili ilana doğrudan başvuru yapabilirsiniz.
+          Tüm başvurular 6698 sayılı KVKK kapsamında işlenir.
+        </p>
+        <div class="apply-actions">
+          <a href={kariyerNetUrl} target="_blank" rel="noopener" class="btn-primary">
+            Kariyer.net İlanlarına Git
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a href={`mailto:${contact.emails.info}?subject=%5BKariyer%5D%20Genel%20Ba%C5%9Fvuru`} class="btn-ghost">
+            Genel başvuru e-postası
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <p class="apply-fine">
+          Kişisel verilerinizin işlenmesine ilişkin detaylar için
+          <a href="/aydinlatma-metni">KVKK Aydınlatma Metni</a>'ni inceleyebilirsiniz.
+        </p>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+.page-hero {
+  background: var(--paper);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  padding-bottom: clamp(3rem, 5vw, 4.5rem);
+}
+.breadcrumb {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+.breadcrumb a:hover { color: var(--terracotta); }
+.breadcrumb .sep { color: var(--line); }
+.breadcrumb .current { color: var(--ink); font-weight: 500; }
+.hero-content { max-width: 880px; }
+.hero-content .section-marker { margin-bottom: 1.25rem; }
+.hero-content h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2.5rem, 5.6vw, 4.5rem);
+  line-height: 1; letter-spacing: -0.025em; color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.lead {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 380, "ital" 1;
+  font-style: italic;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.55; color: var(--bist-navy, var(--ink)); max-width: 720px;
+  margin-bottom: 1.75rem;
+}
+.hero-cta { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+.cta-hint {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.625rem;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--paper); background: var(--ink);
+  padding: 0.9375rem 1.5rem;
+  transition: background var(--t-fast) var(--ease);
+}
+.btn-primary:hover { background: var(--terracotta); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink); background: transparent;
+  border: 1px solid var(--line);
+  padding: 0.875rem 1.375rem;
+  transition: all var(--t-fast) var(--ease);
+}
+.btn-ghost:hover { border-color: var(--ink); background: var(--sand); }
+
+.section-marker {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bist-navy, var(--terracotta));
+}
+.section-marker .num { color: var(--bist-navy, var(--terracotta)); font-weight: 700; }
+.section-marker .dash { margin: 0 0.5rem; color: var(--line); }
+.section-marker .label { color: var(--ink); }
+
+/* Section base */
+.policy-section,
+.steps-section,
+.benefits-section,
+.leave-section,
+.apply-section { padding: var(--section-y) 0; }
+.policy-section { background: var(--sand); }
+.steps-section { background: var(--paper); }
+.benefits-section { background: var(--sand); }
+.leave-section { background: var(--paper); }
+.apply-section { background: var(--ink); color: var(--paper); }
+
+/* H2 default */
+.policy-section h2,
+.steps-section h2,
+.benefits-section h2,
+.leave-section h2,
+.apply-section h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-top: 1rem;
+}
+.apply-section h2 { color: var(--paper); }
+.policy-section h2 em,
+.steps-section h2 em,
+.benefits-section h2 em,
+.leave-section h2 em,
+.apply-section h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+.apply-section h2 em { color: var(--terracotta-warm, var(--terracotta)); }
+
+/* Policy */
+.two-col {
+  display: grid; grid-template-columns: 1fr 1.4fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+.policy-body p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+}
+.policy-body strong { color: var(--ink); font-weight: 600; }
+
+/* Steps */
+.steps-head { margin-bottom: 3rem; max-width: 720px; }
+.steps-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  counter-reset: step;
+  border-left: 1px solid var(--line);
+}
+.step-card {
+  padding: 1.75rem 1.25rem 1.5rem;
+  border-right: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  background: var(--paper);
+  transition: background var(--t-fast) var(--ease);
+}
+.step-card:hover { background: var(--sand); }
+.step-num {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--terracotta);
+}
+.step-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 500;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.step-card p {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Benefits */
+.benefits-head { margin-bottom: 3rem; max-width: 720px; }
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.benefit-card {
+  padding: 1.75rem 1.5rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  transition: border-color var(--t-fast) var(--ease);
+}
+.benefit-card:hover { border-color: var(--terracotta); }
+.benefit-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 65, "wght" 500;
+  font-size: 1.125rem;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.benefit-card p {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* Leave */
+.leave-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: center;
+}
+.leave-grid p {
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--sand);
+}
+.leave-table th, .leave-table td {
+  padding: 1.125rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+.leave-table th {
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  background: var(--paper);
+}
+.leave-table td:first-child { color: var(--text); }
+.leave-table td:last-child { color: var(--ink); font-weight: 500; }
+.leave-table tr:last-child td { border-bottom: none; }
+
+/* Apply CTA */
+.apply-section { position: relative; overflow: hidden; }
+.apply-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 85% 30%, rgba(184,57,12,0.2) 0%, transparent 55%);
+  pointer-events: none;
+}
+.apply-card {
+  position: relative;
+  max-width: 820px;
+}
+.apply-card .lbl {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta-warm, var(--terracotta));
+  font-weight: 600;
+  display: block;
+  margin-bottom: 1rem;
+}
+.apply-card > p {
+  color: rgba(247, 244, 238, 0.78);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  margin-top: 1rem;
+  margin-bottom: 1.75rem;
+  max-width: 640px;
+}
+.apply-card strong { color: var(--paper); font-weight: 600; }
+.apply-actions {
+  display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.apply-section .btn-ghost {
+  color: var(--paper);
+  border-color: rgba(247, 244, 238, 0.25);
+}
+.apply-section .btn-ghost:hover {
+  background: rgba(247, 244, 238, 0.08);
+  border-color: var(--paper);
+}
+.apply-fine {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: rgba(247, 244, 238, 0.55);
+  line-height: 1.5;
+}
+.apply-fine a {
+  color: var(--terracotta-warm, var(--terracotta));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.apply-fine a:hover { color: var(--paper); }
+
+@media (max-width: 980px) {
+  .two-col { grid-template-columns: 1fr; }
+  .steps-list { grid-template-columns: repeat(2, 1fr); border-left: none; }
+  .step-card { border-left: 1px solid var(--line); }
+  .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  .leave-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .steps-list { grid-template-columns: 1fr; }
+  .benefits-grid { grid-template-columns: 1fr; }
+  .apply-actions { flex-direction: column; align-items: stretch; }
+  .apply-actions a { justify-content: center; }
+}
+</style>
+</PageLayout>

@@ -1,40 +1,50 @@
 ---
 /**
- * PressWall — basında biz 4-kart grid
- * Her kart farklı tipografi stiliyle yayın wordmark'ı
+ * PressWall — basında biz son 4 haber
+ * press koleksiyonundan canlı verilerle, kapak görselli ve kategori rozetli
  */
-import { getLocale } from '../../lib/i18n';
+import { getCollection } from 'astro:content';
+import { getLocale, formatDate, localizedUrl } from '../../lib/i18n';
 const locale = getLocale(Astro.url.pathname);
+
+const all = await getCollection('press', (p) => p.data.lang === locale);
+const fallback = all.length === 0
+  ? await getCollection('press', (p) => p.data.lang === 'tr')
+  : all;
+const items = fallback
+  .map((p) => p.data)
+  .sort((a, b) => +b.date - +a.date)
+  .slice(0, 4);
 
 const t = locale === 'tr' ? {
   marker: 'Basında Biz · In the Press',
-  h2a: 'Sanica hakkında ',
-  h2em: 'yazılanlar',
+  h2a: 'Sanica\'dan ',
+  h2em: 'son haberler',
   h2b: '.',
   allLink: 'Tüm haberler',
   allHref: '/basinda-biz',
-  items: [
-    { pub: 'bloomberg', date: '14 Mayıs 2026', title: 'Sanica Isı, Q1 büyümesini sürdürdü: ihracat gelirleri %24 arttı.' },
-    { pub: 'dunya', date: '02 Nisan 2026', title: 'Türk radyatör sektörünün ihracat lideri Avrupa pazarına yeni tesisle hazırlanıyor.' },
-    { pub: 'para', date: '18 Mart 2026', title: '"Halka açılma kararımız aile şirketinin disiplinine zarar vermedi" — Sanica YKB röportajı.' },
-    { pub: 'capital', date: '10 Şubat 2026', title: 'Sürdürülebilir üretimde örnek model: Sanica Isı\'nın %100 yenilenebilir tesisi.' },
-  ],
   read: 'Oku',
+  catLabel: {
+    'bizden-haberler': 'Bizden Haberler',
+    'sosyal-sorumluluk': 'Sosyal Sorumluluk',
+    'halka-arz': 'Halka Arz',
+  } as const,
 } : {
   marker: 'In the Press · Basında Biz',
-  h2a: 'What\'s ',
-  h2em: 'written',
-  h2b: ' about Sanica.',
+  h2a: 'Latest news ',
+  h2em: 'from Sanica',
+  h2b: '.',
   allLink: 'All news',
   allHref: '/en/press',
-  items: [
-    { pub: 'bloomberg', date: 'May 14, 2026', title: 'Sanica Isı continues Q1 growth: export revenue up 24%.' },
-    { pub: 'dunya', date: 'April 2, 2026', title: 'Türkiye\'s radiator export leader prepares for European market with new facility.' },
-    { pub: 'para', date: 'March 18, 2026', title: '"Going public did not harm our family company discipline" — Sanica Chairman interview.' },
-    { pub: 'capital', date: 'February 10, 2026', title: 'Model in sustainable manufacturing: Sanica Isı\'s 100% renewable facility.' },
-  ],
   read: 'Read',
+  catLabel: {
+    'bizden-haberler': 'Our News',
+    'sosyal-sorumluluk': 'Social Responsibility',
+    'halka-arz': 'IPO',
+  } as const,
 };
+
+const detailHref = (slug: string) => localizedUrl(locale, `${locale === 'tr' ? '/basinda-biz' : '/press'}/${slug}`);
 ---
 
 <section class="press">
@@ -50,21 +60,25 @@ const t = locale === 'tr' ? {
       <a href={t.allHref} class="link-arrow" style="font-size:1rem;">{t.allLink} <span class="arrow" aria-hidden="true">→</span></a>
     </div>
 
-    <div class="press-grid">
-      {t.items.map((item) => (
-        <article class="press-card">
-          <div class="press-pub">
-            {item.pub === 'bloomberg' && <span class="bloomberg">Bloomberg</span>}
-            {item.pub === 'dunya' && <span class="dunya">Dünya</span>}
-            {item.pub === 'para' && <span class="para">para</span>}
-            {item.pub === 'capital' && <span class="capital">CAPITAL</span>}
-          </div>
-          <div class="press-date">{item.date}</div>
-          <h3>{item.title}</h3>
-          <a href="#" class="press-link">{t.read} <span class="arrow" aria-hidden="true">→</span></a>
-        </article>
-      ))}
-    </div>
+    {items.length > 0 ? (
+      <div class="press-grid">
+        {items.map((item) => (
+          <a class="press-card" href={detailHref(item.slug)}>
+            <div class="press-cover">
+              {item.heroImage ? (
+                <img src={item.heroImage} alt={item.heroImageAlt ?? item.title} loading="lazy" />
+              ) : (
+                <div class="cover-fallback" aria-hidden="true"><span>S</span></div>
+              )}
+              <span class:list={['cat-pill', item.category]}>{t.catLabel[item.category]}</span>
+            </div>
+            <div class="press-date">{formatDate(item.date, locale)}</div>
+            <h3>{item.title}</h3>
+            <span class="press-link">{t.read} <span class="arrow" aria-hidden="true">→</span></span>
+          </a>
+        ))}
+      </div>
+    ) : null}
   </div>
 </section>
 
@@ -105,80 +119,85 @@ const t = locale === 'tr' ? {
   display: flex;
   flex-direction: column;
   background: var(--paper);
-  border-top: 2px solid var(--ink);
-  padding-top: 1.25rem;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  color: inherit;
   transition: all var(--t-med) var(--ease);
 }
 .press-card:hover {
-  border-top-color: var(--terracotta);
+  border-color: var(--ink);
   transform: translateY(-3px);
+  box-shadow: 0 14px 32px -14px rgba(10,10,10,0.18);
 }
-.press-pub {
-  height: 32px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.25rem;
+
+.press-cover {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--sand);
 }
-.press-pub .bloomberg {
+.press-cover img {
+  width: 100%; height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 600ms var(--ease-out);
+}
+.press-card:hover .press-cover img { transform: scale(1.04); }
+.cover-fallback {
+  width: 100%; height: 100%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--sand), var(--sand-deep));
+}
+.cover-fallback span {
   font-family: var(--serif);
-  font-variation-settings: "opsz" 36, "SOFT" 30, "wght" 700;
-  font-size: 1.0625rem;
-  letter-spacing: -0.01em;
-  color: var(--ink);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 420;
+  font-size: 3.25rem;
+  color: var(--terracotta);
+  letter-spacing: -0.04em;
+  opacity: 0.5;
 }
-.press-pub .bloomberg::after {
-  content: 'HT';
+
+.cat-pill {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
   font-family: var(--mono);
   font-size: 0.625rem;
-  letter-spacing: 0.16em;
-  color: var(--terracotta);
-  margin-left: 0.375rem;
-  vertical-align: super;
-  font-weight: 600;
-}
-.press-pub .dunya {
-  font-family: var(--serif);
-  font-variation-settings: "opsz" 96, "SOFT" 80, "wght" 380, "ital" 1;
-  font-style: italic;
-  font-size: 1.5rem;
-  color: var(--ink);
-  letter-spacing: -0.015em;
-}
-.press-pub .para {
-  font-family: var(--sans);
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: -0.02em;
-  text-transform: lowercase;
-}
-.press-pub .para::first-letter { color: var(--terracotta); }
-.press-pub .capital {
-  font-family: var(--serif);
-  font-variation-settings: "opsz" 36, "SOFT" 30, "wght" 300;
-  font-size: 1.25rem;
-  color: var(--ink);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.3125rem 0.625rem;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 2px;
 }
+.cat-pill.bizden-haberler { color: var(--terracotta); }
+.cat-pill.sosyal-sorumluluk { color: var(--success); background: var(--success-soft); }
+.cat-pill.halka-arz { color: var(--bist-navy); background: var(--bist-navy-soft); }
+
 .press-date {
   font-family: var(--mono);
   font-size: 0.6875rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 0.875rem;
+  padding: 1.125rem 1.125rem 0.625rem;
 }
 .press-card h3 {
   font-family: var(--serif);
   font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 470;
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 470;
   line-height: 1.3;
   letter-spacing: -0.012em;
   color: var(--ink);
-  margin-bottom: 1.5rem;
+  padding: 0 1.125rem 1.25rem;
   flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .press-link {
   font-family: var(--mono);
@@ -189,7 +208,7 @@ const t = locale === 'tr' ? {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  align-self: flex-start;
+  padding: 0 1.125rem 1.25rem;
   transition: color var(--t-fast) var(--ease);
 }
 .press-card:hover .press-link { color: var(--terracotta); }

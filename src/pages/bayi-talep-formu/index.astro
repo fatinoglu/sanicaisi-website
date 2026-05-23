@@ -1,0 +1,52 @@
+---
+/**
+ * Bayi Talep Formu (TR)
+ * Sanica yetkili bayi ağına katılım başvurusu.
+ */
+import PageLayout from '../../layouts/PageLayout.astro';
+import FormPageShell from '../../components/forms/FormPageShell.astro';
+import ContactForm from '../../components/forms/ContactForm.astro';
+import type { FormField } from '../../components/forms/ContactForm.astro';
+
+const fields: FormField[] = [
+  { name: 'name', label: 'Adınız Soyadınız', type: 'text', required: true, placeholder: 'Adınız Soyadınız', autocomplete: 'name' },
+  { name: 'company', label: 'Firma / Unvan', type: 'text', required: true, placeholder: 'Firma adı veya ticari unvan', autocomplete: 'organization' },
+  { name: 'phone', label: 'Telefon', type: 'tel', required: true, placeholder: '+90 ___ ___ __ __', autocomplete: 'tel' },
+  { name: 'email', label: 'E-Posta', type: 'email', required: true, placeholder: 'ornek@sirket.com', autocomplete: 'email' },
+  { name: 'city', label: 'Şehir / İlçe', type: 'text', required: true, placeholder: 'Faaliyet gösterdiğiniz bölge' },
+  {
+    name: 'sector',
+    label: 'Faaliyet Alanı',
+    type: 'select',
+    required: true,
+    placeholder: 'Sektör seçin',
+    options: ['Yapı Malzemesi Bayi', 'Tesisat / Sıhhi Tesisat', 'Mühendislik / Müşavirlik', 'İnşaat / Müteahhitlik', 'Diğer'],
+  },
+  { name: 'brands', label: 'Mevcut Çalıştığınız Markalar', type: 'text', placeholder: 'Halihazırda satış/temsil yaptığınız markalar' },
+  { name: 'message', label: 'Mesajınız', type: 'textarea', required: true, placeholder: 'Firma profiliniz, hedef pazarınız ve Sanica bayilik beklentileriniz hakkında kısa bilgi.' },
+];
+---
+
+<PageLayout
+  title="Bayi Talep Formu · Sanica Isı"
+  description="Sanica Isı yetkili bayi ağına katılım için online başvuru formu. Firma profiliniz ve faaliyet bölgenizi paylaşın."
+>
+  <FormPageShell
+    marker="Bayi · İş Ortaklığı"
+    markerNum="02"
+    title="Bayi Talep Formu"
+    lead="Sanica Isı yetkili bayi ağına katılmak istiyorsanız aşağıdaki formu doldurun. Bölge müdürlerimiz başvurunuzu değerlendirip sizinle iletişime geçecektir."
+    sideTitle="Bayi geliştirme"
+    sideHint="Bayilik başvuruları, firmanızın faaliyet bölgesi ve mevcut Sanica bayi yapısına göre değerlendirilir. Başvuru sonuçları en geç 10 iş günü içinde tarafınıza iletilir."
+    sidePhoneLabel="Bayi İletişim"
+  >
+    <div slot="form">
+      <ContactForm
+        formId="bayi-form"
+        subjectPrefix="[Bayi Başvurusu]"
+        fields={fields}
+        submitLabel="Bayilik Başvurusunu Gönder"
+      />
+    </div>
+  </FormPageShell>
+</PageLayout>

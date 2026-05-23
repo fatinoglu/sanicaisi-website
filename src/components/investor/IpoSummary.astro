@@ -1,0 +1,254 @@
+---
+/**
+ * IpoSummary — Halka Arz Özet Bilgileri tablosu
+ * Canlı WP /yatirimci-iliskileri sayfasının "HALKA ARZ ÖZET BİLGİLERİ" tablosundan port
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: '01 — Özet Bilgiler',
+  h2a: 'Halka arzın',
+  h2em: 'kısa hikâyesi',
+  h2b: '.',
+  intro: '15-18 Kasım 2022 talep toplama, 24 Kasım 2022 BIST Yıldız Pazar\'da işlem başlangıcı. 40 milyon TL nominal payın sermaye artırımı ve ortak satışı yoluyla halka arzı.',
+  rows: [
+    { k: 'Halka Arz Tarihleri', v: '15 – 18 Kasım 2022' },
+    { k: 'Halka Arz Fiyatı', v: '20,03 TL' },
+    { k: 'Halka Arz Yöntemi', v: 'Borsa Dışında Sabit Fiyatla Talep Toplama' },
+    { k: 'Aracı Kurum', v: 'Gedik Yatırım (Konsorsiyum Lideri) · İntegral Yatırım (Eş Lider)' },
+    { k: 'Borsa\'da İşlem Görme Tarihi', v: '24 Kasım 2022' },
+    { k: 'İşlem Gördüğü Pazar', v: 'Yıldız Pazar' },
+    { k: 'Halka Arz Nominal Tutarı', v: '40.000.000 TL' },
+    { k: 'Sermaye Artırımı', v: '35.000.000 TL' },
+    { k: 'Ortak Satışı', v: '5.000.000 TL' },
+  ],
+  distH3: 'Yatırımcı Grup Bazında Dağıtım',
+  distCols: ['Yatırımcı Grubu', 'Kişi', 'Nominal (TL)', 'Oran'],
+  distRows: [
+    { g: 'Yurt İçi Bireysel Yatırımcılar', k: '166.571', n: '20.000.000', o: '%50,00' },
+    { g: 'Yurt İçi Kurumsal Yatırımcılar', k: '121', n: '16.000.000', o: '%40,00' },
+    { g: 'Yurt Dışı Kurumsal Yatırımcılar', k: '8', n: '4.000.000', o: '%10,00' },
+    { g: 'Toplam', k: '166.700', n: '40.000.000', o: '%100,00', total: true },
+  ],
+} : {
+  marker: '01 — Summary',
+  h2a: 'The IPO in',
+  h2em: 'one glance',
+  h2b: '.',
+  intro: 'Book-building from November 15-18, 2022; trading began November 24, 2022 on the BIST Star Market. Public offering of 40 million TL nominal shares via capital increase and shareholder sale.',
+  rows: [
+    { k: 'Offering Dates', v: 'November 15 – 18, 2022' },
+    { k: 'Offering Price', v: '20.03 TL' },
+    { k: 'Offering Method', v: 'Off-exchange fixed-price book-building' },
+    { k: 'Intermediary', v: 'Gedik Yatırım (Lead) · İntegral Yatırım (Co-lead)' },
+    { k: 'Trading Start Date', v: 'November 24, 2022' },
+    { k: 'Listed Market', v: 'Star Market' },
+    { k: 'Nominal Offered', v: '40,000,000 TL' },
+    { k: 'Capital Increase', v: '35,000,000 TL' },
+    { k: 'Shareholder Sale', v: '5,000,000 TL' },
+  ],
+  distH3: 'Allocation by Investor Group',
+  distCols: ['Investor Group', 'Persons', 'Nominal (TL)', 'Share'],
+  distRows: [
+    { g: 'Domestic retail investors', k: '166,571', n: '20,000,000', o: '50.00%' },
+    { g: 'Domestic institutional investors', k: '121', n: '16,000,000', o: '40.00%' },
+    { g: 'Foreign institutional investors', k: '8', n: '4,000,000', o: '10.00%' },
+    { g: 'Total', k: '166,700', n: '40,000,000', o: '100.00%', total: true },
+  ],
+};
+---
+
+<section class="ipo-summary">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="marker">{t.marker}</span>
+        <h2>{t.h2a} <em>{t.h2em}</em>{t.h2b}</h2>
+      </div>
+      <p class="intro">{t.intro}</p>
+    </div>
+
+    <div class="cards">
+      <div class="card kv">
+        <table>
+          <tbody>
+            {t.rows.map((r) => (
+              <tr>
+                <th scope="row">{r.k}</th>
+                <td>{r.v}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card dist">
+        <h3>{t.distH3}</h3>
+        <table>
+          <thead>
+            <tr>
+              {t.distCols.map((c, i) => <th class:list={[{ 'num-col': i > 0 }]}>{c}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {t.distRows.map((r) => (
+              <tr class:list={[{ 'is-total': r.total }]}>
+                <th scope="row">{r.g}</th>
+                <td class="num-col">{r.k}</td>
+                <td class="num-col">{r.n}</td>
+                <td class="num-col strong">{r.o}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.ipo-summary { background: var(--paper); padding: clamp(3rem, 6vw, 5rem) 0; }
+
+.head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 2.5rem;
+}
+.marker {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bist-navy);
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+.head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 480px;
+}
+.head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--bist-navy);
+}
+.head .intro {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 480px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 1.25rem;
+}
+.card {
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  padding: 1.875rem;
+  position: relative;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--bist-navy);
+}
+
+.card.kv table { width: 100%; border-collapse: collapse; }
+.card.kv th, .card.kv td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.875rem 0;
+  border-bottom: 1px dashed var(--line);
+}
+.card.kv tr:last-child th, .card.kv tr:last-child td { border-bottom: 0; }
+.card.kv th {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  width: 40%;
+  padding-right: 1rem;
+}
+.card.kv td {
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  color: var(--ink);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.card.dist h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 1.125rem;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.card.dist table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.card.dist thead th {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 0.625rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.card.dist thead th.num-col { text-align: right; }
+.card.dist tbody th {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-align: left;
+  padding: 0.875rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.card.dist tbody td {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  color: var(--text);
+  padding: 0.875rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.card.dist .num-col { text-align: right; }
+.card.dist td.strong {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 500;
+  font-size: 0.9375rem;
+  color: var(--bist-navy);
+}
+.card.dist tr.is-total th, .card.dist tr.is-total td {
+  border-bottom: 0;
+  border-top: 2px solid var(--ink);
+  background: var(--paper);
+  font-weight: 600;
+}
+.card.dist tr.is-total th { color: var(--ink); }
+
+@media (max-width: 980px) {
+  .head { grid-template-columns: 1fr; gap: 1.5rem; }
+  .cards { grid-template-columns: 1fr; }
+}
+</style>

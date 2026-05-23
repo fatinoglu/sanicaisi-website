@@ -1,17 +1,18 @@
 ---
 lang: tr
 slug: zirve
-name: Zirve
+name: Zirve Yoğuşmalı Kombi
 categorySlug: kombi
 series: Zirve
-tagline: Sessiz, ekonomik, akıllı.
-description: A+ enerji sınıfı yoğuşmalı kombi serisi. 24/30/35 kW model seçenekleri, akıllı modülasyon.
+tagline: Sessiz, ekonomik, akıllı yoğuşmalı.
+description: A sınıfı yoğuşmalı kombi serisi. Modülasyonlu fan, paslanmaz çelik eşanjör, akıllı ısı kontrolü.
+featured: true
 order: 1
 coverKind: boiler
 coverBg: sand
 specs:
   - label: Enerji sınıfı
-    value: A+
+    value: A
     group: Performans
   - label: Verim
     value: '94'
@@ -68,7 +69,7 @@ downloads:
     sizeBytes: 400000
 ---
 
-Sanica Zirve Yoğuşmalı Kombi serisi, **modern evler için tasarlanan akıllı ısıtma çözümümüz**dür. Üç güç seviyesi (24/30/35 kW) farklı ev büyüklüklerine uygun, sessiz brülör tasarımı ve geniş modülasyon aralığı ile tüketimi optimize eder.
+Sanica Zirve Yoğuşmalı Kombi serisi, **modern evler için tasarlanan akıllı yoğuşmalı çözümümüz**dür. Üç güç seviyesi (24/30/35 kW) farklı ev büyüklüklerine uygun, sessiz brülör tasarımı ve geniş modülasyon aralığı ile tüketimi optimize eder.
 
 ## Akıllı modülasyon
 

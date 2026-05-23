@@ -1,11 +1,12 @@
 ---
 lang: tr
 slug: boru
-name: Isıtma Boruları
+name: Boru Grubu
 tagline: Duvarın arkasındaki sessiz omurga.
-description: PEX-AL-PEX çok katmanlı boru sistemleri. Beş katman, oksijen geçirmez, uzun ömürlü.
-order: 4
+description: Yerden ısıtma sistem paketleri ve PEX-AL-PEX çok katmanlı boru. Komple çözüm, oksijen geçirmez, uzun ömürlü.
+order: 6
 coverKind: pipe
+parentGroup: Tesisat
 ---
 
 Sanica ısıtma boruları, modern tesisat sistemlerinin temelini oluşturur. PEX-AL-PEX çok katmanlı yapı, oksijen geçirmezlik bariyeri ve geniş çap aralığı ile yerden ısıtma ve radyatör sistemleri için ideal.

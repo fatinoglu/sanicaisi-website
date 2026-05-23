@@ -72,6 +72,15 @@ input, select, textarea {
   border-radius: 1px;
 }
 
+/* DENEME font (Bricolage Grotesque) için italic optik düzeltmesi:
+   font'un kendi italik yüzü yok → tarayıcı sentetik italik üretir.
+   Display başlıklarda terracotta <em> vurguları için biraz daha geniş
+   letter-spacing ve eğim daha temiz görünür. */
+em, i {
+  font-style: italic;
+  letter-spacing: -0.005em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
