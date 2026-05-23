@@ -3,11 +3,36 @@
  * InvestorBand — full dark statement section
  * KAP timeline (sol) + price card with chart (sağ)
  *
- * Veri şimdilik inline stub. Faz 4'te content collection'dan,
- * fiyat verisi Faz 7'de src/data/stock-cache.json'dan beslenir.
+ * KAP verisi: src/content/kap/ (WP'den migrate, 230+ kayıt)
+ * Fiyat verisi: stub (Faz 7'de stock-cache.json)
  */
-import { getLocale } from '../../lib/i18n';
+import { getCollection } from 'astro:content';
+import { getLocale, formatDate } from '../../lib/i18n';
 const locale = getLocale(Astro.url.pathname);
+
+// En yeni 4 KAP açıklamasını çek
+const allKap = await getCollection('kap', (e) => e.data.lang === locale);
+const recentKap = allKap
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 4);
+
+// Frontmatter category → CSS class + display label map
+const tagClassMap: Record<string, string> = {
+  finansal: 'fin', 'genel-kurul': 'assembly', yatirim: 'capital',
+  esg: 'esg', sermaye: 'capital', bilgilendirme: 'kap',
+};
+const tagLabelMap = locale === 'tr'
+  ? { finansal: 'Finansal', 'genel-kurul': 'Genel Kurul', yatirim: 'Yatırım', esg: 'Sürdürülebilirlik', sermaye: 'Sermaye', bilgilendirme: 'Bilgilendirme' }
+  : { finansal: 'Financial', 'genel-kurul': 'Assembly', yatirim: 'Investment', esg: 'Sustainability', sermaye: 'Capital', bilgilendirme: 'Notice' };
+
+// Kısa tarih formatı (örn. "22 May<br>2026")
+function shortDate(date: Date): string {
+  const day = date.getDate();
+  const monthShort = locale === 'tr'
+    ? ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'][date.getMonth()]
+    : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getMonth()];
+  return `${day} ${monthShort}<br>${date.getFullYear()}`;
+}
 
 const t = locale === 'tr' ? {
   marker: 'Yatırımcı İlişkileri · Investor Relations',
@@ -15,12 +40,7 @@ const t = locale === 'tr' ? {
   h2a: 'Halka açık. ',
   h2em: 'Şeffaf.',
   h2b: 'Takip edilebilir.',
-  kapList: [
-    { date: '22 May<br>2026', tag: 'Genel Kurul', tagClass: 'assembly', title: '2025 Yılı Olağan Genel Kurul Toplantısı sonuçlarına ilişkin bildirim', link: 'Oku' },
-    { date: '14 May<br>2026', tag: 'Finansal Rapor', tagClass: 'fin', title: 'Q1 2026 konsolide finansal tablolar ve faaliyet raporu yayınlandı', link: 'PDF' },
-    { date: '18 Nis<br>2026', tag: 'Sürdürülebilirlik', tagClass: 'esg', title: '2025 Sürdürülebilirlik Raporu — ESG performans değerlendirmesi yayınlandı', link: 'Oku' },
-    { date: '02 Nis<br>2026', tag: 'KAP Açıklaması', tagClass: 'kap', title: 'Üretim kapasitesi artırımına ilişkin yatırım kararı hakkında bilgilendirme', link: 'Oku' },
-  ],
+  kapLinkLabel: 'KAP →',
   priceHead: 'BIST Yıldız Pazar',
   priceTime: '14:32 · 22 May 2026',
   metaRow: { open: 'AÇILIŞ', high: 'YÜKSEK', low: 'DÜŞÜK', vol: 'HACİM' },
@@ -40,12 +60,7 @@ const t = locale === 'tr' ? {
   h2a: 'Public. ',
   h2em: 'Transparent.',
   h2b: 'Trackable.',
-  kapList: [
-    { date: '22 May<br>2026', tag: 'General Assembly', tagClass: 'assembly', title: 'Notification regarding the results of the 2025 Annual General Assembly', link: 'Read' },
-    { date: '14 May<br>2026', tag: 'Financial Report', tagClass: 'fin', title: 'Q1 2026 consolidated financial statements and activity report published', link: 'PDF' },
-    { date: '18 Apr<br>2026', tag: 'Sustainability', tagClass: 'esg', title: '2025 Sustainability Report — ESG performance assessment published', link: 'Read' },
-    { date: '02 Apr<br>2026', tag: 'PDP Disclosure', tagClass: 'kap', title: 'Information regarding investment decision for production capacity expansion', link: 'Read' },
-  ],
+  kapLinkLabel: 'PDP →',
   priceHead: 'BIST Star Market',
   priceTime: '14:32 · 22 May 2026',
   metaRow: { open: 'OPEN', high: 'HIGH', low: 'LOW', vol: 'VOL' },
@@ -80,17 +95,23 @@ const t = locale === 'tr' ? {
 
     <div class="investor-grid">
 
-      <!-- Timeline -->
+      <!-- Timeline — gerçek KAP verisi -->
       <div>
         <div class="kap-timeline">
-          {t.kapList.map((item) => (
+          {recentKap.map((item) => (
             <article class="kap-item">
-              <span class="kap-date" set:html={item.date} />
+              <span class="kap-date" set:html={shortDate(item.data.date)} />
               <div class="kap-meta">
-                <span class={`kap-tag ${item.tagClass}`}>{item.tag}</span>
-                <h3 class="kap-title">{item.title}</h3>
+                <span class={`kap-tag ${tagClassMap[item.data.category]}`}>
+                  {tagLabelMap[item.data.category as keyof typeof tagLabelMap]}
+                </span>
+                <h3 class="kap-title">{item.data.title}</h3>
               </div>
-              <a href="#" class="kap-link">{item.link} →</a>
+              {item.data.kapUrl ? (
+                <a href={item.data.kapUrl} target="_blank" rel="noopener" class="kap-link">{t.kapLinkLabel}</a>
+              ) : (
+                <span class="kap-link" />
+              )}
             </article>
           ))}
         </div>

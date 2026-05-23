@@ -20,14 +20,20 @@
     "format": "prettier --write . --plugin=prettier-plugin-astro"
   },
   "dependencies": {
-    "astro": "^6.3.7",
     "@astrojs/mdx": "^5.0.6",
-    "@astrojs/sitemap": "^3.7.2"
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^6.3.7"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@aws-sdk/client-s3": "^3.1053.0",
+    "@types/turndown": "^5.0.6",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.2",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
+    "tsx": "^4.22.3",
+    "turndown": "^7.2.4",
     "typescript": "~5.6.3"
   }
 }

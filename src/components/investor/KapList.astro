@@ -1,11 +1,13 @@
 ---
 /**
  * KapList — KAP açıklamaları listesi
- * Filter bar (yıl + kategori + arama) + 9 satır + sayfalama
- * Stub veri Faz 4'te content collection'dan beslenir
+ * Filter bar (yıl + kategori + arama) + liste + sayfalama
+ * VERİ: src/content/kap/ (WP'den migrate edildi, 230+ kayıt)
  */
-import { getLocale } from '../../lib/i18n';
-const locale = getLocale(Astro.url.pathname);
+import { getCollection } from 'astro:content';
+import { getLocale, formatDateShort, type Locale } from '../../lib/i18n';
+
+const locale: Locale = getLocale(Astro.url.pathname);
 
 const t = locale === 'tr' ? {
   marker: 'KAP Açıklamaları',
@@ -15,16 +17,15 @@ const t = locale === 'tr' ? {
   kapView: 'KAP\'ta görüntüle',
   filterYear: 'Yıl',
   filterCat: 'Kategori',
-  catLabels: { all: 'Tümü', fin: 'Finansal', assembly: 'Genel Kurul', capital: 'Yatırım', esg: 'ESG' },
+  catLabels: { all: 'Tümü', finansal: 'Finansal', 'genel-kurul': 'Genel Kurul', yatirim: 'Yatırım', esg: 'ESG', sermaye: 'Sermaye', bilgilendirme: 'Bilgilendirme' },
   searchPh: 'Açıklamada ara…',
-  resultsCount: 'sonuç',
+  resultsCount: 'kayıt',
   tagLabels: {
-    assembly: 'Genel Kurul', fin: 'Finansal Rapor', other: 'Bilgilendirme',
-    esg: 'Sürdürülebilirlik', capital: 'Yatırım Kararı',
+    finansal: 'Finansal', 'genel-kurul': 'Genel Kurul', yatirim: 'Yatırım',
+    esg: 'Sürdürülebilirlik', sermaye: 'Sermaye', bilgilendirme: 'Bilgilendirme',
   },
-  download: 'İndir',
-  paginationLbl: '14 sonuç',
-  paginationRange: '1–9',
+  open: 'KAP\'ta aç',
+  paginationLbl: 'kayıt',
 } : {
   marker: 'PDP Disclosures',
   h2a: 'Public Disclosure Platform',
@@ -33,32 +34,39 @@ const t = locale === 'tr' ? {
   kapView: 'View on PDP',
   filterYear: 'Year',
   filterCat: 'Category',
-  catLabels: { all: 'All', fin: 'Financial', assembly: 'Assembly', capital: 'Investment', esg: 'ESG' },
+  catLabels: { all: 'All', finansal: 'Financial', 'genel-kurul': 'Assembly', yatirim: 'Investment', esg: 'ESG', sermaye: 'Capital', bilgilendirme: 'Notice' },
   searchPh: 'Search disclosures…',
-  resultsCount: 'results',
+  resultsCount: 'records',
   tagLabels: {
-    assembly: 'Assembly', fin: 'Financial Report', other: 'Notice',
-    esg: 'Sustainability', capital: 'Investment Decision',
+    finansal: 'Financial', 'genel-kurul': 'Assembly', yatirim: 'Investment',
+    esg: 'Sustainability', sermaye: 'Capital', bilgilendirme: 'Notice',
   },
-  download: 'Download',
-  paginationLbl: '14 results',
-  paginationRange: '1–9',
+  open: 'Open on PDP',
+  paginationLbl: 'records',
 };
 
-// Stub data — Faz 4'te content collection'dan
-const items = [
-  { date: '22.05.2026', time: '09:14', tagKey: 'assembly', title: locale === 'tr' ? '2025 Yılı Olağan Genel Kurul Toplantısı sonuçlarına ilişkin bildirim ve karar metni' : 'Notification and resolution regarding the 2025 Annual General Assembly results', size: '1,2 MB' },
-  { date: '14.05.2026', time: '17:32', tagKey: 'fin', title: locale === 'tr' ? 'Q1 2026 konsolide finansal tablolar ve faaliyet raporu yayınlandı (SPK Form 4)' : 'Q1 2026 consolidated financial statements and activity report published (CMB Form 4)', size: '4,8 MB' },
-  { date: '02.05.2026', time: '10:08', tagKey: 'other', title: locale === 'tr' ? 'Genel Kurul Toplantısı çağrısı ve gündem maddelerine ilişkin duyuru' : 'Notice for General Assembly meeting call and agenda items', size: '0,6 MB' },
-  { date: '18.04.2026', time: '15:22', tagKey: 'esg', title: locale === 'tr' ? '2025 Sürdürülebilirlik Raporu — ESG performans değerlendirmesi yayınlandı (TSRS uyumlu)' : '2025 Sustainability Report — ESG performance assessment published (TSRS compliant)', size: '8,2 MB' },
-  { date: '02.04.2026', time: '11:48', tagKey: 'capital', title: locale === 'tr' ? 'Üretim kapasitesi artırımına ilişkin yatırım kararı hakkında bilgilendirme (Sakarya tesisi 3. faz)' : 'Notice regarding investment decision for production capacity increase (Sakarya facility, Phase 3)', size: '1,4 MB' },
-  { date: '15.03.2026', time: '17:58', tagKey: 'fin', title: locale === 'tr' ? '2025 yıl sonu konsolide bağımsız denetimden geçmiş finansal tablolar ve faaliyet raporu' : '2025 year-end consolidated audited financial statements and activity report', size: '6,3 MB' },
-  { date: '28.02.2026', time: '14:02', tagKey: 'other', title: locale === 'tr' ? 'Kar payı dağıtımına ilişkin Yönetim Kurulu kararı ve Genel Kurul onayına sunulacak öneri' : 'Board resolution on dividend distribution and proposal to be submitted to General Assembly', size: '0,4 MB' },
-  { date: '12.02.2026', time: '09:36', tagKey: 'capital', title: locale === 'tr' ? 'Bağlı ortaklık kuruluşuna ilişkin Yönetim Kurulu kararı — Sanica Avrupa GmbH (Almanya)' : 'Board resolution on establishment of subsidiary — Sanica Avrupa GmbH (Germany)', size: '0,8 MB' },
-  { date: '22.01.2026', time: '16:14', tagKey: 'other', title: locale === 'tr' ? '2026 Yılı Yatırımcı Bilgilendirme Politikası güncellemesine ilişkin Yönetim Kurulu kararı' : 'Board resolution on 2026 Investor Information Policy update', size: '0,5 MB' },
-];
+// Gerçek veriyi çek, tarihe göre desc sırala
+const all = await getCollection('kap', (e) => e.data.lang === locale);
+const sorted = all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const totalResults = 14;
+// Yıllar (mevcut veride hangileri var)
+const years = [...new Set(sorted.map((e) => e.data.date.getFullYear()))].sort((a, b) => b - a);
+
+// İlk sayfa (ilk 9 kayıt) — Faz 7'de URL parametresi ile gerçek pagination
+const PER_PAGE = 9;
+const visible = sorted.slice(0, PER_PAGE);
+const totalCount = sorted.length;
+const showingCount = visible.length;
+
+// Kategori tag CSS class map (frontmatter category → renkli tag)
+const tagClassMap: Record<string, string> = {
+  finansal: 'fin',
+  'genel-kurul': 'assembly',
+  yatirim: 'capital',
+  esg: 'esg',
+  sermaye: 'capital',
+  bilgilendirme: 'kap',
+};
 ---
 
 <section class="kap-section" id="kap">
@@ -71,24 +79,26 @@ const totalResults = 14;
         </div>
         <h2>{t.h2a} <em>{t.h2em}</em>{t.h2post}</h2>
       </div>
-      <a href="https://www.kap.org.tr/" target="_blank" rel="noopener" class="link-arrow">{t.kapView} <span class="arrow" aria-hidden="true">↗</span></a>
+      <a href="https://www.kap.org.tr/tr/sirket-bilgileri/ozet/2455-sanica-isi-sanayi-a-s" target="_blank" rel="noopener" class="link-arrow">{t.kapView} <span class="arrow" aria-hidden="true">↗</span></a>
     </div>
 
-    <!-- Filters -->
+    <!-- Filters (Faz 7'de gerçek client-side filtering) -->
     <div class="kap-filters">
       <div class="filter-group">
         <span class="filter-label">{t.filterYear}</span>
         <div class="pill-group year-pills">
-          {['2026', '2025', '2024', '2023', '2022'].map((y, i) => (
-            <button class:list={[{ active: i === 0 }]}>{y}</button>
+          <button class="active" data-year="all">{locale === 'tr' ? 'Tümü' : 'All'}</button>
+          {years.map((y) => (
+            <button data-year={y}>{y}</button>
           ))}
         </div>
       </div>
       <div class="filter-group">
         <span class="filter-label">{t.filterCat}</span>
         <div class="pill-group cat-pills">
-          {[t.catLabels.all, t.catLabels.fin, t.catLabels.assembly, t.catLabels.capital, t.catLabels.esg].map((c, i) => (
-            <button class:list={[{ active: i === 0 }]}>{c}</button>
+          <button class="active" data-cat="all">{t.catLabels.all}</button>
+          {(['finansal', 'genel-kurul', 'yatirim', 'esg', 'sermaye', 'bilgilendirme'] as const).map((c) => (
+            <button data-cat={c}>{t.catLabels[c]}</button>
           ))}
         </div>
       </div>
@@ -96,35 +106,45 @@ const totalResults = 14;
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3-3" /></svg>
         <input type="text" placeholder={t.searchPh} aria-label={t.searchPh} />
       </div>
-      <span class="kap-count"><strong>{totalResults}</strong> {t.resultsCount}</span>
+      <span class="kap-count"><strong>{totalCount}</strong> {t.resultsCount}</span>
     </div>
 
     <!-- List -->
     <div class="kap-list">
-      {items.map((item) => (
+      {visible.map((item) => (
         <article class="kap-row">
-          <div class="date">{item.date}<span class="time">{item.time}</span></div>
-          <span class:list={['tag', item.tagKey]}>{t.tagLabels[item.tagKey as keyof typeof t.tagLabels]}</span>
-          <div class="title"><a href="#">{item.title}</a></div>
+          <div class="date">{formatDateShort(item.data.date, locale)}</div>
+          <span class:list={['tag', tagClassMap[item.data.category]]}>
+            {t.tagLabels[item.data.category as keyof typeof t.tagLabels]}
+          </span>
+          <div class="title">
+            {item.data.kapUrl ? (
+              <a href={item.data.kapUrl} target="_blank" rel="noopener">{item.data.title}</a>
+            ) : (
+              <span>{item.data.title}</span>
+            )}
+          </div>
           <div class="action">
-            <span class="kap-file-size">PDF · {item.size}</span>
-            <a href="#" class="kap-action-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
-              {t.download}
-            </a>
+            {item.data.kapUrl && (
+              <a href={item.data.kapUrl} target="_blank" rel="noopener" class="kap-action-btn">
+                {t.open}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7" /><path d="M7 7h10v10" /></svg>
+              </a>
+            )}
           </div>
         </article>
       ))}
     </div>
 
-    <!-- Pagination -->
+    <!-- Pagination (Faz 7'de URL'e bağlanır) -->
     <div class="pagination">
-      <span class="count"><strong>{t.paginationRange}</strong> · {t.paginationLbl}</span>
+      <span class="count"><strong>1–{showingCount}</strong> · {totalCount} {t.paginationLbl}</span>
       <div class="page-nums">
         <button disabled>‹</button>
         <button class="active">1</button>
-        <button>2</button>
-        <button>›</button>
+        {totalCount > PER_PAGE && <button>2</button>}
+        {totalCount > PER_PAGE * 2 && <button class="gap">…</button>}
+        <button disabled={totalCount <= PER_PAGE}>›</button>
       </div>
     </div>
 
@@ -165,7 +185,7 @@ const totalResults = 14;
   background: var(--sand);
   border: 1px solid var(--line);
 }
-.filter-group { display: flex; align-items: center; gap: 0.5rem; }
+.filter-group { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
 .filter-label {
   font-family: var(--mono);
   font-size: 0.625rem;
@@ -231,7 +251,7 @@ const totalResults = 14;
 .kap-list { border-top: 1px solid var(--line); }
 .kap-row {
   display: grid;
-  grid-template-columns: 90px 110px 1fr auto;
+  grid-template-columns: 100px 130px 1fr auto;
   gap: 1.5rem;
   padding: 1.5rem 1rem;
   border-bottom: 1px solid var(--line);
@@ -247,12 +267,6 @@ const totalResults = 14;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
   white-space: nowrap;
-}
-.kap-row .date .time {
-  display: block;
-  color: var(--muted);
-  font-size: 0.6875rem;
-  margin-top: 0.125rem;
 }
 .kap-row .tag {
   font-family: var(--mono);
@@ -270,14 +284,14 @@ const totalResults = 14;
 .kap-row .tag.esg { background: var(--success-soft); color: var(--success); }
 .kap-row .tag.assembly { background: var(--sand-deep); color: var(--ink); }
 .kap-row .tag.capital { background: rgba(74, 77, 82, 0.15); color: var(--steel); }
-.kap-row .tag.other { background: var(--bist-navy-soft); color: var(--bist-navy); }
+.kap-row .tag.kap { background: var(--bist-navy-soft); color: var(--bist-navy); }
 
 .kap-row .title {
   font-family: var(--serif);
   font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 480;
-  font-size: 1.0625rem;
-  line-height: 1.35;
-  letter-spacing: -0.012em;
+  font-size: 1rem;
+  line-height: 1.4;
+  letter-spacing: -0.008em;
   color: var(--ink);
 }
 .kap-row .title a {
@@ -312,12 +326,6 @@ const totalResults = 14;
   border-color: var(--ink);
 }
 .kap-action-btn svg { width: 12px; height: 12px; }
-.kap-file-size {
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-}
 
 .pagination {
   display: flex;
@@ -361,6 +369,7 @@ const totalResults = 14;
   border-color: var(--ink);
 }
 .page-nums button:disabled { color: var(--muted); cursor: not-allowed; }
+.page-nums .gap { border: none; color: var(--muted); cursor: default; }
 
 @media (max-width: 980px) { .sec-head { grid-template-columns: 1fr; } }
 @media (max-width: 720px) {
@@ -372,7 +381,7 @@ const totalResults = 14;
 </style>
 
 <script>
-  // Filter pill cosmetic toggle — Faz 4'te gerçek filtering eklenecek
+  // Filter pill cosmetic toggle — gerçek filtering Faz 7'de Pagefind ile
   document.querySelectorAll('.pill-group').forEach((group) => {
     group.querySelectorAll('button').forEach((b) => {
       b.addEventListener('click', () => {
