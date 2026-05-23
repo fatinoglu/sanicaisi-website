@@ -1,0 +1,25 @@
+# Cloudflare Workers + Static Assets — Sanica Isı
+#
+# Bu dosya, Cloudflare Workers Static Assets modunda projeyi config'ler.
+# `_worker.js` (dist/'te) Worker entry; tüm requestler önce buradan geçer,
+# /oauth dışındakiler env.ASSETS.fetch() ile static dist/ dosyalarına gider.
+#
+# Cloudflare projesi (Workers olarak) bu config'i otomatik okur.
+# Env vars (GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET) Dashboard'dan ayrı eklenir.
+
+name = "sanicaisi-website"
+main = "dist/_worker.js"
+compatibility_date = "2026-05-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Static asset binding — dist/ klasörü asset olarak servis edilir
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "404-page"
+# Worker önce çalışır, sonra ASSETS'e fallback (oauth route'ları için kritik)
+run_worker_first = ["/oauth", "/oauth/*"]
+
+# Observability (Cloudflare Workers logs)
+[observability]
+enabled = true
