@@ -43,3 +43,7 @@ Thumbs.db
 
 # Pagefind index (build sırasında üretilir)
 public/pagefind/
+
+.dev.vars*
+!.dev.vars.example
+!.env.example
