@@ -116,6 +116,7 @@ const annualReports = defineCollection({
   schema: z.object({
     lang: locale,
     year: z.number().int(),
+    quarter: z.enum(['Q1', 'Q2', 'Q3', 'Q4', 'annual']).default('annual'),
     title: z.string(),
     subtitle: z.string().optional(),
     publishDate: z.date(),
@@ -123,6 +124,34 @@ const annualReports = defineCollection({
     pdfSizeBytes: z.number().optional(),
     webVersionUrl: z.string().url().optional(),
     coverKind: z.enum(['ink', 'sand', 'navy', 'paper']),
+  }),
+});
+
+/* ── Yatırımcı dokümanları (genel — Genel Kurul, politikalar,
+       komite esasları, halka arz raporları, vb.) ──────────── */
+const investorDocuments = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/investor-documents' }),
+  schema: z.object({
+    lang: locale,
+    slug: z.string(),
+    title: z.string(),
+    date: z.date(),
+    type: z.enum([
+      'genel-kurul',         // Genel Kurul çağrı/bilgilendirme/vekaletname/tutanak/hazirun
+      'politika',            // Kar dağıtım/ücret/bilgilendirme politikaları
+      'komite',              // Komite görev ve çalışma esasları
+      'yonetim',             // İç yönergeler
+      'halka-arz',           // İzahname, FTR raporları, fon kullanım
+      'kurumsal-yonetim',    // Kurumsal yönetim uyum raporu, bilgi formu
+      'surdurulebilirlik',   // TSRS sürdürülebilirlik raporu
+      'katilim-finans',      // Katılım finans ilkeleri bilgi formu
+      'diger',
+    ]),
+    pdfUrl: z.string().url(),
+    pdfKey: z.string(),                  // R2 key (URL değişirse bağımsız)
+    pdfSizeBytes: z.number().optional(),
+    year: z.number().int().optional(),
+    description: z.string().optional(),
   }),
 });
 
@@ -147,5 +176,6 @@ export const collections = {
   kap,
   'financial-reports': financialReports,
   'annual-reports': annualReports,
+  'investor-documents': investorDocuments,
   press,
 };

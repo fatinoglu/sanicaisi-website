@@ -2,7 +2,7 @@
  * Cloudflare R2 client — S3 API uyumlu
  * Sanica medya (PDF, görsel) bucket'ı: sanicaisi
  */
-import 'dotenv/config';
+import './env';
 import { S3Client, PutObjectCommand, HeadObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 
 const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID;

@@ -1,10 +1,12 @@
 ---
 /**
  * FinancialReportsGrid — yıl bazlı çeyrek + yıllık rapor kartları
- * 4 yıl: 2026 (cari, partial) + 2025/2024/2023 (tamamlandı)
+ * VERİ: src/content/financial-reports/ (WP'den migrate, ~13 PDF)
  */
-import { getLocale } from '../../lib/i18n';
-const locale = getLocale(Astro.url.pathname);
+import { getCollection } from 'astro:content';
+import { getLocale, formatBytes, type Locale } from '../../lib/i18n';
+
+const locale: Locale = getLocale(Astro.url.pathname);
 
 const t = locale === 'tr' ? {
   marker: 'Finansal Raporlar',
@@ -13,12 +15,12 @@ const t = locale === 'tr' ? {
   h2post: '.',
   detail: 'Bağımsız denetim ilkeleri',
   cari: 'Cari Dönem',
-  published: 'Yayınlanan',
   done: 'Tamamlandı',
+  published: 'Yayınlanan',
   pendingShort: 'Bekleniyor',
-  qNames: { q1: 'Q1', q2: 'Q2', q3: 'Q3', q4: 'Q4', annual: 'Yıllık' },
-  pendingMonths: { q2: 'Ağu 2026', q3: 'Kas 2026', q4: 'Şub 2027', annual: 'Mar 2027' },
-  archiveLink: '2022 ve önceki yıllar',
+  qNames: { Q1: 'Q1', Q2: 'Q2', Q3: 'Q3', Q4: 'Q4', annual: 'Yıllık' },
+  pendingDates: { Q1: 'Mayıs', Q2: 'Ağustos', Q3: 'Kasım', Q4: 'Şubat', annual: 'Mart' },
+  archiveLink: 'Eski yıllar (2022 öncesi)',
 } : {
   marker: 'Financial Reports',
   h2a: 'Quarterly and annual',
@@ -26,60 +28,65 @@ const t = locale === 'tr' ? {
   h2post: '.',
   detail: 'Independent audit principles',
   cari: 'Current Period',
-  published: 'Published',
   done: 'Completed',
+  published: 'Published',
   pendingShort: 'Pending',
-  qNames: { q1: 'Q1', q2: 'Q2', q3: 'Q3', q4: 'Q4', annual: 'Annual' },
-  pendingMonths: { q2: 'Aug 2026', q3: 'Nov 2026', q4: 'Feb 2027', annual: 'Mar 2027' },
-  archiveLink: '2022 and earlier years',
+  qNames: { Q1: 'Q1', Q2: 'Q2', Q3: 'Q3', Q4: 'Q4', annual: 'Annual' },
+  pendingDates: { Q1: 'May', Q2: 'Aug', Q3: 'Nov', Q4: 'Feb', annual: 'Mar' },
+  archiveLink: 'Older years (pre-2022)',
 };
 
-// Yıl verileri — stub, Faz 4'te collection'dan
-type Q = { q: string; date: string; size: string; status: 'published' | 'pending' };
-type YearData = { year: number; status: 'current' | 'done'; pub: number; total: number; quarters: Q[]; annual: Q };
+// Gerçek finansal raporları çek
+const all = await getCollection('financial-reports', (e) => e.data.lang === locale);
 
-const years: YearData[] = [
-  {
-    year: 2026, status: 'current', pub: 1, total: 4,
-    quarters: [
-      { q: t.qNames.q1, date: '14.05.2026', size: '4,8 MB', status: 'published' },
-      { q: t.qNames.q2, date: t.pendingShort, size: t.pendingMonths.q2, status: 'pending' },
-      { q: t.qNames.q3, date: t.pendingShort, size: t.pendingMonths.q3, status: 'pending' },
-      { q: t.qNames.q4, date: t.pendingShort, size: t.pendingMonths.q4, status: 'pending' },
-    ],
-    annual: { q: t.qNames.annual, date: t.pendingShort, size: t.pendingMonths.annual, status: 'pending' },
-  },
-  {
-    year: 2025, status: 'done', pub: 5, total: 5,
-    quarters: [
-      { q: t.qNames.q1, date: '15.05.2025', size: '4,2 MB', status: 'published' },
-      { q: t.qNames.q2, date: '14.08.2025', size: '4,6 MB', status: 'published' },
-      { q: t.qNames.q3, date: '12.11.2025', size: '4,8 MB', status: 'published' },
-      { q: t.qNames.q4, date: '28.02.2026', size: '5,1 MB', status: 'published' },
-    ],
-    annual: { q: t.qNames.annual, date: '15.03.2026', size: '6,3 MB', status: 'published' },
-  },
-  {
-    year: 2024, status: 'done', pub: 5, total: 5,
-    quarters: [
-      { q: t.qNames.q1, date: '14.05.2024', size: '3,9 MB', status: 'published' },
-      { q: t.qNames.q2, date: '12.08.2024', size: '4,1 MB', status: 'published' },
-      { q: t.qNames.q3, date: '11.11.2024', size: '4,3 MB', status: 'published' },
-      { q: t.qNames.q4, date: '28.02.2025', size: '4,6 MB', status: 'published' },
-    ],
-    annual: { q: t.qNames.annual, date: '15.03.2025', size: '5,8 MB', status: 'published' },
-  },
-  {
-    year: 2023, status: 'done', pub: 5, total: 5,
-    quarters: [
-      { q: t.qNames.q1, date: '15.05.2023', size: '3,2 MB', status: 'published' },
-      { q: t.qNames.q2, date: '14.08.2023', size: '3,5 MB', status: 'published' },
-      { q: t.qNames.q3, date: '13.11.2023', size: '3,8 MB', status: 'published' },
-      { q: t.qNames.q4, date: '29.02.2024', size: '4,2 MB', status: 'published' },
-    ],
-    annual: { q: t.qNames.annual, date: '14.03.2024', size: '5,4 MB', status: 'published' },
-  },
-];
+// Yıllara göre grupla
+type Q = 'Q1' | 'Q2' | 'Q3' | 'Q4' | 'annual';
+const quarterOrder: Q[] = ['Q1', 'Q2', 'Q3', 'Q4', 'annual'];
+
+interface YearData {
+  year: number;
+  status: 'current' | 'done';
+  pub: number;
+  total: number;
+  quarters: Map<Q, { date: string; size?: number; url: string } | null>;
+}
+
+const byYear = new Map<number, Map<Q, { date: string; size?: number; url: string }>>();
+for (const item of all) {
+  const y = item.data.year;
+  const q = item.data.quarter as Q;
+  if (!byYear.has(y)) byYear.set(y, new Map());
+  byYear.get(y)!.set(q, {
+    date: new Intl.DateTimeFormat(locale === 'tr' ? 'tr-TR' : 'en-US').format(item.data.publishDate),
+    size: item.data.pdfSizeBytes,
+    url: item.data.pdfUrl,
+  });
+}
+
+// Cari yıl: en yenisi
+const sortedYears = [...byYear.keys()].sort((a, b) => b - a);
+const currentYear = sortedYears[0] ?? new Date().getFullYear();
+
+const years: YearData[] = sortedYears.slice(0, 4).map((y) => {
+  const map = byYear.get(y)!;
+  const quarterMap = new Map<Q, { date: string; size?: number; url: string } | null>();
+  for (const q of quarterOrder) {
+    quarterMap.set(q, map.get(q) ?? null);
+  }
+  const pub = [...map.values()].length;
+  return {
+    year: y,
+    status: y === currentYear && pub < 5 ? 'current' : 'done',
+    pub,
+    total: y === currentYear ? 5 : 5,
+    quarters: quarterMap,
+  };
+});
+
+// Octave function for rendering
+function getQuarter(yd: YearData, q: Q) {
+  return yd.quarters.get(q);
+}
 ---
 
 <section class="finrep-section" id="financial">
@@ -99,55 +106,64 @@ const years: YearData[] = [
       {years.map((y) => (
         <article class="year-card">
           <div class="year-card-head">
-            <div class="year-card-num">{y.year}{y.status === 'current' && <span class="current">{t.cari}</span>}</div>
+            <div class="year-card-num">
+              {y.year}
+              {y.status === 'current' && <span class="current">{t.cari}</span>}
+            </div>
             <div class="year-card-status">
               {y.status === 'current' ? t.published : t.done}<br>
               <strong>{y.pub} / {y.total}</strong>
             </div>
           </div>
           <div class="quarter-grid">
-            {y.quarters.map((q) => (
-              q.status === 'published' ? (
-                <a href="#" class="quarter-card">
-                  <span class="q-name">{q.q}</span>
-                  <span class="q-date">{q.date}</span>
+            {(['Q1', 'Q2', 'Q3', 'Q4'] as const).map((q) => {
+              const item = getQuarter(y, q);
+              return item ? (
+                <a href={item.url} target="_blank" rel="noopener" class="quarter-card">
+                  <span class="q-name">{t.qNames[q]}</span>
+                  <span class="q-date">{item.date}</span>
                   <span class="q-meta">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
-                    PDF · {q.size}
+                    PDF · {item.size ? formatBytes(item.size, locale) : '?'}
                   </span>
                 </a>
               ) : (
                 <span class="quarter-card empty">
-                  <span class="q-name">{q.q}</span>
-                  <span class="q-date">{q.date}</span>
-                  <span class="q-meta">{q.size}</span>
+                  <span class="q-name">{t.qNames[q]}</span>
+                  <span class="q-date">{t.pendingShort}</span>
+                  <span class="q-meta">{t.pendingDates[q]}</span>
                 </span>
-              )
-            ))}
-            {y.annual.status === 'published' ? (
-              <a href="#" class="quarter-card annual">
-                <span class="q-name">{y.annual.q}</span>
-                <span class="q-date">{y.annual.date}</span>
-                <span class="q-meta">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
-                  PDF · {y.annual.size}
+              );
+            })}
+            {(() => {
+              const item = getQuarter(y, 'annual');
+              return item ? (
+                <a href={item.url} target="_blank" rel="noopener" class="quarter-card annual">
+                  <span class="q-name">{t.qNames.annual}</span>
+                  <span class="q-date">{item.date}</span>
+                  <span class="q-meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
+                    PDF · {item.size ? formatBytes(item.size, locale) : '?'}
+                  </span>
+                </a>
+              ) : (
+                <span class="quarter-card annual empty">
+                  <span class="q-name">{t.qNames.annual}</span>
+                  <span class="q-date">{t.pendingShort}</span>
+                  <span class="q-meta">{t.pendingDates.annual}</span>
                 </span>
-              </a>
-            ) : (
-              <span class="quarter-card empty annual">
-                <span class="q-name">{y.annual.q}</span>
-                <span class="q-date">{y.annual.date}</span>
-                <span class="q-meta">{y.annual.size}</span>
-              </span>
-            )}
+              );
+            })()}
           </div>
         </article>
       ))}
     </div>
 
-    <div style="display: flex; justify-content: center; margin-top: 2.5rem;">
-      <a href="#" class="link-arrow" style="font-size: 1rem;">{t.archiveLink} <span class="arrow" aria-hidden="true">→</span></a>
-    </div>
+    {sortedYears.length > 4 && (
+      <div style="display: flex; justify-content: center; margin-top: 2.5rem;">
+        <a href="#" class="link-arrow" style="font-size: 1rem;">{t.archiveLink} <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    )}
 
   </div>
 </section>

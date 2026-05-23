@@ -2,7 +2,7 @@
  * WordPress REST API client
  * Sanica WP API ile etkileşim için tip-güvenli wrapper
  */
-import 'dotenv/config';
+import './env';
 
 const WP_BASE = process.env.WP_BASE_URL ?? 'https://www.sanicaisi.com.tr';
 const WP_USER = process.env.WP_USER;
