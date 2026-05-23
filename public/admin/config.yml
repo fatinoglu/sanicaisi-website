@@ -1,0 +1,386 @@
+# ════════════════════════════════════════════════════════════
+# Sveltia CMS Konfigürasyonu — Sanica Isı
+#
+# Editör akışı: editör → /admin → GitHub OAuth → form → save = commit
+# → push → Cloudflare Pages otomatik build → 1-2 dakikada canlı
+#
+# Bu dosya değiştiğinde Sveltia anında yeni şemayı yükler
+# (sayfayı yenilemek yeterli)
+# ════════════════════════════════════════════════════════════
+
+backend:
+  name: github
+  repo: fatinoglu/sanicaisi-website
+  branch: main
+  base_url: ''                            # Aynı domain (Pages Functions ile OAuth)
+  auth_endpoint: oauth                    # /oauth → functions/oauth/[[path]].ts
+
+# Editörün yüklediği görseller buraya gider
+# (PDF/büyük dosyalar için R2 upload widget aşağıda)
+media_folder: public/uploads
+public_folder: /uploads
+
+# Editöre özgün UI metinleri
+locale: tr
+site_url: https://sanicaisi.pages.dev
+display_url: https://sanicaisi.pages.dev
+logo_url: https://www.sanicaisi.com.tr/wp-content/uploads/2020/12/sanica-isi.png
+
+# Kullanıcı arayüzü
+publish_mode: simple                       # editorial_workflow yerine direct save
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# ════════════════════════════════════════════════════════════
+# COLLECTIONS
+# ════════════════════════════════════════════════════════════
+collections:
+
+  # ── KAP Açıklamaları ────────────────────────────────────
+  - name: kap
+    label: KAP Açıklamaları
+    label_singular: KAP Açıklaması
+    description: Kamuyu Aydınlatma Platformu (KAP) açıklamaları. Her açıklama tek dosya.
+    folder: src/content/kap
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{date | date("DD.MM.YYYY")}} · {{title}}'
+    sortable_fields: [date, category, title]
+    view_groups:
+      - { label: Kategoriye göre, field: category }
+      - { label: Yıla göre, field: date, pattern: '\d{4}' }
+    fields:
+      - { name: lang, label: Dil, widget: hidden, default: tr }
+      - { name: date, label: Tarih, widget: datetime, format: 'YYYY-MM-DD', date_format: 'DD.MM.YYYY', time_format: false, required: true }
+      - { name: time, label: Saat (HH:MM), widget: string, required: false, pattern: ['^\d{2}:\d{2}$', 'HH:MM formatında olmalı'] }
+      - name: category
+        label: Kategori
+        widget: select
+        options:
+          - { label: 'Finansal Rapor', value: finansal }
+          - { label: 'Genel Kurul', value: genel-kurul }
+          - { label: 'Yatırım Kararı', value: yatirim }
+          - { label: 'ESG / Sürdürülebilirlik', value: esg }
+          - { label: 'Bilgilendirme', value: bilgilendirme }
+          - { label: 'Sermaye / Halka Arz', value: sermaye }
+      - { name: title, label: Başlık, widget: string, required: true }
+      - { name: kapUrl, label: KAP URL, widget: string, required: false, hint: 'https://www.kap.org.tr/tr/Bildirim/...' }
+      - { name: summary, label: Özet (opsiyonel), widget: text, required: false }
+      - { name: body, label: İçerik, widget: markdown, required: false, minimal: true }
+
+  # ── Finansal Raporlar ───────────────────────────────────
+  - name: financial-reports
+    label: Finansal Raporlar
+    label_singular: Finansal Rapor
+    description: Çeyreklik ve yıllık finansal tablolar (PwC denetimli).
+    folder: src/content/financial-reports
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: '{{year}}-{{quarter}}'
+    summary: '{{year}} {{quarter}} · {{publishDate | date("DD.MM.YYYY")}}'
+    sortable_fields: [year, quarter, publishDate]
+    fields:
+      - { name: lang, label: Dil, widget: hidden, default: tr }
+      - { name: year, label: Yıl, widget: number, value_type: int, min: 2020, max: 2050, required: true }
+      - name: quarter
+        label: Dönem
+        widget: select
+        required: true
+        options:
+          - { label: 'Q1 (Mart)', value: Q1 }
+          - { label: 'Q2 (Haziran)', value: Q2 }
+          - { label: 'Q3 (Eylül)', value: Q3 }
+          - { label: 'Q4 (Aralık)', value: Q4 }
+          - { label: 'Yıllık', value: annual }
+      - { name: publishDate, label: Yayın Tarihi, widget: datetime, format: 'YYYY-MM-DD', date_format: 'DD.MM.YYYY', time_format: false, required: true }
+      - { name: pdfUrl, label: PDF URL, widget: string, required: true, hint: 'R2 public URL — https://pub-...r2.dev/...' }
+      - { name: pdfSizeBytes, label: PDF Boyutu (byte), widget: number, value_type: int, required: false }
+      - { name: auditFirm, label: Bağımsız Denetçi, widget: string, default: 'PwC Türkiye', required: false }
+      - { name: body, label: Notlar, widget: markdown, required: false, minimal: true }
+
+  # ── Faaliyet Raporları (yıllık + çeyreklik) ──────────────
+  - name: annual-reports
+    label: Faaliyet Raporları
+    label_singular: Faaliyet Raporu
+    description: Yıllık ve çeyreklik faaliyet raporları.
+    folder: src/content/annual-reports
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: '{{year}}-{{quarter}}'
+    summary: '{{year}} {{quarter}} · {{title}}'
+    sortable_fields: [year, quarter, publishDate]
+    fields:
+      - { name: lang, label: Dil, widget: hidden, default: tr }
+      - { name: year, label: Yıl, widget: number, value_type: int, min: 2020, max: 2050, required: true }
+      - name: quarter
+        label: Dönem
+        widget: select
+        required: true
+        default: annual
+        options:
+          - { label: 'Q1', value: Q1 }
+          - { label: 'Q2', value: Q2 }
+          - { label: 'Q3', value: Q3 }
+          - { label: 'Q4', value: Q4 }
+          - { label: 'Yıllık', value: annual }
+      - { name: title, label: Başlık, widget: string, required: true }
+      - { name: subtitle, label: Alt başlık, widget: string, required: false }
+      - { name: publishDate, label: Yayın Tarihi, widget: datetime, format: 'YYYY-MM-DD', date_format: 'DD.MM.YYYY', time_format: false, required: true }
+      - { name: pdfUrl, label: PDF URL, widget: string, required: true }
+      - { name: pdfSizeBytes, label: PDF Boyutu (byte), widget: number, value_type: int, required: false }
+      - { name: webVersionUrl, label: Web Sürümü URL, widget: string, required: false }
+      - name: coverKind
+        label: Kapak Rengi
+        widget: select
+        required: true
+        default: ink
+        options:
+          - { label: 'Siyah (modern)', value: ink }
+          - { label: 'Krem (sand)', value: sand }
+          - { label: 'Lacivert', value: navy }
+          - { label: 'Beyaz (paper)', value: paper }
+      - { name: body, label: Notlar, widget: markdown, required: false, minimal: true }
+
+  # ── Yatırımcı Dokümanları ───────────────────────────────
+  - name: investor-documents
+    label: Yatırımcı Dokümanları
+    label_singular: Yatırımcı Dokümanı
+    description: Genel kurul, politikalar, komiteler, halka arz raporları, sürdürülebilirlik vb.
+    folder: src/content/investor-documents
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{date | date("DD.MM.YYYY")}} · {{type}} · {{title}}'
+    sortable_fields: [date, type, title, year]
+    view_groups:
+      - { label: Türe göre, field: type }
+      - { label: Yıla göre, field: year }
+    fields:
+      - { name: lang, label: Dil, widget: hidden, default: tr }
+      - { name: slug, label: Slug (URL parçası), widget: string, required: true }
+      - { name: title, label: Başlık, widget: string, required: true }
+      - { name: date, label: Yayın Tarihi, widget: datetime, format: 'YYYY-MM-DD', date_format: 'DD.MM.YYYY', time_format: false, required: true }
+      - name: type
+        label: Tür
+        widget: select
+        required: true
+        options:
+          - { label: 'Genel Kurul', value: genel-kurul }
+          - { label: 'Politika', value: politika }
+          - { label: 'Komite Görev/Çalışma Esasları', value: komite }
+          - { label: 'İç Yönerge', value: yonetim }
+          - { label: 'Halka Arz / İzahname / FTR', value: halka-arz }
+          - { label: 'Kurumsal Yönetim', value: kurumsal-yonetim }
+          - { label: 'Sürdürülebilirlik', value: surdurulebilirlik }
+          - { label: 'Katılım Finans', value: katilim-finans }
+          - { label: 'Diğer', value: diger }
+      - { name: pdfUrl, label: PDF URL, widget: string, required: true }
+      - { name: pdfKey, label: R2 Key (otomatik), widget: string, required: false, hint: 'Örn: 2026/05/file.pdf' }
+      - { name: pdfSizeBytes, label: PDF Boyutu (byte), widget: number, value_type: int, required: false }
+      - { name: year, label: Yıl, widget: number, value_type: int, required: false }
+      - { name: description, label: Açıklama, widget: text, required: false }
+      - { name: body, label: Notlar, widget: markdown, required: false, minimal: true }
+
+  # ── Kurumsal Sayfalar ──────────────────────────────────
+  - name: corporate
+    label: Kurumsal Sayfalar
+    label_singular: Kurumsal Sayfa
+    description: Hakkımızda, tarihçe, yönetim, üretim, kalite, KVKK gibi statik sayfalar.
+    folder: src/content/corporate
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: '{{slug}}'
+    summary: '{{title}} ({{section}})'
+    sortable_fields: [order, section, title]
+    fields:
+      - { name: lang, label: Dil, widget: hidden, default: tr }
+      - { name: slug, label: Slug (URL), widget: string, required: true, hint: 'örn: hakkimizda, tarihce, yonetim' }
+      - { name: title, label: Başlık, widget: string, required: true }
+      - { name: description, label: Açıklama (SEO + sayfa hero altı), widget: text, required: true }
+      - name: section
+        label: Bölüm
+        widget: select
+        required: true
+        options:
+          - { label: 'Hakkımızda', value: about }
+          - { label: 'Tarihçe', value: history }
+          - { label: 'Yönetim', value: management }
+          - { label: 'Üretim', value: manufacturing }
+          - { label: 'Kalite & Sertifikalar', value: quality }
+          - { label: 'Yasal / Belgeler', value: documents }
+      - { name: order, label: Sıralama, widget: number, value_type: int, default: 99 }
+      - { name: body, label: İçerik (Markdown), widget: markdown, required: true }
+
+  # ── Basında Biz ─────────────────────────────────────────
+  - name: press
+    label: Basında Biz
+    label_singular: Haber
+    description: Yayınlarda Sanica hakkında çıkan haberler.
+    folder: src/content/press
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{date | date("DD.MM.YYYY")}} · {{publicationName}} · {{title}}'
+    sortable_fields: [date, publication, title]
+    fields:
+      - { name: lang, label: Dil, widget: hidden, default: tr }
+      - name: publication
+        label: Yayın
+        widget: select
+        options:
+          - { label: 'Bloomberg HT', value: bloomberg-ht }
+          - { label: 'Dünya Gazetesi', value: dunya }
+          - { label: 'Para Dergisi', value: para }
+          - { label: 'Capital', value: capital }
+          - { label: 'Fortune', value: fortune }
+          - { label: 'Forbes', value: forbes }
+          - { label: 'Anadolu Ajansı', value: anadolu }
+          - { label: 'Diğer', value: other }
+      - { name: publicationName, label: Yayın Adı (görünür), widget: string, required: false }
+      - { name: date, label: Tarih, widget: datetime, format: 'YYYY-MM-DD', date_format: 'DD.MM.YYYY', time_format: false, required: true }
+      - { name: title, label: Başlık, widget: string, required: true }
+      - { name: externalUrl, label: Dış Bağlantı, widget: string, required: false }
+      - { name: excerpt, label: Özet, widget: text, required: false }
+      - { name: body, label: Notlar / Alıntı, widget: markdown, required: false, minimal: true }
+
+  # ── Ürün Kategorileri ──────────────────────────────────
+  - name: product-categories
+    label: Ürün Kategorileri
+    label_singular: Kategori
+    description: Panel Radyatör, Havlupan, Kombi, Boru gibi ana ürün aileleri.
+    folder: src/content/product-categories
+    create: true
+    delete: false
+    extension: md
+    format: yaml-frontmatter
+    slug: '{{slug}}'
+    summary: '{{name}} ({{slug}})'
+    sortable_fields: [order, name]
+    fields:
+      - { name: lang, label: Dil, widget: hidden, default: tr }
+      - { name: slug, label: Slug, widget: string, required: true }
+      - { name: name, label: Ad, widget: string, required: true }
+      - { name: tagline, label: Slogan / kısa tanım, widget: string, required: true }
+      - { name: description, label: Uzun açıklama, widget: text, required: false }
+      - { name: order, label: Sıralama, widget: number, value_type: int, default: 99 }
+      - name: coverKind
+        label: Kapak İllüstrasyon
+        widget: select
+        required: false
+        options:
+          - { label: 'Radyatör', value: radiator }
+          - { label: 'Havlupan', value: towel }
+          - { label: 'Kombi', value: boiler }
+          - { label: 'Boru', value: pipe }
+      - { name: body, label: İçerik (Markdown), widget: markdown, required: false }
+
+  # ── Ürünler ────────────────────────────────────────────
+  - name: products
+    label: Ürünler
+    label_singular: Ürün
+    description: Tek tek ürün modelleri (Aurora, Panel Radyatör, Zirve Kombi, vb.).
+    folder: src/content/products
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: '{{categorySlug}}-{{slug}}'
+    summary: '{{name}} ({{categorySlug}})'
+    sortable_fields: [categorySlug, order, name]
+    view_groups:
+      - { label: Kategoriye göre, field: categorySlug }
+    fields:
+      - { name: lang, label: Dil, widget: hidden, default: tr }
+      - { name: slug, label: Slug (URL parçası), widget: string, required: true }
+      - { name: name, label: Ürün Adı, widget: string, required: true }
+      - name: categorySlug
+        label: Kategori
+        widget: select
+        required: true
+        options:
+          - { label: 'Panel Radyatör', value: panel-radyator }
+          - { label: 'Havlupan', value: havlupan }
+          - { label: 'Kombi', value: kombi }
+          - { label: 'Boru', value: boru }
+      - { name: series, label: Seri, widget: string, required: false }
+      - { name: tagline, label: Tagline, widget: string, required: true }
+      - { name: description, label: Kısa açıklama, widget: text, required: false }
+      - { name: featured, label: Öne Çıkan, widget: boolean, default: false }
+      - { name: order, label: Sıralama, widget: number, value_type: int, default: 99 }
+      - name: coverKind
+        label: Kapak Tipi
+        widget: select
+        required: true
+        default: radiator
+        options:
+          - { label: 'Radyatör', value: radiator }
+          - { label: 'Havlupan — Aurora', value: towel-aurora }
+          - { label: 'Havlupan — Klasik', value: towel-classic }
+          - { label: 'Kombi', value: boiler }
+          - { label: 'Boru — Cross Section', value: pipe-section }
+      - name: coverBg
+        label: Kapak Arka Plan
+        widget: select
+        required: true
+        default: sand
+        options:
+          - { label: 'Sand (krem)', value: sand }
+          - { label: 'Sand Deep (koyu krem)', value: sand-deep }
+          - { label: 'Terracotta Soft', value: terracotta-soft }
+          - { label: 'Paper (beyaz)', value: paper }
+      - name: specs
+        label: Teknik Özellikler
+        widget: list
+        required: false
+        fields:
+          - { name: label, label: Etiket, widget: string }
+          - { name: value, label: Değer, widget: string }
+          - { name: unit, label: Birim, widget: string, required: false }
+          - { name: group, label: Grup (Malzeme/Boyut/Performans), widget: string, required: false }
+      - name: sizes
+        label: Modeller / Boyutlar
+        widget: list
+        required: false
+        fields:
+          - { name: label, label: Etiket, widget: string }
+          - { name: sku, label: SKU, widget: string, required: false }
+          - { name: power, label: Güç / Detay, widget: string, required: false }
+      - name: certifications
+        label: Sertifikalar
+        widget: list
+        required: false
+        field: { name: name, label: Sertifika, widget: string }
+      - name: downloads
+        label: İndirilebilir Dokümanlar
+        widget: list
+        required: false
+        fields:
+          - { name: label, label: Etiket, widget: string }
+          - name: kind
+            label: Tür
+            widget: select
+            options:
+              - { label: 'Katalog', value: catalog }
+              - { label: 'Datasheet', value: datasheet }
+              - { label: 'BIM', value: bim }
+              - { label: 'Kullanım Kılavuzu', value: manual }
+              - { label: 'Garanti', value: warranty }
+              - { label: 'Diğer', value: other }
+          - { name: url, label: URL, widget: string }
+          - { name: sizeBytes, label: Boyut (byte), widget: number, value_type: int, required: false }
+      - { name: body, label: İçerik (Markdown), widget: markdown, required: true }
