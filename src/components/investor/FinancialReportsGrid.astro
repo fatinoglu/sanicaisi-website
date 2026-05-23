@@ -1,0 +1,315 @@
+---
+/**
+ * FinancialReportsGrid — yıl bazlı çeyrek + yıllık rapor kartları
+ * 4 yıl: 2026 (cari, partial) + 2025/2024/2023 (tamamlandı)
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Finansal Raporlar',
+  h2a: 'Çeyreklik ve yıllık',
+  h2em: 'finansal tablolar',
+  h2post: '.',
+  detail: 'Bağımsız denetim ilkeleri',
+  cari: 'Cari Dönem',
+  published: 'Yayınlanan',
+  done: 'Tamamlandı',
+  pendingShort: 'Bekleniyor',
+  qNames: { q1: 'Q1', q2: 'Q2', q3: 'Q3', q4: 'Q4', annual: 'Yıllık' },
+  pendingMonths: { q2: 'Ağu 2026', q3: 'Kas 2026', q4: 'Şub 2027', annual: 'Mar 2027' },
+  archiveLink: '2022 ve önceki yıllar',
+} : {
+  marker: 'Financial Reports',
+  h2a: 'Quarterly and annual',
+  h2em: 'financial statements',
+  h2post: '.',
+  detail: 'Independent audit principles',
+  cari: 'Current Period',
+  published: 'Published',
+  done: 'Completed',
+  pendingShort: 'Pending',
+  qNames: { q1: 'Q1', q2: 'Q2', q3: 'Q3', q4: 'Q4', annual: 'Annual' },
+  pendingMonths: { q2: 'Aug 2026', q3: 'Nov 2026', q4: 'Feb 2027', annual: 'Mar 2027' },
+  archiveLink: '2022 and earlier years',
+};
+
+// Yıl verileri — stub, Faz 4'te collection'dan
+type Q = { q: string; date: string; size: string; status: 'published' | 'pending' };
+type YearData = { year: number; status: 'current' | 'done'; pub: number; total: number; quarters: Q[]; annual: Q };
+
+const years: YearData[] = [
+  {
+    year: 2026, status: 'current', pub: 1, total: 4,
+    quarters: [
+      { q: t.qNames.q1, date: '14.05.2026', size: '4,8 MB', status: 'published' },
+      { q: t.qNames.q2, date: t.pendingShort, size: t.pendingMonths.q2, status: 'pending' },
+      { q: t.qNames.q3, date: t.pendingShort, size: t.pendingMonths.q3, status: 'pending' },
+      { q: t.qNames.q4, date: t.pendingShort, size: t.pendingMonths.q4, status: 'pending' },
+    ],
+    annual: { q: t.qNames.annual, date: t.pendingShort, size: t.pendingMonths.annual, status: 'pending' },
+  },
+  {
+    year: 2025, status: 'done', pub: 5, total: 5,
+    quarters: [
+      { q: t.qNames.q1, date: '15.05.2025', size: '4,2 MB', status: 'published' },
+      { q: t.qNames.q2, date: '14.08.2025', size: '4,6 MB', status: 'published' },
+      { q: t.qNames.q3, date: '12.11.2025', size: '4,8 MB', status: 'published' },
+      { q: t.qNames.q4, date: '28.02.2026', size: '5,1 MB', status: 'published' },
+    ],
+    annual: { q: t.qNames.annual, date: '15.03.2026', size: '6,3 MB', status: 'published' },
+  },
+  {
+    year: 2024, status: 'done', pub: 5, total: 5,
+    quarters: [
+      { q: t.qNames.q1, date: '14.05.2024', size: '3,9 MB', status: 'published' },
+      { q: t.qNames.q2, date: '12.08.2024', size: '4,1 MB', status: 'published' },
+      { q: t.qNames.q3, date: '11.11.2024', size: '4,3 MB', status: 'published' },
+      { q: t.qNames.q4, date: '28.02.2025', size: '4,6 MB', status: 'published' },
+    ],
+    annual: { q: t.qNames.annual, date: '15.03.2025', size: '5,8 MB', status: 'published' },
+  },
+  {
+    year: 2023, status: 'done', pub: 5, total: 5,
+    quarters: [
+      { q: t.qNames.q1, date: '15.05.2023', size: '3,2 MB', status: 'published' },
+      { q: t.qNames.q2, date: '14.08.2023', size: '3,5 MB', status: 'published' },
+      { q: t.qNames.q3, date: '13.11.2023', size: '3,8 MB', status: 'published' },
+      { q: t.qNames.q4, date: '29.02.2024', size: '4,2 MB', status: 'published' },
+    ],
+    annual: { q: t.qNames.annual, date: '14.03.2024', size: '5,4 MB', status: 'published' },
+  },
+];
+---
+
+<section class="finrep-section" id="financial">
+  <div class="container">
+
+    <div class="sec-head">
+      <div>
+        <div class="section-marker" style="margin-bottom: 1rem;">
+          <span class="num">04</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h2>{t.h2a}<br><em>{t.h2em}</em>{t.h2post}</h2>
+      </div>
+      <a href="#" class="link-arrow">{t.detail} <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="year-grid">
+      {years.map((y) => (
+        <article class="year-card">
+          <div class="year-card-head">
+            <div class="year-card-num">{y.year}{y.status === 'current' && <span class="current">{t.cari}</span>}</div>
+            <div class="year-card-status">
+              {y.status === 'current' ? t.published : t.done}<br>
+              <strong>{y.pub} / {y.total}</strong>
+            </div>
+          </div>
+          <div class="quarter-grid">
+            {y.quarters.map((q) => (
+              q.status === 'published' ? (
+                <a href="#" class="quarter-card">
+                  <span class="q-name">{q.q}</span>
+                  <span class="q-date">{q.date}</span>
+                  <span class="q-meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
+                    PDF · {q.size}
+                  </span>
+                </a>
+              ) : (
+                <span class="quarter-card empty">
+                  <span class="q-name">{q.q}</span>
+                  <span class="q-date">{q.date}</span>
+                  <span class="q-meta">{q.size}</span>
+                </span>
+              )
+            ))}
+            {y.annual.status === 'published' ? (
+              <a href="#" class="quarter-card annual">
+                <span class="q-name">{y.annual.q}</span>
+                <span class="q-date">{y.annual.date}</span>
+                <span class="q-meta">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
+                  PDF · {y.annual.size}
+                </span>
+              </a>
+            ) : (
+              <span class="quarter-card empty annual">
+                <span class="q-name">{y.annual.q}</span>
+                <span class="q-date">{y.annual.date}</span>
+                <span class="q-meta">{y.annual.size}</span>
+              </span>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div style="display: flex; justify-content: center; margin-top: 2.5rem;">
+      <a href="#" class="link-arrow" style="font-size: 1rem;">{t.archiveLink} <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.finrep-section { background: var(--paper-soft); padding: var(--section-y) 0; }
+
+.sec-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+.sec-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.6vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+}
+.sec-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+
+.year-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.year-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 1.75rem;
+  transition: all var(--t-med) var(--ease);
+}
+.year-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+.year-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.year-card-num {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 420;
+  font-size: clamp(2.5rem, 4vw, 3.25rem);
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.year-card-num .current {
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.18em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  font-weight: 600;
+  vertical-align: super;
+  margin-left: 0.5rem;
+}
+.year-card-status {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: right;
+}
+.year-card-status strong { color: var(--ink); }
+
+.quarter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto;
+  gap: 0.625rem;
+}
+.quarter-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--sand);
+  padding: 1rem 0.875rem 0.875rem;
+  transition: all var(--t-fast) var(--ease);
+  border: 1px solid transparent;
+  text-align: left;
+}
+.quarter-card:not(.empty):hover {
+  background: var(--terracotta-soft);
+  border-color: var(--terracotta);
+}
+.quarter-card.empty {
+  background: transparent;
+  border: 1px dashed var(--line);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+.quarter-card .q-name {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.quarter-card .q-date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.875rem;
+  letter-spacing: 0.04em;
+}
+.quarter-card.empty .q-date { color: var(--muted); }
+.quarter-card .q-meta {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.quarter-card .q-meta svg { width: 10px; height: 10px; color: var(--terracotta); }
+.quarter-card.annual {
+  background: var(--ink);
+  color: var(--paper);
+  min-width: 110px;
+}
+.quarter-card.annual:hover { background: var(--terracotta); }
+.quarter-card.annual .q-name { color: rgba(247, 244, 238, 0.5); }
+.quarter-card.annual .q-date { color: var(--paper); }
+.quarter-card.annual .q-meta { color: rgba(247, 244, 238, 0.65); }
+.quarter-card.annual .q-meta svg { color: var(--terracotta-warm); }
+.quarter-card.annual.empty {
+  background: transparent;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+}
+.quarter-card.annual.empty .q-name { color: var(--muted); }
+.quarter-card.annual.empty .q-date { color: var(--muted); }
+
+@media (max-width: 980px) {
+  .sec-head { grid-template-columns: 1fr; }
+  .year-grid { grid-template-columns: 1fr; }
+  .quarter-grid { grid-template-columns: repeat(3, 1fr); }
+  .quarter-grid .annual { grid-column: span 3; }
+}
+@media (max-width: 720px) {
+  .quarter-grid { grid-template-columns: 1fr 1fr; }
+  .quarter-grid .annual { grid-column: span 2; }
+}
+@media (max-width: 480px) {
+  .quarter-grid { grid-template-columns: 1fr; }
+  .quarter-grid .annual { grid-column: span 1; }
+}
+</style>

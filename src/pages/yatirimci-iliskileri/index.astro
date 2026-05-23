@@ -1,0 +1,30 @@
+---
+/**
+ * Yatırımcı İlişkileri — ana giriş sayfası (TR)
+ * 7 bölüm: Hero + LiveData + Chart + KAP + Finansal + Faaliyet + Sermaye + İletişim
+ */
+import InvestorLayout from '../../layouts/InvestorLayout.astro';
+import PageHeroInvestor from '../../components/investor/PageHeroInvestor.astro';
+import LiveDataBand from '../../components/investor/LiveDataBand.astro';
+import StockChart from '../../components/investor/StockChart.astro';
+import KapList from '../../components/investor/KapList.astro';
+import FinancialReportsGrid from '../../components/investor/FinancialReportsGrid.astro';
+import AnnualReportsGrid from '../../components/investor/AnnualReportsGrid.astro';
+import CapitalStructure from '../../components/investor/CapitalStructure.astro';
+import IRContactSection from '../../components/investor/IRContactSection.astro';
+---
+
+<InvestorLayout
+  title="Yatırımcı İlişkileri — Sanica Isı · BIST: SNICA"
+  description="Sanica Isı Yatırımcı İlişkileri. KAP açıklamaları, finansal raporlar, faaliyet raporları, sermaye yapısı ve hisse performansı."
+>
+  <PageHeroInvestor slot="hero" />
+
+  <LiveDataBand />
+  <StockChart />
+  <KapList />
+  <FinancialReportsGrid />
+  <AnnualReportsGrid />
+  <CapitalStructure />
+  <IRContactSection />
+</InvestorLayout>

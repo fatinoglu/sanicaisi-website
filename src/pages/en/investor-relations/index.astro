@@ -1,0 +1,30 @@
+---
+/**
+ * Investor Relations — main entry page (EN)
+ * Locale automatically detected by each component via Astro.url.pathname
+ */
+import InvestorLayout from '../../../layouts/InvestorLayout.astro';
+import PageHeroInvestor from '../../../components/investor/PageHeroInvestor.astro';
+import LiveDataBand from '../../../components/investor/LiveDataBand.astro';
+import StockChart from '../../../components/investor/StockChart.astro';
+import KapList from '../../../components/investor/KapList.astro';
+import FinancialReportsGrid from '../../../components/investor/FinancialReportsGrid.astro';
+import AnnualReportsGrid from '../../../components/investor/AnnualReportsGrid.astro';
+import CapitalStructure from '../../../components/investor/CapitalStructure.astro';
+import IRContactSection from '../../../components/investor/IRContactSection.astro';
+---
+
+<InvestorLayout
+  title="Investor Relations — Sanica Isı · BIST: SNICA"
+  description="Sanica Isı Investor Relations. PDP disclosures, financial reports, annual reports, capital structure and stock performance."
+>
+  <PageHeroInvestor slot="hero" />
+
+  <LiveDataBand />
+  <StockChart />
+  <KapList />
+  <FinancialReportsGrid />
+  <AnnualReportsGrid />
+  <CapitalStructure />
+  <IRContactSection />
+</InvestorLayout>

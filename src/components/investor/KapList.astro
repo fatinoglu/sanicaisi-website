@@ -1,0 +1,384 @@
+---
+/**
+ * KapList — KAP açıklamaları listesi
+ * Filter bar (yıl + kategori + arama) + 9 satır + sayfalama
+ * Stub veri Faz 4'te content collection'dan beslenir
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'KAP Açıklamaları',
+  h2a: 'Kamuyu Aydınlatma Platformu',
+  h2em: 'akışı',
+  h2post: '.',
+  kapView: 'KAP\'ta görüntüle',
+  filterYear: 'Yıl',
+  filterCat: 'Kategori',
+  catLabels: { all: 'Tümü', fin: 'Finansal', assembly: 'Genel Kurul', capital: 'Yatırım', esg: 'ESG' },
+  searchPh: 'Açıklamada ara…',
+  resultsCount: 'sonuç',
+  tagLabels: {
+    assembly: 'Genel Kurul', fin: 'Finansal Rapor', other: 'Bilgilendirme',
+    esg: 'Sürdürülebilirlik', capital: 'Yatırım Kararı',
+  },
+  download: 'İndir',
+  paginationLbl: '14 sonuç',
+  paginationRange: '1–9',
+} : {
+  marker: 'PDP Disclosures',
+  h2a: 'Public Disclosure Platform',
+  h2em: 'feed',
+  h2post: '.',
+  kapView: 'View on PDP',
+  filterYear: 'Year',
+  filterCat: 'Category',
+  catLabels: { all: 'All', fin: 'Financial', assembly: 'Assembly', capital: 'Investment', esg: 'ESG' },
+  searchPh: 'Search disclosures…',
+  resultsCount: 'results',
+  tagLabels: {
+    assembly: 'Assembly', fin: 'Financial Report', other: 'Notice',
+    esg: 'Sustainability', capital: 'Investment Decision',
+  },
+  download: 'Download',
+  paginationLbl: '14 results',
+  paginationRange: '1–9',
+};
+
+// Stub data — Faz 4'te content collection'dan
+const items = [
+  { date: '22.05.2026', time: '09:14', tagKey: 'assembly', title: locale === 'tr' ? '2025 Yılı Olağan Genel Kurul Toplantısı sonuçlarına ilişkin bildirim ve karar metni' : 'Notification and resolution regarding the 2025 Annual General Assembly results', size: '1,2 MB' },
+  { date: '14.05.2026', time: '17:32', tagKey: 'fin', title: locale === 'tr' ? 'Q1 2026 konsolide finansal tablolar ve faaliyet raporu yayınlandı (SPK Form 4)' : 'Q1 2026 consolidated financial statements and activity report published (CMB Form 4)', size: '4,8 MB' },
+  { date: '02.05.2026', time: '10:08', tagKey: 'other', title: locale === 'tr' ? 'Genel Kurul Toplantısı çağrısı ve gündem maddelerine ilişkin duyuru' : 'Notice for General Assembly meeting call and agenda items', size: '0,6 MB' },
+  { date: '18.04.2026', time: '15:22', tagKey: 'esg', title: locale === 'tr' ? '2025 Sürdürülebilirlik Raporu — ESG performans değerlendirmesi yayınlandı (TSRS uyumlu)' : '2025 Sustainability Report — ESG performance assessment published (TSRS compliant)', size: '8,2 MB' },
+  { date: '02.04.2026', time: '11:48', tagKey: 'capital', title: locale === 'tr' ? 'Üretim kapasitesi artırımına ilişkin yatırım kararı hakkında bilgilendirme (Sakarya tesisi 3. faz)' : 'Notice regarding investment decision for production capacity increase (Sakarya facility, Phase 3)', size: '1,4 MB' },
+  { date: '15.03.2026', time: '17:58', tagKey: 'fin', title: locale === 'tr' ? '2025 yıl sonu konsolide bağımsız denetimden geçmiş finansal tablolar ve faaliyet raporu' : '2025 year-end consolidated audited financial statements and activity report', size: '6,3 MB' },
+  { date: '28.02.2026', time: '14:02', tagKey: 'other', title: locale === 'tr' ? 'Kar payı dağıtımına ilişkin Yönetim Kurulu kararı ve Genel Kurul onayına sunulacak öneri' : 'Board resolution on dividend distribution and proposal to be submitted to General Assembly', size: '0,4 MB' },
+  { date: '12.02.2026', time: '09:36', tagKey: 'capital', title: locale === 'tr' ? 'Bağlı ortaklık kuruluşuna ilişkin Yönetim Kurulu kararı — Sanica Avrupa GmbH (Almanya)' : 'Board resolution on establishment of subsidiary — Sanica Avrupa GmbH (Germany)', size: '0,8 MB' },
+  { date: '22.01.2026', time: '16:14', tagKey: 'other', title: locale === 'tr' ? '2026 Yılı Yatırımcı Bilgilendirme Politikası güncellemesine ilişkin Yönetim Kurulu kararı' : 'Board resolution on 2026 Investor Information Policy update', size: '0,5 MB' },
+];
+
+const totalResults = 14;
+---
+
+<section class="kap-section" id="kap">
+  <div class="container">
+
+    <div class="sec-head">
+      <div>
+        <div class="section-marker" style="margin-bottom: 1rem;">
+          <span class="num">03</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h2>{t.h2a} <em>{t.h2em}</em>{t.h2post}</h2>
+      </div>
+      <a href="https://www.kap.org.tr/" target="_blank" rel="noopener" class="link-arrow">{t.kapView} <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+
+    <!-- Filters -->
+    <div class="kap-filters">
+      <div class="filter-group">
+        <span class="filter-label">{t.filterYear}</span>
+        <div class="pill-group year-pills">
+          {['2026', '2025', '2024', '2023', '2022'].map((y, i) => (
+            <button class:list={[{ active: i === 0 }]}>{y}</button>
+          ))}
+        </div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">{t.filterCat}</span>
+        <div class="pill-group cat-pills">
+          {[t.catLabels.all, t.catLabels.fin, t.catLabels.assembly, t.catLabels.capital, t.catLabels.esg].map((c, i) => (
+            <button class:list={[{ active: i === 0 }]}>{c}</button>
+          ))}
+        </div>
+      </div>
+      <div class="search-input">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3-3" /></svg>
+        <input type="text" placeholder={t.searchPh} aria-label={t.searchPh} />
+      </div>
+      <span class="kap-count"><strong>{totalResults}</strong> {t.resultsCount}</span>
+    </div>
+
+    <!-- List -->
+    <div class="kap-list">
+      {items.map((item) => (
+        <article class="kap-row">
+          <div class="date">{item.date}<span class="time">{item.time}</span></div>
+          <span class:list={['tag', item.tagKey]}>{t.tagLabels[item.tagKey as keyof typeof t.tagLabels]}</span>
+          <div class="title"><a href="#">{item.title}</a></div>
+          <div class="action">
+            <span class="kap-file-size">PDF · {item.size}</span>
+            <a href="#" class="kap-action-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+              {t.download}
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <span class="count"><strong>{t.paginationRange}</strong> · {t.paginationLbl}</span>
+      <div class="page-nums">
+        <button disabled>‹</button>
+        <button class="active">1</button>
+        <button>2</button>
+        <button>›</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.kap-section { background: var(--paper); padding: var(--section-y) 0; }
+
+.sec-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+.sec-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.6vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+}
+.sec-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+
+.kap-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem 1.25rem;
+  background: var(--sand);
+  border: 1px solid var(--line);
+}
+.filter-group { display: flex; align-items: center; gap: 0.5rem; }
+.filter-label {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pill-group {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 3px;
+}
+.pill-group button {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  padding: 0.4375rem 0.625rem;
+  border-radius: 2px;
+  transition: all var(--t-fast) var(--ease);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.pill-group button.active { background: var(--ink); color: var(--paper); }
+.pill-group button:hover:not(.active) { color: var(--ink); }
+
+.search-input {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 0.4375rem 0.75rem;
+  font-family: var(--sans);
+}
+.search-input svg { width: 14px; height: 14px; color: var(--muted); flex-shrink: 0; }
+.search-input input {
+  background: transparent;
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--text);
+}
+.search-input input::placeholder { color: var(--muted); }
+
+.kap-count {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-left: auto;
+}
+.kap-count strong { color: var(--ink); font-weight: 600; }
+
+.kap-list { border-top: 1px solid var(--line); }
+.kap-row {
+  display: grid;
+  grid-template-columns: 90px 110px 1fr auto;
+  gap: 1.5rem;
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+  transition: background var(--t-fast) var(--ease);
+}
+.kap-row:hover { background: var(--sand); }
+.kap-row .date {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.kap-row .date .time {
+  display: block;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  margin-top: 0.125rem;
+}
+.kap-row .tag {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.3125rem 0.5rem;
+  align-self: start;
+  white-space: nowrap;
+  background: var(--bist-navy-soft);
+  color: var(--bist-navy);
+}
+.kap-row .tag.fin { background: var(--terracotta-soft); color: var(--terracotta); }
+.kap-row .tag.esg { background: var(--success-soft); color: var(--success); }
+.kap-row .tag.assembly { background: var(--sand-deep); color: var(--ink); }
+.kap-row .tag.capital { background: rgba(74, 77, 82, 0.15); color: var(--steel); }
+.kap-row .tag.other { background: var(--bist-navy-soft); color: var(--bist-navy); }
+
+.kap-row .title {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 55, "wght" 480;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+}
+.kap-row .title a {
+  color: inherit;
+  transition: color var(--t-fast) var(--ease);
+}
+.kap-row .title a:hover { color: var(--terracotta); }
+
+.kap-row .action {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.kap-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  transition: all var(--t-fast) var(--ease);
+  white-space: nowrap;
+}
+.kap-action-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.kap-action-btn svg { width: 12px; height: 12px; }
+.kap-file-size {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.pagination .count {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.pagination .count strong { color: var(--ink); font-weight: 600; }
+.page-nums { display: inline-flex; gap: 4px; }
+.page-nums button {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  transition: all var(--t-fast) var(--ease);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.page-nums button:hover:not(:disabled) { border-color: var(--ink); }
+.page-nums button.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.page-nums button:disabled { color: var(--muted); cursor: not-allowed; }
+
+@media (max-width: 980px) { .sec-head { grid-template-columns: 1fr; } }
+@media (max-width: 720px) {
+  .kap-row { grid-template-columns: 1fr; gap: 0.625rem; padding: 1.25rem 0.5rem; }
+  .kap-row .action { justify-content: flex-start; }
+  .kap-filters { padding: 1rem; }
+  .kap-count { margin-left: 0; }
+}
+</style>
+
+<script>
+  // Filter pill cosmetic toggle — Faz 4'te gerçek filtering eklenecek
+  document.querySelectorAll('.pill-group').forEach((group) => {
+    group.querySelectorAll('button').forEach((b) => {
+      b.addEventListener('click', () => {
+        group.querySelectorAll('button').forEach((x) => x.classList.remove('active'));
+        b.classList.add('active');
+      });
+    });
+  });
+</script>

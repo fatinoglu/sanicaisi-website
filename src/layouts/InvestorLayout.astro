@@ -1,0 +1,28 @@
+---
+/**
+ * InvestorLayout — yatırımcı sayfaları için layout
+ * PageLayout (showTicker=true) + InvestorSubnav (sticky, scrollspy)
+ */
+import PageLayout from './PageLayout.astro';
+import InvestorSubnav from '../components/investor/InvestorSubnav.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage } = Astro.props;
+---
+
+<PageLayout
+  {title}
+  {description}
+  {ogImage}
+  showTicker={true}
+  activeAudience="investor"
+>
+  <slot name="hero" />
+  <InvestorSubnav />
+  <slot />
+</PageLayout>

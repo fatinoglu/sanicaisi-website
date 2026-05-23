@@ -1,0 +1,270 @@
+---
+/**
+ * CapitalStructure — sermaye yapısı (dark)
+ * 5-segment donut chart + tablo
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Sermaye Yapısı · Shareholding',
+  h2a: 'Pay sahipliği',
+  h2em: 'dağılımı',
+  h2post: '.',
+  esasLink: 'Esas sözleşme',
+  totalLbl: 'Toplam Sermaye',
+  totalVal: '₺40 M',
+  totalSub: '40.000.000 Pay',
+  rows: [
+    { color: '#1A2B47', name: 'Ana Hissedar Ailesi', sub: 'A Grubu Pay · Yönetim İmtiyazlı', pct: '%35,00', nominal: '₺14.000.000' },
+    { color: '#B8390C', name: 'Halka Açık', sub: 'B Grubu Pay · BIST İşlem Görür', pct: '%30,00', nominal: '₺12.000.000' },
+    { color: '#4A4D52', name: 'Stratejik Ortak', sub: 'A Grubu Pay · 2018\'den beri', pct: '%20,00', nominal: '₺8.000.000' },
+    { color: '#4D7C5F', name: 'Yönetim & Çalışan', sub: 'B Grubu Pay · ESOP Planı', pct: '%10,00', nominal: '₺4.000.000' },
+    { color: '#B8B8B5', name: 'Diğer Tüzel & Gerçek Kişiler', sub: 'B Grubu Pay', pct: '%5,00', nominal: '₺2.000.000' },
+  ],
+  totalRow: { name: 'Toplam Ödenmiş Sermaye', pct: '%100,00', nominal: '₺40.000.000' },
+} : {
+  marker: 'Capital Structure · Sermaye Yapısı',
+  h2a: 'Shareholding',
+  h2em: 'distribution',
+  h2post: '.',
+  esasLink: 'Articles of association',
+  totalLbl: 'Total Capital',
+  totalVal: '₺40 M',
+  totalSub: '40,000,000 Shares',
+  rows: [
+    { color: '#1A2B47', name: 'Founding Family', sub: 'Group A · Management Privileged', pct: '35.00%', nominal: '₺14,000,000' },
+    { color: '#B8390C', name: 'Free Float', sub: 'Group B · Traded on BIST', pct: '30.00%', nominal: '₺12,000,000' },
+    { color: '#4A4D52', name: 'Strategic Partner', sub: 'Group A · since 2018', pct: '20.00%', nominal: '₺8,000,000' },
+    { color: '#4D7C5F', name: 'Management & Staff', sub: 'Group B · ESOP Plan', pct: '10.00%', nominal: '₺4,000,000' },
+    { color: '#B8B8B5', name: 'Other Legal & Real Persons', sub: 'Group B', pct: '5.00%', nominal: '₺2,000,000' },
+  ],
+  totalRow: { name: 'Total Paid-in Capital', pct: '100.00%', nominal: '₺40,000,000' },
+};
+
+// Donut segment hesaplaması
+// Circumference = 2 * π * 80 ≈ 502.655
+// Yüzdeler: 35 / 30 / 20 / 10 / 5
+const C = 502.655;
+const segs = [
+  { color: '#1A2B47', pct: 35 },
+  { color: '#B8390C', pct: 30 },
+  { color: '#4A4D52', pct: 20 },
+  { color: '#4D7C5F', pct: 10 },
+  { color: '#B8B8B5', pct: 5 },
+];
+let offset = 0;
+const segments = segs.map((s) => {
+  const length = (s.pct / 100) * C;
+  const result = { ...s, length, offset: -offset };
+  offset += length;
+  return result;
+});
+---
+
+<section class="cap-section dark" id="capital">
+  <div class="container">
+
+    <div class="sec-head">
+      <div>
+        <div class="section-marker" style="margin-bottom: 1rem;">
+          <span class="num">06</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h2>{t.h2a} <em>{t.h2em}</em>{t.h2post}</h2>
+      </div>
+      <a href="#" class="link-arrow">{t.esasLink} <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="cap-grid">
+
+      <div class="donut-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(247,244,238,0.05)" stroke-width="28" />
+          <g transform="rotate(-90 100 100)">
+            {segments.map((s) => (
+              <circle
+                cx="100" cy="100" r="80"
+                fill="none"
+                stroke={s.color}
+                stroke-width="28"
+                stroke-dasharray={`${s.length.toFixed(2)} ${(C - s.length).toFixed(2)}`}
+                stroke-dashoffset={s.offset.toFixed(2)}
+              />
+            ))}
+          </g>
+          <g stroke="rgba(247,244,238,0.2)" stroke-width="0.5">
+            <line x1="100" y1="10" x2="100" y2="14" />
+            <line x1="100" y1="186" x2="100" y2="190" />
+            <line x1="10" y1="100" x2="14" y2="100" />
+            <line x1="186" y1="100" x2="190" y2="100" />
+          </g>
+        </svg>
+
+        <div class="donut-center">
+          <span class="total-label">{t.totalLbl}</span>
+          <span class="total-val">{t.totalVal}</span>
+          <span class="total-sub">{t.totalSub}</span>
+        </div>
+      </div>
+
+      <div class="cap-table">
+        {t.rows.map((row) => (
+          <div class="cap-row">
+            <span class="cap-swatch" style={`background: ${row.color};`}></span>
+            <span class="name">{row.name}<span class="sub">{row.sub}</span></span>
+            <span class="pct">{row.pct}</span>
+            <span class="nominal">{row.nominal}</span>
+          </div>
+        ))}
+        <div class="cap-row total">
+          <span class="cap-swatch" style="background: transparent;"></span>
+          <span class="name">{t.totalRow.name}</span>
+          <span class="pct">{t.totalRow.pct}</span>
+          <span class="nominal">{t.totalRow.nominal}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.cap-section {
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--section-y) 0;
+}
+.cap-section :global(.section-marker .label) { color: var(--paper); }
+.cap-section :global(.section-marker) { color: rgba(247, 244, 238, 0.65); }
+.cap-section :global(.section-marker .dash) { color: rgba(247, 244, 238, 0.18); }
+
+.sec-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+.sec-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.6vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--paper);
+}
+.sec-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta-warm);
+}
+.sec-head .link-arrow { color: var(--paper); }
+
+.cap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.donut-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.donut-wrap svg { width: 100%; height: auto; }
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+.donut-center .total-label {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.5);
+  margin-bottom: 0.625rem;
+}
+.donut-center .total-val {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 400;
+  font-size: clamp(1.875rem, 3.5vw, 2.625rem);
+  line-height: 1;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.donut-center .total-sub {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.5);
+  margin-top: 0.5rem;
+}
+
+.cap-table { display: flex; flex-direction: column; gap: 0; }
+.cap-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  border-bottom: 1px dotted rgba(247, 244, 238, 0.12);
+}
+.cap-row:last-child { border-bottom: 1px solid rgba(247, 244, 238, 0.2); }
+.cap-row.total {
+  font-weight: 600;
+  padding-top: 1.25rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(247, 244, 238, 0.2);
+  border-bottom: none;
+}
+.cap-swatch { width: 14px; height: 14px; flex-shrink: 0; }
+.cap-row .name {
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--paper);
+}
+.cap-row .name .sub {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: rgba(247, 244, 238, 0.5);
+  font-weight: 400;
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+}
+.cap-row .pct {
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  text-align: right;
+}
+.cap-row .nominal {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: rgba(247, 244, 238, 0.65);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  text-align: right;
+  min-width: 120px;
+}
+
+@media (max-width: 980px) {
+  .sec-head { grid-template-columns: 1fr; }
+  .cap-grid { grid-template-columns: 1fr; }
+}
+</style>

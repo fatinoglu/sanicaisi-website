@@ -1,0 +1,260 @@
+---
+/**
+ * AnnualReportsGrid — 4 yıllık faaliyet raporu kapakları
+ * Her yıl farklı kapak tasarımı (siyah/krem/lacivert/açık)
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  marker: 'Faaliyet Raporları',
+  h2a: 'Yıllık',
+  h2em: 'faaliyet hikayemiz',
+  h2post: '.',
+  allLink: 'Tüm yıllar',
+  pdf: 'PDF',
+  webVer: 'Web sürümü',
+  reports: [
+    { year: 2025, vol: 'VOL · 04', date: 'Mart 2026', title: 'Çelikten ısıya — Halka açık 3. yıl', size: '14 MB', subtitle1: 'Çelikten ısıya', subtitle2: '40 yıl. 35+ ülke.', kind: 'ink' },
+    { year: 2024, vol: 'VOL · 03', date: 'Mart 2025', title: 'Üretimin geometrisi — Genişleme yılı', size: '12 MB', subtitle1: 'Üretimin geometrisi', subtitle2: 'İhracat %24 büyüdü', kind: 'sand' },
+    { year: 2023, vol: 'VOL · 02', date: 'Mart 2024', title: 'İlk tam yıl — Yıldız Pazar\'da', size: '11 MB', subtitle1: 'Halka açık ilk tam yıl', subtitle2: 'Borsa İstanbul\'da Yıldız', kind: 'navy' },
+    { year: 2022, vol: 'VOL · 01 / HALKA ARZ YILI', date: 'Mart 2023', title: 'Halka arz — Yeni başlangıç', size: '9 MB', subtitle1: 'Halka arz yılı', subtitle2: 'Talep 11 kat aşıldı', kind: 'paper' },
+  ],
+  faaliyetUst: 'FAALİYET RAPORU',
+} : {
+  marker: 'Annual Reports',
+  h2a: 'Annual',
+  h2em: 'activity story',
+  h2post: '.',
+  allLink: 'All years',
+  pdf: 'PDF',
+  webVer: 'Web version',
+  reports: [
+    { year: 2025, vol: 'VOL · 04', date: 'March 2026', title: 'From steel to heat — 3rd public year', size: '14 MB', subtitle1: 'From steel to heat', subtitle2: '40 years. 35+ countries.', kind: 'ink' },
+    { year: 2024, vol: 'VOL · 03', date: 'March 2025', title: 'Geometry of production — Expansion year', size: '12 MB', subtitle1: 'Geometry of production', subtitle2: 'Exports grew 24%', kind: 'sand' },
+    { year: 2023, vol: 'VOL · 02', date: 'March 2024', title: 'First full year — On Star Market', size: '11 MB', subtitle1: 'First full public year', subtitle2: 'Star Market on Borsa İstanbul', kind: 'navy' },
+    { year: 2022, vol: 'VOL · 01 / IPO YEAR', date: 'March 2023', title: 'IPO — A new beginning', size: '9 MB', subtitle1: 'IPO year', subtitle2: 'Demand 11x oversubscribed', kind: 'paper' },
+  ],
+  faaliyetUst: 'ANNUAL REPORT',
+};
+
+const allHref = locale === 'tr' ? '/yatirimci-iliskileri/faaliyet-raporlari' : '/en/investor-relations/annual-reports';
+---
+
+<section class="ann-section" id="annual">
+  <div class="container">
+
+    <div class="sec-head">
+      <div>
+        <div class="section-marker" style="margin-bottom: 1rem;">
+          <span class="num">05</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h2>{t.h2a} <em>{t.h2em}</em>{t.h2post}</h2>
+      </div>
+      <a href={allHref} class="link-arrow">{t.allLink} <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="annual-grid">
+      {t.reports.map((r) => (
+        <article class="annual-card">
+          <a href="#" class="annual-cover" aria-label={`${r.year} ${t.marker}`}>
+            {r.kind === 'ink' && (
+              <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <rect width="300" height="400" fill="#0A0A0A" />
+                <text x="24" y="36" font-family="IBM Plex Mono" font-size="9" fill="rgba(247,244,238,0.45)" letter-spacing="2">{t.faaliyetUst}</text>
+                <text x="276" y="36" font-family="IBM Plex Mono" font-size="9" fill="rgba(247,244,238,0.45)" letter-spacing="2" text-anchor="end">{r.vol}</text>
+                <line x1="24" y1="48" x2="276" y2="48" stroke="rgba(247,244,238,0.15)" />
+                <text x="24" y="200" font-family="Fraunces" font-style="italic" font-size="120" font-weight="380" fill="#F7F4EE" letter-spacing="-4">{r.year}</text>
+                <circle cx="220" cy="240" r="40" fill="#B8390C" />
+                <circle cx="220" cy="240" r="20" fill="#0A0A0A" />
+                <rect x="24" y="290" width="80" height="3" fill="#B8390C" />
+                <text x="24" y="320" font-family="Inter" font-size="11" font-weight="500" fill="#F7F4EE" letter-spacing="0.5">{r.subtitle1}</text>
+                <text x="24" y="338" font-family="Inter" font-size="11" font-weight="500" fill="rgba(247,244,238,0.6)" letter-spacing="0.5">{r.subtitle2}</text>
+                <text x="24" y="378" font-family="Fraunces" font-size="13" font-weight="700" fill="#F7F4EE" letter-spacing="0.5">SANICA ISI</text>
+                <text x="276" y="378" font-family="IBM Plex Mono" font-size="8" fill="rgba(247,244,238,0.45)" letter-spacing="2" text-anchor="end">BIST · SNICA</text>
+              </svg>
+            )}
+            {r.kind === 'sand' && (
+              <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <rect width="300" height="400" fill="#EDE5D3" />
+                <text x="24" y="36" font-family="IBM Plex Mono" font-size="9" fill="rgba(10,10,10,0.55)" letter-spacing="2">{t.faaliyetUst}</text>
+                <text x="276" y="36" font-family="IBM Plex Mono" font-size="9" fill="rgba(10,10,10,0.55)" letter-spacing="2" text-anchor="end">{r.vol}</text>
+                <line x1="24" y1="48" x2="276" y2="48" stroke="rgba(10,10,10,0.2)" />
+                <rect x="24" y="80" width="80" height="160" fill="#0A0A0A" />
+                <g stroke="#EDE5D3" stroke-width="2">
+                  <line x1="32" y1="100" x2="96" y2="100" /><line x1="32" y1="120" x2="96" y2="120" />
+                  <line x1="32" y1="140" x2="96" y2="140" /><line x1="32" y1="160" x2="96" y2="160" />
+                  <line x1="32" y1="180" x2="96" y2="180" /><line x1="32" y1="200" x2="96" y2="200" />
+                  <line x1="32" y1="220" x2="96" y2="220" />
+                </g>
+                <circle cx="180" cy="160" r="60" fill="#B8390C" />
+                <text x="24" y="280" font-family="Fraunces" font-style="italic" font-size="64" font-weight="380" fill="#0A0A0A" letter-spacing="-2">{r.year}</text>
+                <rect x="24" y="310" width="80" height="3" fill="#B8390C" />
+                <text x="24" y="340" font-family="Inter" font-size="11" font-weight="500" fill="#0A0A0A" letter-spacing="0.5">{r.subtitle1}</text>
+                <text x="24" y="358" font-family="Inter" font-size="11" font-weight="500" fill="rgba(10,10,10,0.6)" letter-spacing="0.5">{r.subtitle2}</text>
+                <text x="24" y="382" font-family="Fraunces" font-size="13" font-weight="700" fill="#0A0A0A" letter-spacing="0.5">SANICA ISI</text>
+                <text x="276" y="382" font-family="IBM Plex Mono" font-size="8" fill="rgba(10,10,10,0.55)" letter-spacing="2" text-anchor="end">BIST · SNICA</text>
+              </svg>
+            )}
+            {r.kind === 'navy' && (
+              <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <rect width="300" height="400" fill="#1A2B47" />
+                <text x="24" y="36" font-family="IBM Plex Mono" font-size="9" fill="rgba(247,244,238,0.55)" letter-spacing="2">{t.faaliyetUst}</text>
+                <text x="276" y="36" font-family="IBM Plex Mono" font-size="9" fill="rgba(247,244,238,0.55)" letter-spacing="2" text-anchor="end">{r.vol}</text>
+                <line x1="24" y1="48" x2="276" y2="48" stroke="rgba(247,244,238,0.2)" />
+                <polyline points="24,260 60,240 96,220 132,200 168,180 204,150 240,130 276,100" stroke="#5AB670" stroke-width="2" fill="none" />
+                <g fill="#5AB670">
+                  <circle cx="24" cy="260" r="3" /><circle cx="60" cy="240" r="3" />
+                  <circle cx="96" cy="220" r="3" /><circle cx="132" cy="200" r="3" />
+                  <circle cx="168" cy="180" r="3" /><circle cx="204" cy="150" r="3" />
+                  <circle cx="240" cy="130" r="3" /><circle cx="276" cy="100" r="5" />
+                </g>
+                <text x="24" y="200" font-family="Fraunces" font-style="italic" font-size="84" font-weight="380" fill="#F7F4EE" letter-spacing="-3">{r.year}</text>
+                <rect x="24" y="290" width="80" height="3" fill="#5AB670" />
+                <text x="24" y="320" font-family="Inter" font-size="11" font-weight="500" fill="#F7F4EE" letter-spacing="0.5">{r.subtitle1}</text>
+                <text x="24" y="338" font-family="Inter" font-size="11" font-weight="500" fill="rgba(247,244,238,0.6)" letter-spacing="0.5">{r.subtitle2}</text>
+                <text x="24" y="378" font-family="Fraunces" font-size="13" font-weight="700" fill="#F7F4EE" letter-spacing="0.5">SANICA ISI</text>
+                <text x="276" y="378" font-family="IBM Plex Mono" font-size="8" fill="rgba(247,244,238,0.55)" letter-spacing="2" text-anchor="end">BIST · SNICA</text>
+              </svg>
+            )}
+            {r.kind === 'paper' && (
+              <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <rect width="300" height="400" fill="#F7F4EE" />
+                <text x="24" y="36" font-family="IBM Plex Mono" font-size="9" fill="rgba(10,10,10,0.55)" letter-spacing="2">{t.faaliyetUst}</text>
+                <text x="276" y="36" font-family="IBM Plex Mono" font-size="9" fill="rgba(10,10,10,0.55)" letter-spacing="2" text-anchor="end">{r.vol}</text>
+                <line x1="24" y1="48" x2="276" y2="48" stroke="rgba(10,10,10,0.2)" />
+                <circle cx="80" cy="160" r="56" fill="#B8390C" />
+                <rect x="150" y="100" width="120" height="120" fill="#0A0A0A" />
+                <g fill="#F7F4EE" font-family="IBM Plex Mono" font-size="14" font-weight="600">
+                  <text x="210" y="170" text-anchor="middle">IPO</text>
+                  <text x="210" y="190" text-anchor="middle">{r.year}</text>
+                </g>
+                <text x="24" y="280" font-family="Fraunces" font-style="italic" font-size="64" font-weight="380" fill="#0A0A0A" letter-spacing="-2">{r.year}</text>
+                <rect x="24" y="310" width="80" height="3" fill="#B8390C" />
+                <text x="24" y="340" font-family="Inter" font-size="11" font-weight="500" fill="#0A0A0A" letter-spacing="0.5">{r.subtitle1}</text>
+                <text x="24" y="358" font-family="Inter" font-size="11" font-weight="500" fill="rgba(10,10,10,0.6)" letter-spacing="0.5">{r.subtitle2}</text>
+                <text x="24" y="382" font-family="Fraunces" font-size="13" font-weight="700" fill="#0A0A0A" letter-spacing="0.5">SANICA ISI</text>
+                <text x="276" y="382" font-family="IBM Plex Mono" font-size="8" fill="rgba(10,10,10,0.55)" letter-spacing="2" text-anchor="end">BIST · SNICA</text>
+              </svg>
+            )}
+          </a>
+          <div class="annual-meta">
+            <span class="yr">{r.year}</span>
+            <span>{r.date}</span>
+          </div>
+          <h4>{r.title}</h4>
+          <div class="actions">
+            <a href="#">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+              {t.pdf} · {r.size}
+            </a>
+            <a href="#">{t.webVer} →</a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+.ann-section { background: var(--paper); padding: var(--section-y) 0; }
+
+.sec-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+.sec-head h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 65, "wght" 420;
+  font-size: clamp(1.875rem, 3.6vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+}
+.sec-head h2 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+
+.annual-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.annual-card { display: flex; flex-direction: column; transition: transform var(--t-med) var(--ease); }
+.annual-card:hover { transform: translateY(-6px); }
+.annual-cover {
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--sand);
+  margin-bottom: 1.25rem;
+  position: relative;
+  box-shadow: 0 10px 30px -10px rgba(10,10,10,0.18);
+  transition: box-shadow var(--t-med) var(--ease);
+}
+.annual-card:hover .annual-cover {
+  box-shadow: 0 20px 40px -10px rgba(10,10,10,0.32);
+}
+.annual-cover svg { width: 100%; height: 100%; }
+
+.annual-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.625rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.annual-meta .yr { color: var(--terracotta); font-weight: 600; font-variant-numeric: tabular-nums; }
+.annual-card h4 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 500;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.annual-card .actions {
+  display: flex;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+}
+.annual-card .actions a {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 0.4375rem 0.625rem;
+  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 500;
+  transition: all var(--t-fast) var(--ease);
+}
+.annual-card .actions a:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.annual-card .actions a svg { width: 11px; height: 11px; }
+
+@media (max-width: 980px) {
+  .sec-head { grid-template-columns: 1fr; }
+  .annual-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .annual-grid { grid-template-columns: 1fr; }
+}
+</style>

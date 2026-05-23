@@ -1,0 +1,178 @@
+---
+/**
+ * PageHeroInvestor — IR sayfa hero (breadcrumb + büyük başlık + BIST künyesi)
+ */
+import { getLocale } from '../../lib/i18n';
+const locale = getLocale(Astro.url.pathname);
+
+const t = locale === 'tr' ? {
+  bcHome: 'Anasayfa',
+  bcCurrent: 'Yatırımcı İlişkileri',
+  marker: 'Yatırımcı İlişkileri · Investor Relations',
+  h1a: 'Halka açık.',
+  h1em: 'Şeffaf.',
+  h1b: 'Takip edilebilir.',
+  intro: 'BIST: SNICA — 24 Kasım 2022\'den beri Borsa İstanbul Yıldız Pazar\'da işlem gören halka açık Türk sanayi şirketi. KAP açıklamalarımız, finansal raporlarımız ve sürdürülebilirlik dokümanlarımız bu sayfada.',
+  asideLbl: 'Borsa İstanbul',
+  asideTickerEm: 'SNICA',
+  asideTickerPost: ' · Yıldız Pazar',
+  marketInfo: [
+    { k: 'İşlem başlangıcı', v: '24.11.2022' },
+    { k: 'Sermaye', v: '₺40.000.000' },
+    { k: 'Halka açıklık', v: '%30,00' },
+    { k: 'Endeks', v: 'BIST Sanayi' },
+  ],
+  homeHref: '/',
+} : {
+  bcHome: 'Homepage',
+  bcCurrent: 'Investor Relations',
+  marker: 'Investor Relations · Yatırımcı İlişkileri',
+  h1a: 'Public.',
+  h1em: 'Transparent.',
+  h1b: 'Trackable.',
+  intro: 'BIST: SNICA — Listed on Borsa İstanbul Star Market since November 24, 2022. Our PDP disclosures, financial reports and sustainability documents are on this page.',
+  asideLbl: 'Borsa İstanbul',
+  asideTickerEm: 'SNICA',
+  asideTickerPost: ' · Star Market',
+  marketInfo: [
+    { k: 'Listed on', v: '24.11.2022' },
+    { k: 'Capital', v: '₺40,000,000' },
+    { k: 'Free float', v: '30.00%' },
+    { k: 'Index', v: 'BIST Industrial' },
+  ],
+  homeHref: '/en/',
+};
+---
+
+<section class="page-hero" slot="hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href={t.homeHref}>{t.bcHome}</a>
+      <span class="sep">/</span>
+      <span class="current">{t.bcCurrent}</span>
+    </div>
+
+    <div class="page-hero-grid">
+      <div>
+        <div class="section-marker">
+          <span class="num">01</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        </div>
+        <h1>{t.h1a}<br><em>{t.h1em}</em> {t.h1b}</h1>
+        <p class="page-hero-intro">{t.intro}</p>
+      </div>
+
+      <div class="page-hero-aside">
+        <span class="lbl">{t.asideLbl}</span>
+        <div class="since"><em>{t.asideTickerEm}</em>{t.asideTickerPost}</div>
+        <div class="market-info">
+          {t.marketInfo.map((m) => (
+            <div><strong>{m.k}:</strong> {m.v}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.page-hero {
+  background: var(--paper);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+.breadcrumb a:hover { color: var(--terracotta); }
+.breadcrumb .sep { color: var(--line); }
+.breadcrumb .current { color: var(--ink); font-weight: 500; }
+
+.page-hero-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: end;
+}
+
+.page-hero h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2.5rem, 5.6vw, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: 1rem 0 1.5rem;
+}
+.page-hero h1 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+  color: var(--terracotta);
+}
+
+.page-hero-intro {
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: 1.6;
+  color: var(--text);
+  max-width: 560px;
+}
+
+.page-hero-aside {
+  border-left: 1px solid var(--line);
+  padding-left: clamp(1.5rem, 3vw, 2.5rem);
+  padding-block: 0.5rem;
+}
+.page-hero-aside .lbl {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.875rem;
+  display: block;
+}
+.page-hero-aside .since {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 400;
+  font-size: clamp(1.875rem, 3vw, 2.625rem);
+  line-height: 1;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.page-hero-aside .since em {
+  font-style: italic;
+  color: var(--terracotta);
+}
+.page-hero-aside .market-info {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+}
+.page-hero-aside .market-info strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+@media (max-width: 980px) {
+  .page-hero-grid { grid-template-columns: 1fr; }
+  .page-hero-aside {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+    padding-top: 1.5rem;
+  }
+}
+</style>
