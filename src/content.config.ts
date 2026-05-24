@@ -12,6 +12,13 @@ import { glob } from 'astro/loaders';
 
 const locale = z.enum(['tr', 'en']);
 
+// Tam URL ('https://...') ya da kok-relative path ('/wp-content/...').
+// Site icinde servis edilen gorsel/PDF'ler relative; harici linkler URL.
+const urlOrPath = z.string().refine(
+  (v) => /^https?:\/\//.test(v) || v.startsWith('/'),
+  { message: 'URL veya / ile baslayan path olmali' },
+);
+
 /* ── Product Categories ─────────────────────────────────── */
 const productCategories = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/product-categories' }),
@@ -49,11 +56,11 @@ const products = defineCollection({
     featured: z.boolean().default(false),
     order: z.number().default(99),
 
-    // Resmi ürün görseli (CDN/eski siteden). coverKind illüstrasyona düşmenin yedeği.
-    heroImage: z.string().url().optional(),
+    // Resmi ürün görseli (R2'den relative path, ya da harici URL).
+    heroImage: urlOrPath.optional(),
     heroImageAlt: z.string().optional(),
     gallery: z.array(z.object({
-      url: z.string().url(),
+      url: urlOrPath,
       alt: z.string().optional(),
       caption: z.string().optional(),
     })).default([]),
@@ -61,7 +68,7 @@ const products = defineCollection({
     // Modeller içinde alt-model listesi (ör. Aluminyum serisinin LUGO, CORDOBA, MALAGA…)
     variants: z.array(z.object({
       name: z.string(),
-      image: z.string().url().optional(),
+      image: urlOrPath.optional(),
       note: z.string().optional(),
     })).default([]),
 
@@ -83,7 +90,7 @@ const products = defineCollection({
     downloads: z.array(z.object({
       label: z.string(),
       kind: z.enum(['catalog', 'datasheet', 'bim', 'manual', 'warranty', 'other']),
-      url: z.string().url(),
+      url: urlOrPath,
       sizeBytes: z.number().optional(),
     })).default([]),
 
@@ -203,7 +210,7 @@ const press = defineCollection({
     date: z.date(),
     category: z.enum(['bizden-haberler', 'sosyal-sorumluluk', 'halka-arz']),
     excerpt: z.string().optional(),
-    heroImage: z.string().url().optional(),
+    heroImage: urlOrPath.optional(),
     heroImageAlt: z.string().optional(),
     sourceUrl: z.string().url().optional(),
     wpId: z.number().int().optional(),
