@@ -27,33 +27,37 @@ const redirects: Redirect[] = [
   // /iletisim ve /yatirimci-iliskileri WP'de de aynı slug — Astro route
   // zaten karşılıyor, ek bir 301 yazarsak Cloudflare sonsuz döngü kurar.
 
-  // ── Yatırımcı İlişkileri (WP ağacı → yeni IR sayfası) ──
-  { from: '/yatirimci-iliskileri/halka-arz', to: '/yatirimci-iliskileri#halka-arz' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim', to: '/yatirimci-iliskileri/#capital' },
-  { from: '/yatirimci-iliskileri/kamuyu-aydinlatma', to: '/yatirimci-iliskileri/#kap' },
-  { from: '/yatirimci-iliskileri/raporlar', to: '/yatirimci-iliskileri/#financial' },
+  // ── Yatırımcı İlişkileri ───────────────────────────────
+  // 4 ana sub-page (/halka-arz, /kurumsal-yonetim, /raporlar, /kamuyu-aydinlatma)
+  // gerçek Astro page olarak duruyor; redirect yazılırsa Astro page'leri
+  // gölgelenir ve ana sayfada olmayan anchor'a (#financial vb.) düşer.
+  // Bu yüzden burada listelenmiyorlar.
+  //
+  // Aşağıda WP'nin daha derin nested URL'leri (yonetim-kurulu, finansal-raporlar
+  // vb.) ilgili sub-page'e 301 yönlendiriliyor.
 
-  // WP IR alt sayfaları → yeni IR ana sayfa'da bölüm
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/ozel-durum-aciklamalari', to: '/yatirimci-iliskileri/#kap' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu', to: '/yatirimci-iliskileri/#capital' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/ortaklik-yapisi', to: '/yatirimci-iliskileri/#capital' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu-komiteleri', to: '/yatirimci-iliskileri/#capital' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu-komite-uyeleri', to: '/yatirimci-iliskileri/#capital' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/politikalar', to: '/yatirimci-iliskileri/#capital' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/genel-kurullar', to: '/yatirimci-iliskileri/#capital' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/genel-kurul-ic-yonergesi', to: '/yatirimci-iliskileri/#capital' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/yonetim-ic-yonergesi', to: '/yatirimci-iliskileri/#capital' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/bagimsiz-denetci', to: '/yatirimci-iliskileri/#capital' },
-  { from: '/yatirimci-iliskileri/kurumsal-yonetim/sermaye-artirimlari', to: '/yatirimci-iliskileri/#capital' },
+  // WP /kurumsal-yonetim/* → yeni /kurumsal-yonetim sayfası
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/ozel-durum-aciklamalari', to: '/yatirimci-iliskileri/kamuyu-aydinlatma' },
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu', to: '/yatirimci-iliskileri/kurumsal-yonetim' },
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/ortaklik-yapisi', to: '/yatirimci-iliskileri/kurumsal-yonetim' },
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu-komiteleri', to: '/yatirimci-iliskileri/kurumsal-yonetim' },
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu-komite-uyeleri', to: '/yatirimci-iliskileri/kurumsal-yonetim' },
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/politikalar', to: '/yatirimci-iliskileri/kurumsal-yonetim' },
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/genel-kurullar', to: '/yatirimci-iliskileri/kurumsal-yonetim' },
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/genel-kurul-ic-yonergesi', to: '/yatirimci-iliskileri/kurumsal-yonetim' },
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/yonetim-ic-yonergesi', to: '/yatirimci-iliskileri/kurumsal-yonetim' },
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/bagimsiz-denetci', to: '/yatirimci-iliskileri/kurumsal-yonetim' },
+  { from: '/yatirimci-iliskileri/kurumsal-yonetim/sermaye-artirimlari', to: '/yatirimci-iliskileri/kurumsal-yonetim' },
 
-  { from: '/yatirimci-iliskileri/raporlar/finansal-raporlar', to: '/yatirimci-iliskileri/#financial' },
-  { from: '/yatirimci-iliskileri/raporlar/faaliyet-raporlari', to: '/yatirimci-iliskileri/#annual' },
-  { from: '/yatirimci-iliskileri/raporlar/kurumsal-yonetim-ilkelerine-uyum-raporlari', to: '/yatirimci-iliskileri/#annual' },
-  { from: '/yatirimci-iliskileri/raporlar/surdurulebilirlik-raporu', to: '/yatirimci-iliskileri/#annual' },
-  { from: '/yatirimci-iliskileri/raporlar/surdurulebilirlik-uyum-raporlari', to: '/yatirimci-iliskileri/#annual' },
-  { from: '/yatirimci-iliskileri/raporlar/fon-kullanim-yeri-raporlari', to: '/yatirimci-iliskileri/#annual' },
-  { from: '/yatirimci-iliskileri/raporlar/halka-arz-fiyati-degerlendirme-raporlari', to: '/yatirimci-iliskileri/#annual' },
-  { from: '/yatirimci-iliskileri/raporlar/katilim-finans-ilkeleri-formlari', to: '/yatirimci-iliskileri/#annual' },
+  // WP /raporlar/* → yeni /raporlar sayfası
+  { from: '/yatirimci-iliskileri/raporlar/finansal-raporlar', to: '/yatirimci-iliskileri/raporlar' },
+  { from: '/yatirimci-iliskileri/raporlar/faaliyet-raporlari', to: '/yatirimci-iliskileri/raporlar' },
+  { from: '/yatirimci-iliskileri/raporlar/kurumsal-yonetim-ilkelerine-uyum-raporlari', to: '/yatirimci-iliskileri/raporlar' },
+  { from: '/yatirimci-iliskileri/raporlar/surdurulebilirlik-raporu', to: '/yatirimci-iliskileri/raporlar' },
+  { from: '/yatirimci-iliskileri/raporlar/surdurulebilirlik-uyum-raporlari', to: '/yatirimci-iliskileri/raporlar' },
+  { from: '/yatirimci-iliskileri/raporlar/fon-kullanim-yeri-raporlari', to: '/yatirimci-iliskileri/raporlar' },
+  { from: '/yatirimci-iliskileri/raporlar/halka-arz-fiyati-degerlendirme-raporlari', to: '/yatirimci-iliskileri/raporlar' },
+  { from: '/yatirimci-iliskileri/raporlar/katilim-finans-ilkeleri-formlari', to: '/yatirimci-iliskileri/raporlar' },
 
   // ── Bilgi toplumu / şikayet vb. ───────────────────────
   { from: '/bilgi-toplumu-hizmetleri', to: '/kurumsal' },
