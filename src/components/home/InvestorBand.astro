@@ -10,8 +10,12 @@ import { getCollection } from 'astro:content';
 import { getLocale } from '../../lib/i18n';
 const locale = getLocale(Astro.url.pathname);
 
-// En yeni 4 KAP açıklamasını çek
-const allKap = await getCollection('kap', (e) => e.data.lang === locale);
+// En yeni 4 KAP aciklamasini cek. EN'de KAP koleksiyonu henuz cevrilmedi
+// (lang=en kayit yok) — kullaniciya bos timeline gostermemek icin TR'ye dus.
+let allKap = await getCollection('kap', (e) => e.data.lang === locale);
+if (allKap.length === 0 && locale !== 'tr') {
+  allKap = await getCollection('kap', (e) => e.data.lang === 'tr');
+}
 const recentKap = allKap
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 4);

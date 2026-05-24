@@ -11,9 +11,15 @@ import { getLocale } from '../../lib/i18n';
 const locale = getLocale(Astro.url.pathname);
 
 // En güncel TSRS uyumlu sürdürülebilirlik raporunu çek
-const allDocs = await getCollection('investor-documents', (d) =>
+// EN: surdurulebilirlik dokumanlari henuz cevrilmedi, TR'ye dus.
+let allDocs = await getCollection('investor-documents', (d) =>
   d.data.lang === locale && d.data.type === 'surdurulebilirlik'
 );
+if (allDocs.length === 0 && locale !== 'tr') {
+  allDocs = await getCollection('investor-documents', (d) =>
+    d.data.lang === 'tr' && d.data.type === 'surdurulebilirlik'
+  );
+}
 const latestTsrs = allDocs
   .map((r) => r.data)
   .filter((r) => /tsrs/i.test(r.title) || /tsrs/i.test(r.slug ?? ''))

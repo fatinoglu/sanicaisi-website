@@ -73,47 +73,13 @@ export const mainNav: Record<Locale, NavItem[]> = {
     { label: 'Sürdürülebilirlik', href: '/surdurulebilirlik' },
     { label: 'Basında Biz', href: '/basinda-biz' },
   ],
+  // EN nav: sadece TAM EN içerikle calisan sayfalar listelenir.
+  // Diger sayfalar (urunler, basin, kurumsal alt, IR alt, formlar, yasal)
+  // henuz EN'e cevrilmedi; broken link riski yaratmamak icin gizli.
+  // Yeni EN sayfa eklendikce buraya satir eklenir + i18n.ts trToEnMap guncellenir.
   en: [
-    {
-      label: 'Products',
-      href: '/en/products',
-      hasSubmenu: true,
-      submenu: [
-        { label: 'Boiler', href: '/en/products/kombi', description: 'Hermetic & condensing boilers.', group: 'Heating' },
-        { label: 'Panel Radiator', href: '/en/products/panel-radyator', description: 'Standard & designer panel models.', group: 'Radiator' },
-        { label: 'Designer Radiator', href: '/en/products/dizayn-radyator', description: 'Aluminum, steel, stainless, column.', group: 'Radiator' },
-        { label: 'Accessories', href: '/en/products/radyator-aksesuar', description: 'Valves, fittings, extension pipes.', group: 'Radiator' },
-        { label: 'Towel Warmer', href: '/en/products/havlupan', description: 'Standard & designer bathroom heat.', group: 'Bathroom' },
-        { label: 'Pipe Systems', href: '/en/products/boru', description: 'Underfloor heating + PEX-AL-PEX pipe.', group: 'Plumbing' },
-      ],
-    },
-    {
-      label: 'Corporate',
-      href: '/en/corporate',
-      hasSubmenu: true,
-      submenu: [
-        { label: 'About Us', href: '/en/corporate/about', description: 'Who we are, what we make.' },
-        { label: 'History', href: '/en/corporate/history', description: 'Manufacturing journey since 1987.' },
-        { label: 'Board of Directors', href: '/en/corporate/management', description: '6 members · CMB compliant.' },
-        { label: 'Manufacturing', href: '/en/corporate/manufacturing', description: 'Beylikdüzü HQ, Akhisar facilities.' },
-        { label: 'Quality & Certifications', href: '/en/corporate/quality', description: 'ISO and product certificates.' },
-        { label: 'Careers', href: '/en/careers', description: 'Open positions and HR policy.' },
-      ],
-    },
-    {
-      label: 'Investor Relations',
-      href: '/en/investor-relations',
-      hasSubmenu: true,
-      submenu: [
-        { label: 'Overview', href: '/en/investor-relations', description: 'Stock performance and financial summary.' },
-        { label: 'IPO', href: '/en/investor-relations/halka-arz', description: 'Prospectus and CMB documents.' },
-        { label: 'Corporate Governance', href: '/en/investor-relations/kurumsal-yonetim', description: 'Committees, articles and policies.' },
-        { label: 'Reports', href: '/en/investor-relations/raporlar', description: 'Financial and annual reports archive.' },
-        { label: 'Public Disclosures', href: '/en/investor-relations/kamuyu-aydinlatma', description: 'PDP disclosures chronological feed.' },
-      ],
-    },
+    { label: 'Investor Relations', href: '/en/investor-relations' },
     { label: 'Sustainability', href: '/en/sustainability' },
-    { label: 'In the Press', href: '/en/press' },
   ],
 };
 
@@ -124,10 +90,9 @@ export const utilityNav: Record<Locale, NavItem[]> = {
     { label: 'Kariyer', href: '/kariyer' },
     { label: 'İletişim', href: '/iletisim' },
   ],
-  en: [
-    { label: 'Careers', href: '/en/careers' },
-    { label: 'Contact', href: '/en/contact' },
-  ],
+  // EN utility nav: Careers ve Contact sayfalari henuz EN'e cevrilmedi.
+  // Bos array — utility bar EN'de sadece dil switcher gosterir.
+  en: [],
 };
 
 /* ── Hedef kitle çipleri ───────────────────────────────────── */
@@ -183,37 +148,19 @@ export const footerColumns: Record<Locale, FooterColumn[]> = {
       ],
     },
   ],
+  // EN footer: sadece TAM EN icerik var olan sayfalar.
   en: [
     {
-      heading: 'Products',
-      items: [
-        { label: 'Panel Radiator', href: '/en/products/panel-radiator' },
-        { label: 'Designer Radiator', href: '/en/products/designer-radiator' },
-        { label: 'Towel Warmer', href: '/en/products/towel-warmer' },
-        { label: 'Condensing Boiler', href: '/en/products/boiler' },
-        { label: 'PEX-AL-PEX Pipe', href: '/en/products/pipe' },
-      ],
-    },
-    {
-      heading: 'Corporate',
-      items: [
-        { label: 'About Us', href: '/en/corporate/about' },
-        { label: 'History', href: '/en/corporate/history' },
-        { label: 'Management', href: '/en/corporate/management' },
-        { label: 'Manufacturing', href: '/en/corporate/manufacturing' },
-        { label: 'Quality & Certifications', href: '/en/corporate/quality' },
-        { label: 'Careers', href: '/en/careers' },
-      ],
-    },
-    {
-      heading: 'Investor',
+      heading: 'Investor Relations',
       items: [
         { label: 'Overview', href: '/en/investor-relations' },
-        { label: 'IPO', href: '/en/investor-relations/halka-arz' },
-        { label: 'Corporate Governance', href: '/en/investor-relations/kurumsal-yonetim' },
-        { label: 'Reports', href: '/en/investor-relations/raporlar' },
-        { label: 'Public Disclosures', href: '/en/investor-relations/kamuyu-aydinlatma' },
-        { label: 'Stock Performance', href: '/en/investor-relations#performance' },
+        { label: 'Sustainability', href: '/en/sustainability' },
+      ],
+    },
+    {
+      heading: 'In Turkish',
+      items: [
+        { label: 'Türkçe site', href: '/' },
       ],
     },
   ],

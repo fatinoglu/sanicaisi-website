@@ -17,7 +17,7 @@ const { title, description, ogImage, noindex = false } = Astro.props;
 
 const locale: Locale = getLocale(Astro.url.pathname);
 const altLocale: Locale = locale === 'tr' ? 'en' : 'tr';
-const altUrl = alternateLocaleUrl(locale, Astro.url.pathname);
+const alt = alternateLocaleUrl(locale, Astro.url.pathname);
 
 const fullDescription = description ??
   (locale === 'tr'
@@ -41,7 +41,10 @@ const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).toString() : new URL('
 
   <link rel="canonical" href={canonicalUrl} />
   <link rel="alternate" hreflang={locConfig[locale].code} href={canonicalUrl} />
-  <link rel="alternate" hreflang={locConfig[altLocale].code} href={new URL(altUrl, Astro.site).toString()} />
+  {/* Diğer dilde tam karşılık varsa hreflang yayınla — yoksa SEO'ya yanlış sinyal verme */}
+  {alt.isAvailable && (
+    <link rel="alternate" hreflang={locConfig[altLocale].code} href={new URL(alt.url, Astro.site).toString()} />
+  )}
   <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site).toString()} />
 
   <!-- Open Graph -->

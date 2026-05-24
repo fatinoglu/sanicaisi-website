@@ -7,9 +7,15 @@ import { getCollection } from 'astro:content';
 import { getLocale, formatDate, formatBytes } from '../../lib/i18n';
 const locale = getLocale(Astro.url.pathname);
 
-const all = await getCollection('investor-documents', (d) =>
+// EN: surdurulebilirlik dokumanlari henuz cevrilmedi, TR'ye dus.
+let all = await getCollection('investor-documents', (d) =>
   d.data.lang === locale && d.data.type === 'surdurulebilirlik'
 );
+if (all.length === 0 && locale !== 'tr') {
+  all = await getCollection('investor-documents', (d) =>
+    d.data.lang === 'tr' && d.data.type === 'surdurulebilirlik'
+  );
+}
 const reports = all
   .map((r) => r.data)
   .sort((a, b) => +b.date - +a.date);

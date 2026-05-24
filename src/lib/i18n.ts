@@ -78,15 +78,45 @@ export function localizedUrl(locale: Locale, path: string): string {
   return `/${locale}${cleaned}`;
 }
 
-/** Diğer dile geçiş URL'i — slug eşleştirme gelecekte */
-export function alternateLocaleUrl(currentLocale: Locale, currentPath: string): string {
-  const other = currentLocale === 'tr' ? 'en' : 'tr';
+/** TR → EN tam EN versiyonu olan sayfa eşleştirmeleri.
+ *
+ *  EN sitesi şu an Plan-B kapsamında: yalnızca Anasayfa, Sustainability ve
+ *  Investor Relations (ana sayfa) tam EN içerikle çalışıyor. Diğer TR sayfalar
+ *  için EN equivalent oluşturulmamış; lang switcher karşılığı olmayan bir
+ *  sayfaya gönderirse kullanıcı 404 ya da boş içerikle karşılaşır.
+ *
+ *  Bu yüzden alternateLocaleUrl bu map'i kullanır:
+ *   - Map'te varsa: EN sayfasına gönderir, isAvailable=true
+ *   - Yoksa: /en/ ana sayfasına geri düşer (isAvailable=false)
+ *
+ *  Yeni EN sayfa eklendikçe buraya bir satır eklemek yeterli.
+ */
+const trToEnMap: Record<string, string> = {
+  '/': '/en/',
+  '/surdurulebilirlik': '/en/sustainability',
+  '/yatirimci-iliskileri': '/en/investor-relations',
+};
+
+const enToTrMap: Record<string, string> = Object.fromEntries(
+  Object.entries(trToEnMap).map(([tr, en]) => [en.replace(/\/$/, '') || '/', tr]),
+);
+
+export interface AlternateUrl {
+  /** Hedef URL — her zaman tıklanabilir, hiç değilse /en/ ya da / ana sayfaya gider. */
+  url: string;
+  /** Aynı sayfanın diğer dilde tam karşılığı var mı? false ise ana sayfaya düşülüyor. */
+  isAvailable: boolean;
+}
+
+/** Diğer dile geçiş URL'i — slug eşleştirme map'i (trToEnMap) üzerinden. */
+export function alternateLocaleUrl(currentLocale: Locale, currentPath: string): AlternateUrl {
+  const normalized = currentPath.replace(/\/$/, '') || '/';
   if (currentLocale === 'tr') {
-    // TR → EN: /en/ önekle
-    return `/en${currentPath === '/' ? '' : currentPath}`;
+    const en = trToEnMap[normalized];
+    return en ? { url: en, isAvailable: true } : { url: '/en/', isAvailable: false };
   }
-  // EN → TR: /en/ kaldır
-  return currentPath.replace(/^\/en/, '') || '/';
+  const tr = enToTrMap[normalized];
+  return tr ? { url: tr, isAvailable: true } : { url: '/', isAvailable: false };
 }
 
 export { locConfig };

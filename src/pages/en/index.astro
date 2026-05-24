@@ -5,14 +5,15 @@
  */
 import PageLayout from '../../layouts/PageLayout.astro';
 import Hero from '../../components/home/Hero.astro';
-import AudienceBand from '../../components/home/AudienceBand.astro';
-import ProductMosaic from '../../components/home/ProductMosaic.astro';
 import Manifesto from '../../components/home/Manifesto.astro';
 import InvestorBand from '../../components/home/InvestorBand.astro';
 import StoryBand from '../../components/home/StoryBand.astro';
 import SustainBand from '../../components/home/SustainBand.astro';
-import PressWall from '../../components/home/PressWall.astro';
 import NewsletterCTA from '../../components/home/NewsletterCTA.astro';
+// EN anasayfada AudienceBand, ProductMosaic ve PressWall kaldirildi:
+// ilgili icerik koleksiyonlarinin (products, press) EN versiyonu yok ve
+// pill/card linklerinin cogu broken hedeflere (/en/find-dealer, /en/bim,
+// /en/products/[category], /en/press/...) gidiyordu.
 ---
 
 <PageLayout
@@ -22,12 +23,9 @@ import NewsletterCTA from '../../components/home/NewsletterCTA.astro';
   activeAudience="home"
 >
   <Hero />
-  <AudienceBand />
-  <ProductMosaic />
   <Manifesto />
   <InvestorBand />
   <StoryBand />
   <SustainBand />
-  <PressWall />
   <NewsletterCTA />
 </PageLayout>
