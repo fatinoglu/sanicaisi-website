@@ -24,10 +24,10 @@ const redirects: Redirect[] = [
   { from: '/hakkimizda/', to: '/kurumsal/hakkimizda', status: 301 },
   { from: '/kvkk', to: '/kurumsal/kvkk' },
   { from: '/kvkk/', to: '/kurumsal/kvkk' },
-  { from: '/iletisim', to: '/iletisim' },                 // aynı kalır
+  // /iletisim ve /yatirimci-iliskileri WP'de de aynı slug — Astro route
+  // zaten karşılıyor, ek bir 301 yazarsak Cloudflare sonsuz döngü kurar.
 
   // ── Yatırımcı İlişkileri (WP ağacı → yeni IR sayfası) ──
-  { from: '/yatirimci-iliskileri', to: '/yatirimci-iliskileri' }, // aynı slug
   { from: '/yatirimci-iliskileri/halka-arz', to: '/yatirimci-iliskileri#halka-arz' },
   { from: '/yatirimci-iliskileri/kurumsal-yonetim', to: '/yatirimci-iliskileri/#capital' },
   { from: '/yatirimci-iliskileri/kamuyu-aydinlatma', to: '/yatirimci-iliskileri/#kap' },
@@ -81,6 +81,15 @@ const header = `# Cloudflare Pages — _redirects
 # Manuel düzenleme: bu dosya değil, scripti güncelleyin
 
 `;
+
+// Defansif: from === to olan kayıtlar sonsuz redirect döngüsü kurar.
+// Splat içerenler hariç (örn. /wp-content/uploads/* → external host).
+const selfLoops = redirects.filter((r) => r.from === r.to && !r.from.includes('*'));
+if (selfLoops.length > 0) {
+  console.error(`❌ Self-redirect döngüsü tespit edildi:`);
+  selfLoops.forEach((r) => console.error(`   ${r.from} → ${r.to}`));
+  process.exit(1);
+}
 
 const content = header + redirects.map(formatRedirect).join('\n') + '\n';
 
