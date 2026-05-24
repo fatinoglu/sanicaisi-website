@@ -9,7 +9,7 @@ description: Paslanmaz çelik eşanjör, modülasyonlu fan, 40 dB sessiz çalı�
 order: 2
 coverKind: boiler
 coverBg: sand-deep
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2019/07/kral-kombi-1024x995.jpg
+heroImage: /wp-content/uploads/2019/07/kral-kombi-1024x995.jpg
 heroImageAlt: Sanica Kral Yoğuşmalı Kombi
 specs:
   - label: Eşanjör

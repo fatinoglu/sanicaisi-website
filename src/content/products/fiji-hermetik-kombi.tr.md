@@ -9,7 +9,7 @@ description: 24 ve 28 kW kapasite, bakır ısı eşanjörü, yüksek sıcaklığ
 order: 4
 coverKind: boiler
 coverBg: paper
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2020/12/kombi.jpg
+heroImage: /wp-content/uploads/2020/12/kombi.jpg
 heroImageAlt: Sanica Fiji Hermetik Kombi
 specs:
   - label: Isıl güç (maks.)

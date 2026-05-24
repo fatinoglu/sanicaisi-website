@@ -20,7 +20,7 @@ const { showTicker = false, currentPath = Astro.url.pathname } = Astro.props;
 const locale = getLocale(Astro.url.pathname);
 const nav = mainNav[locale];
 
-const logoSrc = 'https://www.sanicaisi.com.tr/wp-content/uploads/2020/12/sanica-isi.png';
+const logoSrc = '/wp-content/uploads/2020/12/sanica-isi.png';
 const homeHref = locale === 'tr' ? '/' : '/en/';
 
 function isCurrent(href: string): boolean {

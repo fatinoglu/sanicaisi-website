@@ -9,7 +9,7 @@ description: Paslanmaz çelik tam yoğuşmalı eşanjör, ışıklı LCD ekran, 
 order: 3
 coverKind: boiler
 coverBg: sand
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2022/11/8699454399406-5-1024x1024.jpg
+heroImage: /wp-content/uploads/2022/11/8699454399406-5-1024x1024.jpg
 heroImageAlt: Sanica Yoğuşmalı Kombi
 specs:
   - label: Eşanjör

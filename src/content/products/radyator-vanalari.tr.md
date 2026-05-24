@@ -10,20 +10,20 @@ featured: true
 order: 1
 coverKind: pipe-section
 coverBg: sand
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/kose-radyator-vanasi-1536x1024-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/kose-radyator-vanasi-1536x1024-1-1024x683.jpg
 heroImageAlt: Sanica Köşe Radyatör Vanası
 variants:
   - name: Köşe Radyatör Vanası
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/kose-radyator-vanasi-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/kose-radyator-vanasi-1536x1024-1-1024x683.jpg
     note: 1/2" · 70 adet/koli · 10,49 kg · Koli 35 × 20 × 20 cm
   - name: Düz Radyatör Vanası
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/duz-radyator-vanasi-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/duz-radyator-vanasi-1536x1024-1-1024x683.jpg
     note: 1/2" · 70 adet/koli · Koli 35 × 20 × 20 cm
   - name: PEX Köşe Radyatör Vanası
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/pex-kose-radyator-vanasi-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/pex-kose-radyator-vanasi-1536x1024-1-1024x683.jpg
     note: 1/2" 16 × 2 mm · 70 adet/koli · 14,56 kg
   - name: PEX Düz Radyatör Vanası
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/pex-duz-radyator-vanasi-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/pex-duz-radyator-vanasi-1536x1024-1-1024x683.jpg
     note: 1/2" 16 × 2 mm · 70 adet/koli · 14,56 kg
 specs:
   - label: Bağlantı

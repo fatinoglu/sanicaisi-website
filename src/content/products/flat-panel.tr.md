@@ -9,7 +9,7 @@ description: Düz ön panelli, görünür konvektör profili olmayan dizayn pane
 order: 7
 coverKind: radiator
 coverBg: sand
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/flat-panel-1536x1024-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/flat-panel-1536x1024-1-1024x683.jpg
 heroImageAlt: Flat Panel Radyatör
 specs:
   - label: Gövde

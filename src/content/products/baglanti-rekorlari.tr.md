@@ -9,20 +9,20 @@ description: Mini rekor, uzatma çubuğu rekoru, rekorlu nipel (giriş/çıkış
 order: 2
 coverKind: pipe-section
 coverBg: sand-deep
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/mini-rekor-1536x1024-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/mini-rekor-1536x1024-1-1024x683.jpg
 heroImageAlt: Sanica Mini Rekor
 variants:
   - name: Mini Rekor
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/mini-rekor-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/mini-rekor-1536x1024-1-1024x683.jpg
     note: 16 mm · 250 adet/koli · 16,25 kg · Koli 35 × 20 × 20 cm
   - name: Uzatma Çubuğu Bağlantı Rekoru
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/uzatma-cubugu-baglanti-rekoru-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/uzatma-cubugu-baglanti-rekoru-1536x1024-1-1024x683.jpg
     note: 16 mm · 255 adet/koli · 24,50 kg · Koli 35 × 20 × 20 cm
   - name: Rekorlu Nipel — Çıkış
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/rekorlu-nipel-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/rekorlu-nipel-1536x1024-1-1024x683.jpg
     note: 1/2" · 250 adet/koli · 3,75 kg · Diş bağlantı çıkışı
   - name: Rekorlu Nipel — Giriş
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/rekorlu-nipel-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/rekorlu-nipel-1536x1024-1-1024x683.jpg
     note: 16 × 2 mm · 250 adet/koli · 17,25 kg · PEX bağlantı girişi
 specs:
   - label: PEX bağlantı

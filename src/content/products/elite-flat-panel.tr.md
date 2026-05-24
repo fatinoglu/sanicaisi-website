@@ -9,7 +9,7 @@ description: Dizayn panel ailesinin üst segment modeli. Pürüzsüz Elite Flat 
 order: 6
 coverKind: radiator
 coverBg: paper
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/elite-panel-1536x1024-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/elite-panel-1536x1024-1-1024x683.jpg
 heroImageAlt: Elite Flat Panel Radyatör
 specs:
   - label: Gövde

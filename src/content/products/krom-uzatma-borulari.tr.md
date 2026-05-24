@@ -9,20 +9,20 @@ description: 15, 45, 60 ve 90 mm boylarında krom kaplı pirinç uzatma borular�
 order: 3
 coverKind: pipe-section
 coverBg: paper
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/krom-kapli-pirinc-uzatma-borusu-1536x1024-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/krom-kapli-pirinc-uzatma-borusu-1536x1024-1-1024x683.jpg
 heroImageAlt: Sanica Krom Kaplı Pirinç Uzatma Borusu
 variants:
   - name: 15 mm Uzatma
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/krom-kapli-pirinc-uzatma-borusu-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/krom-kapli-pirinc-uzatma-borusu-1536x1024-1-1024x683.jpg
     note: Boy 15 mm · 100 adet/koli · 5,80 kg · Kısa düzeltme
   - name: 45 mm Uzatma
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/krom-kapli-pirinc-uzatma-borusu-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/krom-kapli-pirinc-uzatma-borusu-1536x1024-1-1024x683.jpg
     note: Boy 45 mm · 50 adet/koli · 5,00 kg · Standart oda
   - name: 60 mm Uzatma
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/krom-kapli-pirinc-uzatma-borusu-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/krom-kapli-pirinc-uzatma-borusu-1536x1024-1-1024x683.jpg
     note: Boy 60 mm · 50 adet/koli · 11,50 kg · Orta-derin duvar
   - name: 90 mm Uzatma
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/krom-kapli-pirinc-uzatma-borusu-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/krom-kapli-pirinc-uzatma-borusu-1536x1024-1-1024x683.jpg
     note: Boy 90 mm · 50 adet/koli · 17,00 kg · Sıva üstü / derin niş
 specs:
   - label: Malzeme

@@ -10,7 +10,7 @@ featured: true
 order: 4
 coverKind: radiator
 coverBg: sand
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/tip22-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/tip22-1024x683.jpg
 heroImageAlt: Sanica Tip 22 Panel Radyatör
 specs:
   - label: Yapı

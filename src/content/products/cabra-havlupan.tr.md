@@ -9,7 +9,7 @@ description: Dizayn havlupan ailesinin geometrik kesitli üst segment modeli. Mi
 order: 3
 coverKind: towel-aurora
 coverBg: terracotta-soft
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/cabra-1536x1024-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/cabra-1536x1024-1-1024x683.jpg
 heroImageAlt: Cabra Dizayn Havlupan
 specs:
   - label: Gövde

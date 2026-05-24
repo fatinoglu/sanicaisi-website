@@ -9,7 +9,7 @@ description: 47 mm derinlik ile dar alanlar için ideal. Tek levhalı yapı, gö
 order: 1
 coverKind: radiator
 coverBg: sand
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/tip10-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/tip10-1024x683.jpg
 heroImageAlt: Sanica Tip 10 Panel Radyatör
 specs:
   - label: Yapı

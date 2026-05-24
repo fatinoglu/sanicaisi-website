@@ -9,14 +9,14 @@ description: Ronda Column yatay ve dikey modelleri, 2 ve 3 kolon konfigürasyonu
 order: 4
 coverKind: radiator
 coverBg: sand-deep
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/ronda-colon_dikey-2-1536x1024-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/ronda-colon_dikey-2-1536x1024-1-1024x683.jpg
 heroImageAlt: Ronda Column Dikey Kolon Radyatör
 variants:
   - name: Ronda Column Yatay
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/ronda-kolon_yatay-3-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/ronda-kolon_yatay-3-1536x1024-1-1024x683.jpg
     note: 500 / 600 mm yükseklik · 592–1355 mm genişlik · 2 ve 3 sıralı kolon · 477–2301 W
   - name: Ronda Column Dikey
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/ronda-colon_dikey-2-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/ronda-colon_dikey-2-1536x1024-1-1024x683.jpg
     note: 1800 mm yükseklik · 196–376 mm dar profil · 2 ve 3 sıralı kolon
 specs:
   - label: Gövde

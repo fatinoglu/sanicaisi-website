@@ -10,41 +10,41 @@ featured: true
 order: 1
 coverKind: radiator
 coverBg: terracotta-soft
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/lugo_yatay_beyaz-scaled-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/lugo_yatay_beyaz-scaled-1-1024x683.jpg
 heroImageAlt: LUGO Alüminyum Dizayn Radyatör
 variants:
   - name: LUGO
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/lugo_yatay_beyaz-scaled-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/lugo_yatay_beyaz-scaled-1-1024x683.jpg
     note: Yatay + Dikey · Yat 600 × 512–1336 mm · Dik 1800 × 306–512 mm · Beyaz / Siyah
   - name: CORDOBA
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/cordoba_yatay-2-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/cordoba_yatay-2-1536x1024-1-1024x683.jpg
     note: Yatay + Dikey · 700 / 1200 × 500 / 600 mm · Beyaz / Siyah
   - name: MALAGA
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/malaga_yatay-scaled-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/malaga_yatay-scaled-1-1024x683.jpg
     note: Yatay + Dikey · Yat 600 × 850–1230 mm · Dik 1800 × 280–470 mm
   - name: SOLEY
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/soley_siyah-1024x683.jpg
+    image: /wp-content/uploads/2021/03/soley_siyah-1024x683.jpg
     note: Yatay · 762 / 1200 × 500 / 600 mm · Siyah Mat & Parlak
   - name: ZAFRA
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/zafra-beyaz-2-scaled-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/zafra-beyaz-2-scaled-1-1024x683.jpg
     note: Yatay · 724 / 1244 × 500 / 600 mm · Beyaz / Siyah
   - name: SAMARA
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/SAMARA_YATAY_BEYAZ-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/SAMARA_YATAY_BEYAZ-1536x1024-1-1024x683.jpg
     note: Yatay + Dikey · Yat 600 × 482–1346 mm · Dik 1800 × 266–482 mm · Beyaz / Siyah
   - name: ADRIANA
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/adriana_siyah-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/adriana_siyah-1536x1024-1-1024x683.jpg
     note: Dikey · 700 / 1200 × 500 / 600 mm · Siyah Mat & Krom Parlak
   - name: NADIA
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/nadia_siyah-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/nadia_siyah-1536x1024-1-1024x683.jpg
     note: Dikey · 700 / 1200 × 500 / 600 mm · Bağlantı 475 mm
   - name: TANYA
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/tanya_parlak-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/tanya_parlak-1536x1024-1-1024x683.jpg
     note: Dikey · 700 / 1200 × 500 / 600 mm · Parlak / Siyah · Bağlantı 475–575 mm
   - name: DINA
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/dina_vertical-2-1536x1024-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/dina_vertical-2-1536x1024-1-1024x683.jpg
     note: Dikey · 1800 × 280 / 375 / 470 mm · Mimari dikey aks
   - name: DAROCA
-    image: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/daroca-1-scaled-1-1024x683.jpg
+    image: /wp-content/uploads/2021/03/daroca-1-scaled-1-1024x683.jpg
     note: Yatay · 835 / 1255 × 500 / 600 mm · Bağlantı 475–575 mm
 specs:
   - label: Gövde

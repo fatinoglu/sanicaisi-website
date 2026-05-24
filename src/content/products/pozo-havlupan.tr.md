@@ -9,7 +9,7 @@ description: Dizayn havlupan ailesinin yatay askılı varyantı. Geniş havlu as
 order: 4
 coverKind: towel-aurora
 coverBg: paper
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/pozo-1536x1024-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/pozo-1536x1024-1-1024x683.jpg
 heroImageAlt: Pozo Dizayn Havlupan
 specs:
   - label: Gövde

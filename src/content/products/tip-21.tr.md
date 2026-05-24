@@ -9,7 +9,7 @@ description: Çift levha üzerine yerleştirilmiş tek konvektör. Standart odal
 order: 3
 coverKind: radiator
 coverBg: sand-deep
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/tip21-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/tip21-1-1024x683.jpg
 heroImageAlt: Sanica Tip 21 Panel Radyatör
 specs:
   - label: Yapı

@@ -10,7 +10,7 @@ featured: true
 order: 1
 coverKind: towel-classic
 coverBg: sand
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/duz-havlupanlar-2-1536x1024-1-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/duz-havlupanlar-2-1536x1024-1-1024x683.jpg
 heroImageAlt: Düz Havlupan
 specs:
   - label: Gövde

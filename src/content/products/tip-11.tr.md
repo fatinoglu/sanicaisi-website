@@ -9,7 +9,7 @@ description: Tek levha + tek hava emici konvektör. İnce profilli odalar ve dü
 order: 2
 coverKind: radiator
 coverBg: sand
-heroImage: https://www.sanicaisi.com.tr/wp-content/uploads/2021/03/tip11-1024x683.jpg
+heroImage: /wp-content/uploads/2021/03/tip11-1024x683.jpg
 heroImageAlt: Sanica Tip 11 Panel Radyatör
 specs:
   - label: Yapı
