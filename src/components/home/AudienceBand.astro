@@ -181,40 +181,59 @@ const t = locale === 'tr' ? {
         </div>
       </div>
 
-      <!-- Card III: Yatırımcı (dark) -->
+      <!-- Card III: Yatırımcı (dark) — şeffaflık/KAP belgeleri temalı vignette -->
       <div class="aud-card investor">
         <span class="aud-index">{t.cards[2].idx}</span>
         <div class="aud-vignette">
           <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <defs>
-              <linearGradient id="aud-chart-fill" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#5AB670" stop-opacity="0.6" />
-                <stop offset="100%" stop-color="#5AB670" stop-opacity="0" />
-              </linearGradient>
-            </defs>
             <rect width="400" height="220" fill="#1A1A1A" />
-            <g stroke="rgba(247,244,238,0.06)" stroke-width="0.5">
-              <line x1="0" y1="50" x2="400" y2="50" /><line x1="0" y1="100" x2="400" y2="100" />
-              <line x1="0" y1="150" x2="400" y2="150" />
+            <g font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.35)" letter-spacing="1.5">
+              <text x="20" y="28">BIST: SNICA · YILDIZ PAZAR</text>
             </g>
-            <g font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.35)" letter-spacing="1">
-              <text x="10" y="54">28</text><text x="10" y="104">22</text><text x="10" y="154">16</text>
+
+            <!-- Back document -->
+            <g opacity="0.55">
+              <rect x="48" y="58" width="200" height="140" fill="#252525" stroke="rgba(247,244,238,0.12)" stroke-width="0.5" />
+              <g stroke="rgba(247,244,238,0.18)" stroke-width="0.5">
+                <line x1="62" y1="84" x2="200" y2="84" />
+                <line x1="62" y1="100" x2="234" y2="100" />
+                <line x1="62" y1="116" x2="180" y2="116" />
+                <line x1="62" y1="132" x2="218" y2="132" />
+                <line x1="62" y1="148" x2="160" y2="148" />
+                <line x1="62" y1="164" x2="210" y2="164" />
+              </g>
             </g>
-            <path d="M 40 150 L 80 140 L 120 130 L 160 135 L 200 110 L 240 100 L 280 90 L 320 70 L 360 60 L 360 200 L 40 200 Z" fill="url(#aud-chart-fill)" opacity="0.3" />
-            <path d="M 40 150 L 80 140 L 120 130 L 160 135 L 200 110 L 240 100 L 280 90 L 320 70 L 360 60" stroke="#5AB670" stroke-width="2" fill="none" stroke-linejoin="round" />
-            <g fill="#5AB670">
-              <circle cx="40" cy="150" r="2.5" /><circle cx="80" cy="140" r="2.5" /><circle cx="120" cy="130" r="2.5" />
-              <circle cx="160" cy="135" r="2.5" /><circle cx="200" cy="110" r="2.5" /><circle cx="240" cy="100" r="2.5" />
-              <circle cx="280" cy="90" r="2.5" /><circle cx="320" cy="70" r="2.5" />
+
+            <!-- Front document -->
+            <g>
+              <rect x="86" y="40" width="220" height="160" fill="#2A2A2A" stroke="rgba(247,244,238,0.2)" stroke-width="0.6" />
+              <g font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.5)" letter-spacing="1.5">
+                <text x="100" y="62">KAP · ÖZEL DURUM AÇIKLAMASI</text>
+              </g>
+              <line x1="100" y1="70" x2="292" y2="70" stroke="rgba(184,57,12,0.6)" stroke-width="1.2" />
+              <g stroke="rgba(247,244,238,0.35)" stroke-width="0.6">
+                <line x1="100" y1="88" x2="280" y2="88" />
+                <line x1="100" y1="102" x2="290" y2="102" />
+                <line x1="100" y1="116" x2="252" y2="116" />
+                <line x1="100" y1="138" x2="290" y2="138" />
+                <line x1="100" y1="152" x2="270" y2="152" />
+                <line x1="100" y1="166" x2="238" y2="166" />
+              </g>
+              <!-- Signature row -->
+              <line x1="100" y1="184" x2="160" y2="184" stroke="rgba(247,244,238,0.6)" stroke-width="0.8" />
+              <g font-family="IBM Plex Mono" font-size="6" fill="rgba(247,244,238,0.4)" letter-spacing="1">
+                <text x="100" y="194">SANICA ISI · 2026</text>
+              </g>
             </g>
-            <circle cx="360" cy="60" r="5" fill="#5AB670" />
-            <circle cx="360" cy="60" r="9" fill="#5AB670" opacity="0.25" />
-            <text x="358" y="48" font-family="IBM Plex Mono" font-size="9" fill="#5AB670" text-anchor="end" letter-spacing="1">₺24,80</text>
-            <line x1="40" y1="180" x2="360" y2="180" stroke="rgba(247,244,238,0.15)" stroke-width="0.5" />
-            <g font-family="IBM Plex Mono" font-size="7" fill="rgba(247,244,238,0.35)" letter-spacing="1">
-              <text x="40" y="200">OCA</text><text x="120" y="200">MAR</text>
-              <text x="200" y="200">MAY</text><text x="280" y="200">TEM</text>
-              <text x="350" y="200">EYL</text>
+
+            <!-- Verified seal (KAP onayı) -->
+            <g transform="translate(312 124)">
+              <circle r="32" fill="none" stroke="rgba(90,182,112,0.35)" stroke-width="0.6" stroke-dasharray="2 3" />
+              <circle r="24" fill="rgba(26,26,26,0.95)" stroke="#5AB670" stroke-width="1" />
+              <path d="M -8 0 L -2 6 L 9 -6" fill="none" stroke="#5AB670" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <g font-family="IBM Plex Mono" font-size="6" fill="rgba(90,182,112,0.85)" letter-spacing="1.5" text-anchor="middle">
+                <text x="0" y="-32">VERIFIED</text>
+              </g>
             </g>
           </svg>
         </div>

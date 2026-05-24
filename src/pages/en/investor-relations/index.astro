@@ -6,12 +6,12 @@
 import InvestorLayout from '../../../layouts/InvestorLayout.astro';
 import PageHeroInvestor from '../../../components/investor/PageHeroInvestor.astro';
 import LiveDataBand from '../../../components/investor/LiveDataBand.astro';
-import StockChart from '../../../components/investor/StockChart.astro';
 import KapList from '../../../components/investor/KapList.astro';
 import FinancialReportsGrid from '../../../components/investor/FinancialReportsGrid.astro';
 import AnnualReportsGrid from '../../../components/investor/AnnualReportsGrid.astro';
 import CapitalStructure from '../../../components/investor/CapitalStructure.astro';
 import IRContactSection from '../../../components/investor/IRContactSection.astro';
+// StockChart re-added in Phase 7 once the live data feed is wired up.
 ---
 
 <InvestorLayout
@@ -21,7 +21,6 @@ import IRContactSection from '../../../components/investor/IRContactSection.astr
   <PageHeroInvestor slot="hero" />
 
   <LiveDataBand />
-  <StockChart />
   <KapList />
   <FinancialReportsGrid />
   <AnnualReportsGrid />

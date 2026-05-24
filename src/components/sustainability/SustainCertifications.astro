@@ -8,60 +8,54 @@ const locale = getLocale(Astro.url.pathname);
 
 const t = locale === 'tr' ? {
   marker: 'Standartlar · Standards',
-  h2a: 'Bağımsız onay,',
-  h2em: 'sayfada söz değil',
+  h2a: 'Bağımsız onaylı',
+  h2em: 'çerçeveler',
   h2b: '.',
-  intro: 'Yönetim sistemleri ve dış taahhütler bağımsız denetçilerle yıllık olarak yeniden değerlendirilir. Belgelerin tamamı yatırımcı portalında erişilebilir.',
-  systemsTitle: 'Yönetim sistemleri',
-  systemsSub: 'Akredite belgelendirme kuruluşları',
-  commitTitle: 'Dış taahhütler',
-  commitSub: 'İmzacı ve raporlayıcı program statüsü',
+  intro: 'Aşağıda raporlama ve yönetim çerçevemizde refere ettiğimiz uluslararası standart ve programlar listelenmiştir. Her bir belgenin kapsamı, geçerlilik tarihleri ve sertifika belgeleri yayımlanmış TSRS Sürdürülebilirlik Raporumuzda detaylı yer alır.',
+  systemsTitle: 'Yönetim sistemi çerçeveleri',
+  systemsSub: 'Refere edilen standartlar',
+  commitTitle: 'Raporlama çerçeveleri',
+  commitSub: 'Uyumlu olunan programlar',
   systems: [
-    { code: 'ISO 9001', name: 'Kalite Yönetim Sistemi', since: '1998' },
-    { code: 'ISO 14001', name: 'Çevre Yönetim Sistemi', since: '2008' },
-    { code: 'ISO 45001', name: 'İş Sağlığı ve Güvenliği', since: '2019' },
-    { code: 'ISO 50001', name: 'Enerji Yönetim Sistemi', since: '2021' },
-    { code: 'ISO 14064-1', name: 'Sera Gazı Envanteri', since: '2022' },
-    { code: 'EN 442', name: 'Radyatör performans standardı', since: '2002' },
-    { code: 'CE', name: 'Avrupa Uygunluk İşareti', since: '1996' },
-    { code: 'EPD', name: 'Çevresel Ürün Beyanı (Panel radyatör)', since: '2023' },
+    { code: 'ISO 9001', name: 'Kalite Yönetim Sistemi' },
+    { code: 'ISO 14001', name: 'Çevre Yönetim Sistemi' },
+    { code: 'ISO 45001', name: 'İş Sağlığı ve Güvenliği' },
+    { code: 'ISO 50001', name: 'Enerji Yönetim Sistemi' },
+    { code: 'ISO 14064-1', name: 'Sera Gazı Envanteri' },
+    { code: 'EN 442', name: 'Radyatör performans standardı' },
+    { code: 'CE', name: 'Avrupa Uygunluk İşareti' },
+    { code: 'EPD', name: 'Çevresel Ürün Beyanı' },
   ],
   commits: [
-    { code: 'UN GC', name: 'UN Global Compact — İmzacı', since: '2023' },
-    { code: 'CDP', name: 'CDP Climate Change — Raporlayıcı', since: '2023' },
-    { code: 'TSRS', name: 'TSRS 1 & 2 uyumlu raporlama', since: '2024' },
-    { code: 'SBTi', name: 'Science Based Targets — Taahhüt', since: '2025' },
-    { code: 'WEPs', name: 'BM Kadının Güçlenmesi İlkeleri', since: '2024' },
-    { code: 'BIST Sürd.', name: 'BIST Sürdürülebilirlik Endeksi', since: '2025' },
+    { code: 'TSRS 1', name: 'Sürdürülebilirlikle ilgili finansal bilgilerin açıklanması' },
+    { code: 'TSRS 2', name: 'İklim ile ilgili açıklamalar' },
   ],
+  footnote: 'Belge kapsamı, geçerlilik durumu ve düzenleyen kuruluş bilgileri için yayımlanmış TSRS Sürdürülebilirlik Raporumuzu inceleyiniz.',
 } : {
   marker: 'Standards · Standartlar',
-  h2a: 'Independent verification,',
-  h2em: 'not page-level promises',
+  h2a: 'Independently audited',
+  h2em: 'frameworks',
   h2b: '.',
-  intro: 'Management systems and external commitments are re-assessed annually by independent auditors. Certificates are all available on the investor portal.',
-  systemsTitle: 'Management systems',
-  systemsSub: 'Accredited certification bodies',
-  commitTitle: 'External commitments',
-  commitSub: 'Signatory and reporting program status',
+  intro: 'Below are the international standards and programs we reference in our reporting and management framework. The scope, validity dates and certificate documents are detailed in our published TSRS Sustainability Report.',
+  systemsTitle: 'Management system frameworks',
+  systemsSub: 'Referenced standards',
+  commitTitle: 'Reporting frameworks',
+  commitSub: 'Programs we align with',
   systems: [
-    { code: 'ISO 9001', name: 'Quality Management System', since: '1998' },
-    { code: 'ISO 14001', name: 'Environmental Management System', since: '2008' },
-    { code: 'ISO 45001', name: 'Occupational Health & Safety', since: '2019' },
-    { code: 'ISO 50001', name: 'Energy Management System', since: '2021' },
-    { code: 'ISO 14064-1', name: 'GHG Inventory', since: '2022' },
-    { code: 'EN 442', name: 'Radiator performance standard', since: '2002' },
-    { code: 'CE', name: 'European Conformity', since: '1996' },
-    { code: 'EPD', name: 'Environmental Product Declaration (Panel radiator)', since: '2023' },
+    { code: 'ISO 9001', name: 'Quality Management System' },
+    { code: 'ISO 14001', name: 'Environmental Management System' },
+    { code: 'ISO 45001', name: 'Occupational Health & Safety' },
+    { code: 'ISO 50001', name: 'Energy Management System' },
+    { code: 'ISO 14064-1', name: 'GHG Inventory' },
+    { code: 'EN 442', name: 'Radiator performance standard' },
+    { code: 'CE', name: 'European Conformity' },
+    { code: 'EPD', name: 'Environmental Product Declaration' },
   ],
   commits: [
-    { code: 'UN GC', name: 'UN Global Compact — Signatory', since: '2023' },
-    { code: 'CDP', name: 'CDP Climate Change — Discloser', since: '2023' },
-    { code: 'TSRS', name: 'TSRS 1 & 2 aligned reporting', since: '2024' },
-    { code: 'SBTi', name: 'Science Based Targets — Committed', since: '2025' },
-    { code: 'WEPs', name: 'UN Women\'s Empowerment Principles', since: '2024' },
-    { code: 'BIST S.', name: 'BIST Sustainability Index', since: '2025' },
+    { code: 'TSRS 1', name: 'General requirements for sustainability-related disclosures' },
+    { code: 'TSRS 2', name: 'Climate-related disclosures' },
   ],
+  footnote: 'For certificate scope, validity status and issuing body details, please refer to our published TSRS Sustainability Report.',
 };
 ---
 
@@ -70,7 +64,7 @@ const t = locale === 'tr' ? {
     <div class="certs-head">
       <div>
         <div class="section-marker">
-          <span class="num">05</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label">{t.marker}</span>
+          <span class="num">04</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">{t.marker}</span>
         </div>
         <h2>{t.h2a} <em>{t.h2em}</em>{t.h2b}</h2>
       </div>
@@ -88,7 +82,6 @@ const t = locale === 'tr' ? {
             <li>
               <span class="code">{s.code}</span>
               <span class="name">{s.name}</span>
-              <span class="since">{locale === 'tr' ? `${s.since}'den beri` : `since ${s.since}`}</span>
             </li>
           ))}
         </ul>
@@ -104,12 +97,13 @@ const t = locale === 'tr' ? {
             <li>
               <span class="code">{c.code}</span>
               <span class="name">{c.name}</span>
-              <span class="since">{locale === 'tr' ? `${c.since}'den beri` : `since ${c.since}`}</span>
             </li>
           ))}
         </ul>
       </div>
     </div>
+
+    <p class="certs-foot">{t.footnote}</p>
   </div>
 </section>
 
@@ -200,7 +194,7 @@ const t = locale === 'tr' ? {
 .card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
 .card li {
   display: grid;
-  grid-template-columns: 110px 1fr auto;
+  grid-template-columns: 110px 1fr;
   align-items: baseline;
   gap: 1rem;
   padding: 0.75rem 0;
@@ -222,19 +216,21 @@ const t = locale === 'tr' ? {
   color: var(--ink);
 }
 .card.dark .name { color: var(--paper); }
-.since {
+
+.certs-foot {
+  margin-top: 1.75rem;
   font-family: var(--mono);
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
-  white-space: nowrap;
+  text-align: right;
 }
-.card.dark .since { color: rgba(247, 244, 238, 0.5); }
 
 @media (max-width: 980px) {
   .certs-head { grid-template-columns: 1fr; gap: 1.5rem; }
   .certs-grid { grid-template-columns: 1fr; }
+  .certs-foot { text-align: left; }
 }
 @media (max-width: 540px) {
   .card li { grid-template-columns: 1fr; gap: 0.25rem; }

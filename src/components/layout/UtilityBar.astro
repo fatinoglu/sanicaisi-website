@@ -2,8 +2,8 @@
 /**
  * UtilityBar — header'ın üst koyu bandı
  *
- * showTicker=true ise BIST canlı veri gösterir (sadece yatırımcı sayfalarında).
- * Aksi takdirde sade utility links + lang switcher.
+ * showTicker=true ise yatırımcı bağlamlı sade bir BIST tag'i + KAP linki gösterir.
+ * (Canlı fiyat beslemesi Faz 7'de geldiğinde gerçek ticker'a dönüştürülecek.)
  */
 import { getLocale, alternateLocaleUrl } from '../../lib/i18n';
 import { utilityNav } from '../../lib/nav';
@@ -17,14 +17,13 @@ const locale = getLocale(Astro.url.pathname);
 const items = utilityNav[locale];
 const altUrl = alternateLocaleUrl(locale, Astro.url.pathname);
 
-// Hisse verisi şimdilik placeholder. Faz 7'de src/data/stock-cache.json'dan beslenir.
-const stock = {
-  price: '24,80',
-  change: '+%1,24',
-  changeDir: 'up' as 'up' | 'down',
-  volume: '1,21M',
-  lastKap: '22 May 2026 — Olağan Genel Kurul',
-};
+const tickerLabel = locale === 'tr'
+  ? 'BIST · SNICA · Yıldız Pazar'
+  : 'BIST · SNICA · Star Market';
+const kapLabel = locale === 'tr' ? 'KAP\'ta gör' : 'View on PDP';
+const quietLabel = locale === 'tr'
+  ? 'SANICA ISI · BIST: SNICA · Yıldız Pazar'
+  : 'SANICA ISI · BIST: SNICA · Star Market';
 ---
 
 <div class="utility" data-show-ticker={showTicker ? 'true' : 'false'}>
@@ -32,21 +31,15 @@ const stock = {
     <div class="utility-inner">
       {showTicker ? (
         <div class="ticker">
-          <span class="ticker-tag"><span class="pulse-dot" aria-hidden="true"></span>BIST · SNICA</span>
-          <span class="ticker-price">₺{stock.price}</span>
-          <svg class="sparkline" viewBox="0 0 64 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path class="fill" d="M0 14 L8 12 L16 13 L24 9 L32 10 L40 6 L48 7 L56 4 L64 5 L64 18 L0 18 Z" />
-            <path d="M0 14 L8 12 L16 13 L24 9 L32 10 L40 6 L48 7 L56 4 L64 5" />
-          </svg>
-          <span class={`ticker-change ${stock.changeDir}`}>{stock.changeDir === 'up' ? '▲' : '▼'} {stock.change}</span>
+          <span class="ticker-tag">{tickerLabel}</span>
           <span class="ticker-sep">·</span>
-          <span class="ticker-meta">Vol {stock.volume}</span>
-          <span class="ticker-sep">·</span>
-          <span class="ticker-meta">Son KAP: {stock.lastKap}</span>
+          <a class="ticker-kap" href="https://www.kap.org.tr/" target="_blank" rel="noopener">
+            {kapLabel} <span class="arrow" aria-hidden="true">↗</span>
+          </a>
         </div>
       ) : (
         <div class="ticker quiet">
-          <span class="ticker-tag muted">SANICA ISI · BIST: SNICA · Yıldız Pazar</span>
+          <span class="ticker-tag muted">{quietLabel}</span>
         </div>
       )}
 
@@ -108,35 +101,19 @@ const stock = {
   color: var(--paper);
 }
 .ticker-tag.muted { color: rgba(247, 244, 238, 0.5); font-weight: 500; }
-.pulse-dot {
-  position: relative;
-  width: 7px;
-  height: 7px;
-  background: var(--up);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.pulse-dot::after {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  background: var(--up);
-  opacity: 0.25;
-  animation: pulse 2.2s ease-out infinite;
-}
-@keyframes pulse {
-  0% { transform: scale(0.6); opacity: 0.4; }
-  100% { transform: scale(2.6); opacity: 0; }
-}
-.ticker-price { font-weight: 600; font-variant-numeric: tabular-nums; }
-.ticker-change.up { color: var(--up); font-weight: 500; font-variant-numeric: tabular-nums; }
-.ticker-change.down { color: var(--down); font-weight: 500; font-variant-numeric: tabular-nums; }
 .ticker-sep { color: rgba(247, 244, 238, 0.22); }
-.ticker-meta { color: rgba(247, 244, 238, 0.55); font-variant-numeric: tabular-nums; }
-.sparkline { width: 64px; height: 18px; flex-shrink: 0; }
-.sparkline :global(path) { stroke: var(--up); stroke-width: 1.4; fill: none; stroke-linejoin: round; }
-.sparkline :global(path.fill) { fill: var(--up); opacity: 0.12; stroke: none; }
+.ticker-kap {
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.7);
+  transition: color var(--t-fast) var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.ticker-kap:hover { color: var(--paper); }
+.ticker-kap .arrow { color: var(--terracotta-warm); }
 
 .utility-right { display: flex; align-items: center; gap: 0.5rem; }
 .util-link {
@@ -186,7 +163,7 @@ const stock = {
   .util-link { display: none; }
 }
 @media (max-width: 720px) {
-  .ticker-meta { display: none; }
+  .ticker-kap { display: none; }
   .lang-pill { display: none; }
 }
 </style>

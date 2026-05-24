@@ -1,26 +1,22 @@
 ---
 /**
- * LiveDataBand — full dark, massive price display + 8 metrik grid + ISIN kartı
- * Fiyat verisi şimdilik stub, Faz 7'de stock-cache.json'dan beslenir
+ * LiveDataBand — full dark, statik kurumsal künye + canlı fiyat için KAP yönlendirmesi.
+ *
+ * Faz 7'de stock-cache.json beslemesi devreye girene kadar SAHTE fiyat
+ * gösterilmiyor. Sol blokta dürüst placeholder + KAP linki, sağ blokta
+ * statik (ve gerçek) kurumsal künye var.
  */
 import { getLocale } from '../../lib/i18n';
 const locale = getLocale(Astro.url.pathname);
 
 const t = locale === 'tr' ? {
-  liveLbl: 'BIST · CANLI',
-  date: '22 Mayıs 2026 · 14:32',
-  delay: 'Gecikme: 15 dk',
-  changeLbl: 'Günlük Değişim',
-  metaGrid: [
-    { lbl: 'Açılış', val: '₺24,50' },
-    { lbl: 'Önceki Kapanış', val: '₺24,50' },
-    { lbl: 'Yüksek', val: '₺24,92' },
-    { lbl: 'Düşük', val: '₺24,38' },
-    { lbl: 'Hacim (lot)', val: '1.214.800' },
-    { lbl: 'İşlem Tutarı', val: '₺30,12 M' },
-    { lbl: 'Piyasa Değeri', val: '₺992 M' },
-    { lbl: 'F/K Oranı', val: '8,42' },
-  ],
+  ribbon: 'BIST · SNICA · Yıldız Pazar',
+  headline: 'Canlı fiyat verisi',
+  headlineEm: 'KAP üzerinden',
+  headlineTail: 'takip ediliyor.',
+  body: 'Anlık fiyat, hacim ve seans verileri için resmi kaynak olan Kamuyu Aydınlatma Platformu\'nu (KAP) kullanın. Web sitemizdeki canlı veri beslemesi yakında devreye alınacaktır.',
+  ctaKap: 'KAP · SNICA sayfası',
+  ctaKapHint: 'kap.org.tr',
   cardH3: 'SNICA · Yıldız Pazar',
   cardRows: [
     { k: 'ISIN', v: 'TRESNCAW91D8' },
@@ -33,20 +29,13 @@ const t = locale === 'tr' ? {
     { k: 'Bağımsız Denetçi', v: 'PwC Türkiye' },
   ],
 } : {
-  liveLbl: 'BIST · LIVE',
-  date: 'May 22, 2026 · 14:32',
-  delay: 'Delay: 15 min',
-  changeLbl: 'Daily Change',
-  metaGrid: [
-    { lbl: 'Open', val: '₺24.50' },
-    { lbl: 'Prev. Close', val: '₺24.50' },
-    { lbl: 'High', val: '₺24.92' },
-    { lbl: 'Low', val: '₺24.38' },
-    { lbl: 'Volume (lots)', val: '1,214,800' },
-    { lbl: 'Turnover', val: '₺30.12 M' },
-    { lbl: 'Market Cap', val: '₺992 M' },
-    { lbl: 'P/E Ratio', val: '8.42' },
-  ],
+  ribbon: 'BIST · SNICA · Star Market',
+  headline: 'Live price data',
+  headlineEm: 'tracked via PDP',
+  headlineTail: '(Public Disclosure Platform).',
+  body: 'For real-time price, volume and session data, use the official Public Disclosure Platform (KAP). The on-site live feed will be enabled in Phase 7.',
+  ctaKap: 'PDP · SNICA page',
+  ctaKapHint: 'kap.org.tr',
   cardH3: 'SNICA · Star Market',
   cardRows: [
     { k: 'ISIN', v: 'TRESNCAW91D8' },
@@ -59,37 +48,30 @@ const t = locale === 'tr' ? {
     { k: 'Auditor', v: 'PwC Türkiye' },
   ],
 };
+
+const kapUrl = 'https://www.kap.org.tr/';
 ---
 
 <section class="live-band dark">
   <div class="container">
     <div class="live-grid">
 
-      <div>
-        <div class="live-meta">
-          <span class="live-dot" aria-hidden="true"></span>
-          <span>{t.liveLbl}</span>
-          <span class="dim">·</span>
-          <span>{t.date}</span>
-          <span class="dim">·</span>
-          <span>{t.delay}</span>
+      <div class="live-main">
+        <div class="ribbon">
+          <span class="ribbon-tag">{t.ribbon}</span>
         </div>
 
-        <div class="price-display">
-          <div class="amount"><span class="cur">₺</span>24,80</div>
-          <div class="change-box">
-            <span class="change"><span class="arrow-up">▲</span> +0,30 (+%1,24)</span>
-            <span class="label">{t.changeLbl}</span>
-          </div>
-        </div>
+        <h2 class="live-headline">
+          {t.headline} <em>{t.headlineEm}</em> {t.headlineTail}
+        </h2>
 
-        <div class="price-meta-grid">
-          {t.metaGrid.map((m) => (
-            <div class="price-meta-item">
-              <span class="lbl">{m.lbl}</span>
-              <span class="val">{m.val}</span>
-            </div>
-          ))}
+        <p class="live-body">{t.body}</p>
+
+        <div class="live-ctas">
+          <a class="cta-primary" href={kapUrl} target="_blank" rel="noopener">
+            <span class="cta-label">{t.ctaKap}</span>
+            <span class="cta-hint">{t.ctaKapHint} <span class="arrow" aria-hidden="true">↗</span></span>
+          </a>
         </div>
       </div>
 
@@ -131,101 +113,73 @@ const t = locale === 'tr' ? {
   align-items: stretch;
 }
 
-.live-meta {
+.live-main { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.ribbon {
   font-family: var(--mono);
   font-size: 0.6875rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(247, 244, 238, 0.55);
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
 }
-.live-meta .dim { color: rgba(247, 244, 238, 0.3); }
-.live-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--up);
-  border-radius: 50%;
-  position: relative;
-}
-.live-dot::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  background: var(--up);
-  border-radius: 50%;
-  opacity: 0.3;
-  animation: pulse 2s ease-out infinite;
-}
-@keyframes pulse {
-  0% { transform: scale(0.6); opacity: 0.4; }
-  100% { transform: scale(2.6); opacity: 0; }
+.ribbon-tag {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid rgba(247, 244, 238, 0.18);
+  border-radius: 2px;
 }
 
-.price-display {
-  display: flex;
-  align-items: baseline;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.25rem;
-}
-.price-display .amount {
+.live-headline {
   font-family: var(--serif);
-  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 400;
-  font-size: clamp(4rem, 8vw, 7rem);
-  line-height: 0.95;
+  font-variation-settings: "opsz" 144, "SOFT" 65, "wght" 420;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
   color: var(--paper);
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
+  max-width: 720px;
 }
-.price-display .amount .cur { font-size: 0.45em; color: rgba(247, 244, 238, 0.55); margin-right: 0.125em; }
-.price-display .change-box { display: flex; flex-direction: column; gap: 0.375rem; }
-.price-display .change {
-  font-family: var(--mono);
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: var(--up);
-  font-variant-numeric: tabular-nums;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.price-display .change .arrow-up { font-size: 0.875em; }
-.price-display .label {
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(247, 244, 238, 0.4);
+.live-headline em {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+  color: var(--terracotta-warm);
 }
 
-.price-meta-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(247, 244, 238, 0.1);
+.live-body {
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  line-height: 1.6;
+  color: rgba(247, 244, 238, 0.72);
+  max-width: 560px;
 }
-.price-meta-item .lbl {
+
+.live-ctas { display: flex; flex-wrap: wrap; gap: 0.875rem; margin-top: 0.5rem; }
+.cta-primary {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.875rem 1.25rem;
+  background: rgba(247, 244, 238, 0.06);
+  border: 1px solid rgba(247, 244, 238, 0.14);
+  transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+}
+.cta-primary:hover { background: rgba(247, 244, 238, 0.1); border-color: rgba(247, 244, 238, 0.3); }
+.cta-label {
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--paper);
+  letter-spacing: 0.005em;
+}
+.cta-hint {
   font-family: var(--mono);
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgba(247, 244, 238, 0.5);
-  margin-bottom: 0.375rem;
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
 }
-.price-meta-item .val {
-  font-family: var(--mono);
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--paper);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.01em;
-}
+.cta-hint .arrow { color: var(--terracotta-warm); }
 
 .live-info-card {
   background: rgba(247, 244, 238, 0.04);
@@ -268,12 +222,5 @@ const t = locale === 'tr' ? {
 
 @media (max-width: 980px) {
   .live-grid { grid-template-columns: 1fr; }
-  .price-meta-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 720px) {
-  .price-meta-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 480px) {
-  .price-meta-grid { grid-template-columns: 1fr; }
 }
 </style>

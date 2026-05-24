@@ -7,21 +7,21 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import SustainHero from '../../components/sustainability/SustainHero.astro';
 import SustainPillars from '../../components/sustainability/SustainPillars.astro';
 import SustainKpiGrid from '../../components/sustainability/SustainKpiGrid.astro';
-import SustainRoadmap from '../../components/sustainability/SustainRoadmap.astro';
 import SustainCertifications from '../../components/sustainability/SustainCertifications.astro';
 import SustainReports from '../../components/sustainability/SustainReports.astro';
 import SustainContact from '../../components/sustainability/SustainContact.astro';
+// SustainRoadmap kaldırıldı: somut yıl/yüzde hedefleri doğrulanmadan yayınlanmamalı.
+// Yol haritası ve hedefler 2024 TSRS Sürdürülebilirlik Raporu'nda yayımlanmıştır.
 ---
 
 <PageLayout
   title="Sürdürülebilirlik — Sanica Isı"
-  description="Sanica Isı sürdürülebilirlik yaklaşımı: TSRS uyumlu raporlama, %100 yenilenebilir elektrik, 2030 ve 2040 net sıfır yol haritası, ESG performansı."
+  description="Sanica Isı sürdürülebilirlik yaklaşımı: TSRS uyumlu raporlama, ESG raporları ve bağımsız güvence denetimi."
   activeAudience="home"
 >
   <SustainHero />
   <SustainPillars />
   <SustainKpiGrid />
-  <SustainRoadmap />
   <SustainCertifications />
   <SustainReports />
   <SustainContact />

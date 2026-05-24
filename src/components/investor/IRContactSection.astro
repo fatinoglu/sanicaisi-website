@@ -7,15 +7,13 @@ const locale = getLocale(Astro.url.pathname);
 
 const t = locale === 'tr' ? {
   marker: 'Yatırımcı İletişim',
-  h2a: 'Sorunuz var?',
+  h2a: 'Sorunuz mu var?',
   h2em: 'Yazın',
   h2post: '.',
   contactLbl: '● Yatırımcı İlişkileri Birimi',
   contactH3a: 'Doğrudan',
   contactH3em: 'iletişim',
   contactH3post: '.',
-  personName: 'Ayşe Karaca',
-  personTitle: 'Yatırımcı İlişkileri Yöneticisi · SPK Lisansı',
   email: 'yatirimci@sanicaisi.com.tr',
   phone: '+90 212 855 80 80',
   address: 'Kavaklı Mah. İstanbul Cad. No:10 · 34520 Beylikdüzü/İstanbul',
@@ -37,8 +35,6 @@ const t = locale === 'tr' ? {
   contactH3a: 'Direct',
   contactH3em: 'contact',
   contactH3post: '.',
-  personName: 'Ayşe Karaca',
-  personTitle: 'Investor Relations Manager · CMB Licensed',
   email: 'yatirimci@sanicaisi.com.tr',
   phone: '+90 212 855 80 80',
   address: 'Kavaklı Mah. İstanbul Cad. No:10 · 34520 Beylikdüzü/İstanbul',
@@ -71,11 +67,6 @@ const t = locale === 'tr' ? {
       <article class="ir-contact-card">
         <span class="lbl">{t.contactLbl}</span>
         <h3>{t.contactH3a} <em>{t.contactH3em}</em>{t.contactH3post}</h3>
-
-        <div class="ir-person">
-          <span class="name">{t.personName}</span>
-          <span class="title">{t.personTitle}</span>
-        </div>
 
         <div class="ir-contact-list">
           <a href={`mailto:${t.email}`}>
@@ -170,29 +161,10 @@ const t = locale === 'tr' ? {
   color: var(--terracotta);
 }
 
-.ir-person {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding-block: 1.5rem;
-  margin-block: 1rem;
-  border-top: 1px solid var(--sand-deep);
-  border-bottom: 1px solid var(--sand-deep);
-}
-.ir-person .name {
-  font-family: var(--serif);
-  font-variation-settings: "opsz" 36, "SOFT" 50, "wght" 540;
-  font-size: 1.125rem;
-  color: var(--ink);
-}
-.ir-person .title {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  color: var(--muted);
-  letter-spacing: 0.06em;
-}
-
 .ir-contact-list {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--sand-deep);
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
