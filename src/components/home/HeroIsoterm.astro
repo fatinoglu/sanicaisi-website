@@ -1,0 +1,537 @@
+---
+/**
+ * HeroIsoterm — anasayfa hero alternatifi (ISOTERM)
+ *
+ * Konsept: endüstriyel nesneler yerine Sanica'nın ürettiği tek şeyi görselleştir —
+ *          kontrollü ısı, bir termal izoterm ALANI olarak. Gerçek slider: alan
+ *          her slide'da yeniden konumlanıp renk değiştirir (CSS @property morph).
+ *
+ * Slide'lar = şirketin üç yüzü: 01 Ürün · 02 İhracat · 03 Yatırımcı (SNICA).
+ * Mockup: mockups/hero-isoterm.html
+ */
+import { getLocale } from '../../lib/i18n';
+
+const locale = getLocale(Astro.url.pathname);
+
+interface Slide {
+  idx: string;
+  tag: string;
+  code: string;              // sağ index kısa kodu
+  pre: string; em: string; post: string;   // H1 parçaları (em = sıcak kelime)
+  sub: string;
+  core: string;              // termal okuma ('—' ise gizlenir)
+  field: { cx: string; cy: string; hot: string; cool: string; glow: number };
+  ctas: { label: string; href: string; primary?: boolean }[];
+  rail: { t: string; strong?: boolean }[];
+}
+
+const slides: Slide[] = locale === 'tr' ? [
+  {
+    idx: '01', tag: 'Ürün', code: 'Ürün',
+    pre: 'Çelikten ', em: 'ısıya', post: '.',
+    sub: 'Panel radyatörden havlupana, kombiden ısıtma borusuna — Manisa\'da tasarlıyor, tek çatı altında üretiyoruz.',
+    core: '72°C',
+    field: { cx: '42%', cy: '46%', hot: '#FFE9C7', cool: '#24303B', glow: 0.44 },
+    ctas: [
+      { label: 'Ürünleri keşfet', href: '/urunler', primary: true },
+      { label: 'Üretim tesisleri', href: '/kurumsal' },
+    ],
+    rail: [{ t: 'Panel radyatör', strong: true }, { t: 'Havlupan' }, { t: 'Kombi' }, { t: 'Isıtma borusu' }],
+  },
+  {
+    idx: '02', tag: 'İhracat', code: 'İhracat',
+    pre: '35 ülkenin ', em: 'ısısı', post: '.',
+    sub: 'Tesislerimizden dünyanın dört bir yanına — yılda 4,2 milyon adet, 35\'ten fazla ülkeye taşınan ısı.',
+    core: '60°C',
+    field: { cx: '56%', cy: '38%', hot: '#FFF1D6', cool: '#2A3742', glow: 0.5 },
+    ctas: [
+      { label: 'Ürün ailelerimiz', href: '/urunler', primary: true },
+      { label: 'Kurumsal', href: '/kurumsal' },
+    ],
+    rail: [{ t: '35+ ülke', strong: true }, { t: '4,2M adet/yıl', strong: true }, { t: '600+ çalışan' }],
+  },
+  {
+    idx: '03', tag: 'Yatırımcı', code: 'SNICA',
+    pre: 'Halka açık ', em: 'ısı', post: '.',
+    sub: '2022\'den beri BIST Yıldız Pazar\'da işlem görüyoruz. KAP açıklamaları, raporlar ve sermaye yapısı paydaşlarımızla saydam.',
+    core: '—',
+    field: { cx: '62%', cy: '56%', hot: '#FFEBCB', cool: '#1A2B47', glow: 0.38 },
+    ctas: [
+      { label: 'Yatırımcı sayfası', href: '/yatirimci-iliskileri', primary: true },
+      { label: 'Sürdürülebilirlik', href: '/surdurulebilirlik' },
+    ],
+    rail: [{ t: 'BIST: SNICA', strong: true }, { t: 'Yıldız Pazar' }, { t: 'Halka arz · 2022' }],
+  },
+] : [
+  {
+    idx: '01', tag: 'Product', code: 'Product',
+    pre: 'From steel to ', em: 'heat', post: '.',
+    sub: 'From panel radiators to towel warmers, boilers to heating pipes — designed in Manisa, made under one roof.',
+    core: '72°C',
+    field: { cx: '42%', cy: '46%', hot: '#FFE9C7', cool: '#24303B', glow: 0.44 },
+    ctas: [
+      { label: 'Explore products', href: '/en/products', primary: true },
+      { label: 'Our company', href: '/en/corporate' },
+    ],
+    rail: [{ t: 'Panel radiator', strong: true }, { t: 'Towel warmer' }, { t: 'Boiler' }, { t: 'Heating pipe' }],
+  },
+  {
+    idx: '02', tag: 'Export', code: 'Export',
+    pre: 'Heat for ', em: '35 countries', post: '.',
+    sub: 'From our facilities to the world — 4.2 million units a year, carried to 35+ countries.',
+    core: '60°C',
+    field: { cx: '56%', cy: '38%', hot: '#FFF1D6', cool: '#2A3742', glow: 0.5 },
+    ctas: [
+      { label: 'Product families', href: '/en/products', primary: true },
+      { label: 'Our company', href: '/en/corporate' },
+    ],
+    rail: [{ t: '35+ countries', strong: true }, { t: '4.2M units/yr', strong: true }, { t: '600+ employees' }],
+  },
+  {
+    idx: '03', tag: 'Investor', code: 'SNICA',
+    pre: 'Publicly ', em: 'listed', post: ' heat.',
+    sub: 'Trading on BIST Star Market since 2022. Disclosures, reports and capital structure — transparent with our stakeholders.',
+    core: '—',
+    field: { cx: '62%', cy: '56%', hot: '#FFEBCB', cool: '#1A2B47', glow: 0.38 },
+    ctas: [
+      { label: 'Investor relations', href: '/en/investor-relations', primary: true },
+      { label: 'Sustainability', href: '/en/sustainability' },
+    ],
+    rail: [{ t: 'BIST: SNICA', strong: true }, { t: 'Star Market' }, { t: 'IPO · 2022' }],
+  },
+];
+
+const ui = locale === 'tr'
+  ? { region: 'Sanica Isı — öne çıkanlar', nav: 'Slide seçimi', core: 'CORE' }
+  : { region: 'Sanica Isı — highlights', nav: 'Slide selection', core: 'CORE' };
+
+// İstemciye geçen minimal durum (alan morph + veri rayı + çekirdek okuması)
+const clientData = slides.map((s) => ({
+  ...s.field,
+  core: s.core,
+  railHtml: s.rail.map((r) => (r.strong ? `<b>${r.t}</b>` : r.t)).join('<span class="sep">·</span>'),
+}));
+
+const s0 = slides[0].field;
+---
+
+<section
+  class="iso-hero dark"
+  aria-roledescription={locale === 'tr' ? 'kaydırıcı' : 'carousel'}
+  aria-label={ui.region}
+  tabindex="-1"
+  style={`--cx:${s0.cx};--cy:${s0.cy};--hot:${s0.hot};--cool:${s0.cool};--glow:${s0.glow}`}
+>
+  <div class="iso-field" aria-hidden="true"></div>
+  <div class="iso-grid" aria-hidden="true"></div>
+  <div class="iso-vignette" aria-hidden="true"></div>
+
+  <div class="iso-readout" aria-hidden="true">{ui.core} <b class="iso-core">{slides[0].core}</b></div>
+
+  <!-- Slide metinleri (SSR: hepsi basılı, ilki aktif) -->
+  <div class="iso-stage">
+    <div class="iso-slides">
+      {slides.map((s, k) => (
+        <article class:list={["iso-slide", { 'is-active': k === 0 }]} data-core={s.core}>
+          <div class="iso-eyebrow"><span class="idx">{s.idx}</span><span class="bar"></span><span>{s.tag}</span></div>
+          <h1>{s.pre}<em>{s.em}</em>{s.post}</h1>
+          <p class="iso-sub">{s.sub}</p>
+          <div class="iso-ctas">
+            {s.ctas.map((c) => (
+              <a class:list={["btn", c.primary ? "btn-primary" : "btn-ghost"]} href={c.href} tabindex={k === 0 ? undefined : "-1"}>
+                {c.label} <span class="arw" aria-hidden="true">→</span>
+              </a>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <!-- Sağ kenar enstrüman index (slide nav) -->
+  <nav class="iso-index" aria-label={ui.nav}>
+    {slides.map((s, k) => (
+      <button type="button" data-go={k} aria-current={k === 0 ? 'true' : 'false'}>
+        <span class="n">{s.idx}</span><span class="c">{s.code}</span>
+      </button>
+    ))}
+  </nav>
+
+  <!-- İlerleme + veri rayı -->
+  <div class="iso-progress" aria-hidden="true"><span class="iso-prog-bar"></span></div>
+  <div class="iso-rail" aria-hidden="true" set:html={clientData[0].railHtml} />
+</section>
+
+<script define:vars={{ slidesData: clientData }}>
+  (function () {
+    const hero = document.querySelector('.iso-hero');
+    if (!hero) return;
+
+    const slidesEl = [...hero.querySelectorAll('.iso-slide')];
+    const navBtns  = [...hero.querySelectorAll('.iso-index button')];
+    const prog     = hero.querySelector('.iso-prog-bar');
+    const rail     = hero.querySelector('.iso-rail');
+    const coreEl   = hero.querySelector('.iso-core');
+    const readout  = hero.querySelector('.iso-readout');
+
+    const DUR = 6000;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let i = 0, timer = null;
+
+    function restartProgress() {
+      if (reduce || !prog) return;
+      prog.classList.remove('run');
+      void prog.offsetWidth;                 // reflow → animasyonu yeniden başlat
+      prog.style.setProperty('--dur', DUR + 'ms');
+      prog.classList.add('run');
+    }
+
+    function show(idx) {
+      i = (idx + slidesEl.length) % slidesEl.length;
+      const f = slidesData[i];
+
+      slidesEl.forEach((s, k) => {
+        const on = k === i;
+        s.classList.toggle('is-active', on);
+        s.querySelectorAll('a').forEach((a) => a.setAttribute('tabindex', on ? '0' : '-1'));
+      });
+      navBtns.forEach((b, k) => b.setAttribute('aria-current', k === i ? 'true' : 'false'));
+
+      hero.style.setProperty('--cx', f.cx);
+      hero.style.setProperty('--cy', f.cy);
+      hero.style.setProperty('--hot', f.hot);
+      hero.style.setProperty('--cool', f.cool);
+      hero.style.setProperty('--glow', f.glow);
+
+      if (coreEl) coreEl.textContent = f.core;
+      if (readout) readout.style.opacity = f.core === '—' ? '0' : '1';
+      if (rail) rail.innerHTML = f.railHtml;   // statik içerik (kullanıcı girdisi yok)
+      restartProgress();
+    }
+
+    function play() {
+      if (reduce) return;
+      stop();
+      timer = setInterval(() => show(i + 1), DUR);
+      restartProgress();
+    }
+    function stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+      if (prog) prog.classList.remove('run');
+    }
+
+    navBtns.forEach((b) => b.addEventListener('click', () => { show(+b.dataset.go); play(); }));
+
+    hero.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1); play(); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); show(i - 1); play(); }
+    });
+
+    hero.addEventListener('pointerenter', stop);
+    hero.addEventListener('pointerleave', play);
+    hero.addEventListener('focusin', stop);
+    hero.addEventListener('focusout', play);
+
+    if (readout) readout.style.opacity = slidesData[0].core === '—' ? '0' : '1';
+    play();
+  })();
+</script>
+
+<style>
+/* ── CSS @property: alan morph'unun yumuşak interpolasyonu için ───────── */
+@property --cx  { syntax: '<percentage>'; inherits: true; initial-value: 42%; }
+@property --cy  { syntax: '<percentage>'; inherits: true; initial-value: 46%; }
+@property --glow{ syntax: '<number>';     inherits: true; initial-value: 0.42; }
+@property --hot { syntax: '<color>';      inherits: true; initial-value: #FFE9C7; }
+@property --cool{ syntax: '<color>';      inherits: true; initial-value: #24303B; }
+
+/* ── Sahne ───────────────────────────────────────────────────────────── */
+.iso-hero {
+  position: relative;
+  width: 100%;
+  min-height: clamp(560px, 82vh, 860px);
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper);
+  isolation: isolate;
+  /* slide değişiminde alan değişkenlerini yumuşak geçir */
+  transition:
+    --cx 1200ms var(--ease-out), --cy 1200ms var(--ease-out),
+    --hot 1200ms var(--ease), --cool 1200ms var(--ease),
+    --glow 900ms var(--ease);
+}
+
+/* Termal izoterm alanı — konturlanmış radyal gradyanlar */
+.iso-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at var(--cx) var(--cy),
+      var(--hot) 0 3.5%,
+      rgba(255,143,0,0.92) 3.5% 10%,
+      rgba(255,143,0,0.34) 10% 24%,
+      rgba(160,74,10,0.14) 24% 40%,
+      transparent 40% 100%),
+    repeating-radial-gradient(circle at var(--cx) var(--cy),
+      transparent 0 33px,
+      rgba(255,164,49,0.09) 33px 34.4px),
+    radial-gradient(ellipse 70% 90% at 88% 92%, var(--cool) 0%, transparent 58%),
+    radial-gradient(circle at var(--cx) var(--cy), rgba(255,143,0,0.10) 0%, transparent 62%),
+    var(--ink);
+  will-change: background;
+}
+.iso-field::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--cx) var(--cy),
+    rgba(255,143,0,var(--glow)) 0%, transparent 34%);
+  mix-blend-mode: screen;
+  animation: iso-breathe 19s var(--ease) infinite;
+}
+@keyframes iso-breathe {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.06); }
+}
+
+.iso-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(247,244,238,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(247,244,238,0.028) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(circle at var(--cx) var(--cy), transparent 8%, #000 60%);
+  mask-image: radial-gradient(circle at var(--cx) var(--cy), transparent 8%, #000 60%);
+}
+
+.iso-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(8,9,11,0.72) 0%, transparent 42%),
+    linear-gradient(0deg, rgba(8,9,11,0.85) 0%, transparent 34%),
+    linear-gradient(180deg, rgba(8,9,11,0.5) 0%, transparent 22%);
+}
+
+/* ── Çekirdek okuması (leader-line'lı termal etiket) ─────────────────── */
+.iso-readout {
+  position: absolute;
+  z-index: 3;
+  left: var(--cx);
+  top: var(--cy);
+  transform: translate(38px, -46px);
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  color: rgba(247,244,238,0.62);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 300ms var(--ease);
+}
+.iso-readout::before {
+  content: '';
+  position: absolute;
+  left: -30px; top: 50%;
+  width: 24px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,164,49,0.8));
+}
+.iso-readout b { color: var(--terracotta-warm); font-weight: 600; }
+
+/* ── Slide metinleri ─────────────────────────────────────────────────── */
+.iso-stage {
+  position: absolute;
+  z-index: 3;
+  left: var(--gutter);
+  bottom: clamp(4.75rem, 9vh, 6.5rem);
+  right: clamp(6rem, 16vw, 15rem);
+  max-width: 760px;
+}
+.iso-slides { display: grid; }
+.iso-slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 620ms var(--ease-out), transform 620ms var(--ease-out);
+  pointer-events: none;
+}
+.iso-slide.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.iso-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(247,244,238,0.6);
+  margin-bottom: 1.4rem;
+}
+.iso-eyebrow .idx { color: var(--terracotta); font-weight: 600; }
+.iso-eyebrow .bar { width: 26px; height: 1px; background: rgba(247,244,238,0.28); }
+
+.iso-slide h1 {
+  font-family: var(--serif);
+  font-weight: 640;
+  font-size: clamp(2.9rem, 7.6vw, 6.2rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  color: var(--paper);
+  margin-bottom: 1.35rem;
+  text-wrap: balance;
+}
+.iso-slide h1 em {
+  font-style: normal;
+  background: linear-gradient(96deg, #FFF6E9 0%, var(--terracotta-warm) 52%, var(--terracotta) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.iso-sub {
+  font-size: clamp(1rem, 1.35vw, 1.1875rem);
+  line-height: 1.55;
+  color: rgba(247,244,238,0.8);
+  max-width: 46ch;
+  margin-bottom: 2.1rem;
+}
+
+.iso-ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.iso-hero .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.35rem;
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: transform var(--t-med) var(--ease-out), background var(--t-med) var(--ease),
+              box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+  white-space: nowrap;
+}
+.iso-hero .btn .arw { transition: transform var(--t-med) var(--ease-out); }
+.iso-hero .btn:hover .arw { transform: translateX(4px); }
+.iso-hero .btn-primary { background: var(--terracotta); color: #1a1204; border-color: var(--terracotta); font-weight: 600; }
+.iso-hero .btn-primary:hover { background: var(--terracotta-warm); transform: translateY(-2px); box-shadow: 0 14px 34px -12px rgba(255,143,0,0.7); }
+.iso-hero .btn-ghost { background: rgba(247,244,238,0.03); border-color: rgba(247,244,238,0.26); color: var(--paper); }
+.iso-hero .btn-ghost:hover { border-color: var(--paper); background: rgba(247,244,238,0.07); transform: translateY(-2px); }
+
+/* ── Sağ kenar enstrüman index ───────────────────────────────────────── */
+.iso-index {
+  position: absolute;
+  z-index: 4;
+  right: clamp(1.1rem, 2.6vw, 2.25rem);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(247,244,238,0.14);
+}
+.iso-index button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  padding: 1.05rem 0 1.05rem 1.1rem;
+  font-family: var(--mono);
+  text-align: left;
+  color: rgba(247,244,238,0.4);
+  transition: color var(--t-med) var(--ease);
+}
+.iso-index button .n { font-size: 0.625rem; letter-spacing: 0.16em; }
+.iso-index button .c { font-size: 0.8125rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; }
+.iso-index button::before {
+  content: '';
+  position: absolute;
+  left: -1px; top: 50%;
+  height: 0; width: 2px;
+  background: var(--terracotta);
+  transform: translateY(-50%);
+  transition: height 420ms var(--ease-out);
+  box-shadow: 0 0 12px 0 rgba(255,143,0,0.6);
+}
+.iso-index button:hover { color: rgba(247,244,238,0.75); }
+.iso-index button[aria-current="true"] { color: var(--paper); }
+.iso-index button[aria-current="true"] .n { color: var(--terracotta); }
+.iso-index button[aria-current="true"]::before { height: 62%; }
+
+/* ── Alt: ilerleme + veri rayı ───────────────────────────────────────── */
+.iso-progress {
+  position: absolute;
+  z-index: 3;
+  left: 0; right: 0;
+  bottom: 3.15rem;
+  height: 1px;
+  background: rgba(247,244,238,0.1);
+}
+.iso-prog-bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--terracotta), var(--terracotta-warm));
+  box-shadow: 0 0 10px 0 rgba(255,143,0,0.5);
+}
+.iso-prog-bar.run { animation: iso-prog var(--dur, 6000ms) linear forwards; }
+@keyframes iso-prog { from { width: 0; } to { width: 100%; } }
+
+.iso-rail {
+  position: absolute;
+  z-index: 3;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247,244,238,0.55);
+}
+.iso-rail :global(.sep) { color: rgba(255,164,49,0.55); }
+.iso-rail :global(b) { color: var(--paper); font-weight: 600; }
+
+/* ── Duyarlılık ──────────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .iso-stage { right: var(--gutter); bottom: 5.75rem; }
+  .iso-index {
+    top: auto; bottom: 3.7rem; right: 50%;
+    transform: translateX(50%);
+    flex-direction: row;
+    border-left: none;
+  }
+  .iso-index button { padding: 0.5rem 0.9rem; align-items: center; }
+  .iso-index button .c { display: none; }
+  .iso-index button::before { left: 50%; top: auto; bottom: -1px; width: 0; height: 2px; transform: translateX(-50%); }
+  .iso-index button[aria-current="true"]::before { width: 60%; height: 2px; }
+  .iso-readout { display: none; }
+}
+@media (max-width: 560px) {
+  .iso-slide h1 { font-size: clamp(2.5rem, 12vw, 3.6rem); }
+  .iso-rail :global(.item):nth-child(n+7) { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iso-hero { transition: none; }
+  .iso-field::before { animation: none; }
+  .iso-slide { transition: none; }
+  .iso-readout { transition: none; }
+  .iso-prog-bar.run { animation: none; }
+  .iso-hero .btn { transition: none; }
+}
+</style>

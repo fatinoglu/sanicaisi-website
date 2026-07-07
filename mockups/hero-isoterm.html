@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sanica Isı — Hero alternatifi: ISOTERM (termal alan slider)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+  rel="stylesheet" />
+<style>
+/* ═══════════════════════════════════════════════════════════
+   ISOTERM — Sanica Isı hero alternatifi (mockup, salt önizleme)
+   Termal izoterm alanı + gerçek slider. Site token'larıyla uyumlu.
+   Port hedefi: src/components/home/HeroIsoterm.astro
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* site token'ları (tokens.css'ten) */
+  --ink: #0A0A0A;
+  --paper: #F7F4EE;
+  --amber: #ff8f00;
+  --amber-warm: #ffa431;
+  --mono: 'IBM Plex Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --display: 'Onest', 'Inter', -apple-system, "Segoe UI", sans-serif;
+  --sans: 'Inter', -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* termal alan — slider tarafından güncellenen değişkenler */
+  --cx: 42%;              /* sıcak çekirdek x */
+  --cy: 46%;              /* sıcak çekirdek y */
+  --hot: #FFE9C7;         /* beyaz-sıcak çekirdek */
+  --cool: #24303B;        /* çelik-mavi soğuk havuz */
+  --glow: 0.42;           /* çekirdek parlaklığı */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+button { font: inherit; color: inherit; background: none; border: none; -webkit-appearance: none; appearance: none; }
+body {
+  font-family: var(--sans);
+  background: #050506;
+  color: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: clamp(0px, 2vw, 28px);
+}
+
+/* ── Sahne ───────────────────────────────────────────────── */
+.iso {
+  position: relative;
+  width: 100%;
+  max-width: 1320px;
+  min-height: clamp(600px, 88vh, 880px);
+  overflow: hidden;
+  background: var(--ink);
+  isolation: isolate;
+  border: 1px solid rgba(247,244,238,0.06);
+}
+
+/* Termal izoterm alanı — konturlanmış (banded) radyal gradyanlar.
+   Katmanlar: sıcak çekirdek → izoterm konturları → soğuk havuz → temel */
+.iso-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    /* çekirdek bloom (beyaz-sıcak → amber → sönüm) */
+    radial-gradient(circle at var(--cx) var(--cy),
+      var(--hot) 0 3.5%,
+      rgba(255,143,0,0.92) 3.5% 10%,
+      rgba(255,143,0,0.34) 10% 24%,
+      rgba(160,74,10,0.14) 24% 40%,
+      transparent 40% 100%),
+    /* izoterm kontur halkaları (ince, eşit aralıklı) */
+    repeating-radial-gradient(circle at var(--cx) var(--cy),
+      transparent 0 33px,
+      rgba(255,164,49,0.09) 33px 34.4px),
+    /* soğuk çelik-mavi havuz (karşı köşe) */
+    radial-gradient(ellipse 70% 90% at 88% 92%, var(--cool) 0%, transparent 58%),
+    /* geniş amber sis */
+    radial-gradient(circle at var(--cx) var(--cy), rgba(255,143,0,0.10) 0%, transparent 62%),
+    var(--ink);
+  transition:
+    background-position 1200ms var(--ease-out),
+    --cx 1200ms var(--ease-out),
+    --cy 1200ms var(--ease-out),
+    --hot 1200ms var(--ease),
+    --cool 1200ms var(--ease);
+  will-change: background;
+}
+/* çekirdeğin yavaş "nefes alması" — ambient */
+.iso-field::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--cx) var(--cy),
+    rgba(255,143,0,var(--glow)) 0%, transparent 34%);
+  mix-blend-mode: screen;
+  animation: breathe 19s var(--ease) infinite;
+  transition: background 1200ms var(--ease-out);
+}
+@keyframes breathe {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.06); }
+}
+
+/* mühendislik gridi — çok soft, markanın teknik dili */
+.iso-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(247,244,238,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(247,244,238,0.028) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at var(--cx) var(--cy), transparent 8%, #000 60%);
+  transition: mask-image 1200ms var(--ease-out);
+}
+
+/* kenar vinyet — metin kontrastı */
+.iso-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(8,9,11,0.72) 0%, transparent 42%),
+    linear-gradient(0deg, rgba(8,9,11,0.85) 0%, transparent 34%),
+    linear-gradient(180deg, rgba(8,9,11,0.55) 0%, transparent 22%);
+}
+
+/* ── Üst başlık ──────────────────────────────────────────── */
+.iso-top {
+  position: absolute;
+  z-index: 3;
+  top: clamp(1.25rem, 2.4vw, 2rem);
+  left: clamp(1.25rem, 3vw, 2.75rem);
+  right: clamp(1.25rem, 3vw, 2.75rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(247,244,238,0.5);
+}
+.iso-top .brand { display: inline-flex; align-items: center; gap: 0.6rem; color: rgba(247,244,238,0.72); }
+.iso-top .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 10px 1px rgba(255,143,0,0.7);
+}
+
+/* ── Çekirdek okuması (leader-line'lı termal etiket) ──────── */
+.iso-readout {
+  position: absolute;
+  z-index: 3;
+  left: var(--cx);
+  top: var(--cy);
+  transform: translate(38px, -46px);
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  color: rgba(247,244,238,0.62);
+  white-space: nowrap;
+  transition: left 1200ms var(--ease-out), top 1200ms var(--ease-out);
+  pointer-events: none;
+}
+.iso-readout::before {
+  content: '';
+  position: absolute;
+  left: -30px; top: 50%;
+  width: 24px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,164,49,0.8));
+}
+.iso-readout b { color: var(--amber-warm); font-weight: 600; }
+
+/* ── Metin katmanları (slide'lar) ────────────────────────── */
+.iso-stage {
+  position: absolute;
+  z-index: 3;
+  left: clamp(1.25rem, 3vw, 2.75rem);
+  bottom: clamp(4.75rem, 9vh, 6.5rem);
+  right: clamp(6rem, 16vw, 15rem);   /* sağdaki index için yer bırak */
+  max-width: 760px;
+}
+.iso-slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 620ms var(--ease-out), transform 620ms var(--ease-out);
+  pointer-events: none;
+}
+.iso-slides { display: grid; }
+.iso-slide.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.iso-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(247,244,238,0.6);
+  margin-bottom: 1.4rem;
+}
+.iso-eyebrow .idx { color: var(--amber); font-weight: 600; }
+.iso-eyebrow .bar { width: 26px; height: 1px; background: rgba(247,244,238,0.28); }
+
+.iso-slide h1 {
+  font-family: var(--display);
+  font-weight: 640;
+  font-size: clamp(2.9rem, 7.6vw, 6.2rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  margin-bottom: 1.35rem;
+  text-wrap: balance;
+}
+.iso-slide h1 em {
+  font-style: normal;
+  background: linear-gradient(96deg, #FFF6E9 0%, var(--amber-warm) 52%, var(--amber) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.iso-sub {
+  font-size: clamp(1rem, 1.35vw, 1.1875rem);
+  line-height: 1.55;
+  color: rgba(247,244,238,0.8);
+  max-width: 46ch;
+  margin-bottom: 2.1rem;
+}
+
+.iso-ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.35rem;
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: transform 320ms var(--ease-out), background 320ms var(--ease), box-shadow 320ms var(--ease), border-color 320ms var(--ease);
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn .arw { transition: transform 320ms var(--ease-out); }
+.btn:hover .arw { transform: translateX(4px); }
+.btn-primary { background: var(--amber); color: #1a1204; border-color: var(--amber); font-weight: 600; }
+.btn-primary:hover { background: var(--amber-warm); transform: translateY(-2px); box-shadow: 0 14px 34px -12px rgba(255,143,0,0.7); }
+.btn-ghost { background: rgba(247,244,238,0.03); border-color: rgba(247,244,238,0.26); }
+.btn-ghost:hover { border-color: var(--paper); background: rgba(247,244,238,0.07); transform: translateY(-2px); }
+
+/* ── Sağ kenar: enstrüman index (slide nav) ──────────────── */
+.iso-index {
+  position: absolute;
+  z-index: 4;
+  right: clamp(1.1rem, 2.6vw, 2.25rem);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-left: 1px solid rgba(247,244,238,0.14);
+}
+.iso-index button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  padding: 1.05rem 0 1.05rem 1.1rem;
+  font-family: var(--mono);
+  text-align: left;
+  color: rgba(247,244,238,0.4);
+  transition: color 320ms var(--ease);
+  cursor: pointer;
+}
+.iso-index button .n { font-size: 0.625rem; letter-spacing: 0.16em; }
+.iso-index button .c { font-size: 0.8125rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; }
+.iso-index button::before {          /* hareketli işaretçi rayı */
+  content: '';
+  position: absolute;
+  left: -1px; top: 50%;
+  height: 0; width: 2px;
+  background: var(--amber);
+  transform: translateY(-50%);
+  transition: height 420ms var(--ease-out);
+  box-shadow: 0 0 12px 0 rgba(255,143,0,0.6);
+}
+.iso-index button:hover { color: rgba(247,244,238,0.75); }
+.iso-index button[aria-current="true"] { color: var(--paper); }
+.iso-index button[aria-current="true"] .n { color: var(--amber); }
+.iso-index button[aria-current="true"]::before { height: 62%; }
+
+/* ── Alt: veri rayı + ilerleme çubuğu ────────────────────── */
+.iso-progress {
+  position: absolute;
+  z-index: 3;
+  left: 0; right: 0;
+  bottom: 3.15rem;
+  height: 1px;
+  background: rgba(247,244,238,0.1);
+}
+.iso-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--amber), var(--amber-warm));
+  box-shadow: 0 0 10px 0 rgba(255,143,0,0.5);
+}
+.iso-progress span.run { animation: prog var(--dur, 6000ms) linear forwards; }
+@keyframes prog { from { width: 0; } to { width: 100%; } }
+
+.iso-rail {
+  position: absolute;
+  z-index: 3;
+  left: clamp(1.25rem, 3vw, 2.75rem);
+  right: clamp(1.25rem, 3vw, 2.75rem);
+  bottom: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247,244,238,0.55);
+  transition: opacity 400ms var(--ease);
+}
+.iso-rail .sep { color: rgba(255,164,49,0.55); }
+.iso-rail b { color: var(--paper); font-weight: 600; }
+
+/* ── Duyarlılık ──────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .iso-stage { right: clamp(1.25rem, 3vw, 2.75rem); bottom: 5.5rem; }
+  .iso-index {
+    top: auto; bottom: 3.6rem; right: 50%;
+    transform: translateX(50%);
+    flex-direction: row;
+    border-left: none;
+  }
+  .iso-index button { padding: 0.5rem 0.9rem; align-items: center; }
+  .iso-index button .c { display: none; }
+  .iso-index button::before { left: 50%; top: auto; bottom: -1px; width: 0; height: 2px; transform: translateX(-50%); }
+  .iso-index button[aria-current="true"]::before { width: 60%; height: 2px; }
+  .iso-readout { display: none; }
+  .iso-rail { justify-content: flex-start; }
+}
+@media (max-width: 560px) {
+  .iso-rail .item:nth-child(n+4) { display: none; }
+  .iso-slide h1 { font-size: clamp(2.5rem, 12vw, 3.6rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iso-field::before { animation: none; }
+  .iso-slide, .iso-field, .iso-grid, .iso-readout, .iso-rail { transition: none; }
+  .iso-progress span.run { animation: none; }
+  .btn { transition: none; }
+}
+
+/* görünür klavye odağı */
+:focus-visible { outline: 2px solid var(--amber-warm); outline-offset: 3px; border-radius: 2px; }
+
+/* mockup notu */
+.iso-note {
+  max-width: 1320px;
+  width: 100%;
+  margin-top: 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: rgba(247,244,238,0.32);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<section class="iso" id="iso" aria-roledescription="slider" aria-label="Sanica Isı — öne çıkanlar">
+  <div class="iso-field" aria-hidden="true"></div>
+  <div class="iso-grid" aria-hidden="true"></div>
+  <div class="iso-vignette" aria-hidden="true"></div>
+
+  <div class="iso-readout" aria-hidden="true">CORE <b id="coreTemp">72°C</b></div>
+
+  <!-- Slide metinleri -->
+  <div class="iso-stage">
+    <div class="iso-slides">
+
+      <article class="iso-slide is-active" data-core="72°C">
+        <div class="iso-eyebrow"><span class="idx">01</span><span class="bar"></span><span>Ürün</span></div>
+        <h1>Çelikten <em>ısıya</em>.</h1>
+        <p class="iso-sub">Panel radyatörden havlupana, kombiden ısıtma borusuna — Manisa'da tasarlıyor, tek çatı altında üretiyoruz.</p>
+        <div class="iso-ctas">
+          <a class="btn btn-primary" href="/urunler">Ürünleri keşfet <span class="arw">→</span></a>
+          <a class="btn btn-ghost" href="/kurumsal">Üretim tesisleri <span class="arw">→</span></a>
+        </div>
+      </article>
+
+      <article class="iso-slide" data-core="60°C">
+        <div class="iso-eyebrow"><span class="idx">02</span><span class="bar"></span><span>İhracat</span></div>
+        <h1>35 ülkenin <em>ısısı</em>.</h1>
+        <p class="iso-sub">Tesislerimizden dünyanın dört bir yanına — yılda 4,2 milyon adet, 35'ten fazla ülkeye taşınan ısı.</p>
+        <div class="iso-ctas">
+          <a class="btn btn-primary" href="/urunler">Ürün ailelerimiz <span class="arw">→</span></a>
+          <a class="btn btn-ghost" href="/kurumsal">İhracat ağı <span class="arw">→</span></a>
+        </div>
+      </article>
+
+      <article class="iso-slide" data-core="—">
+        <div class="iso-eyebrow"><span class="idx">03</span><span class="bar"></span><span>Yatırımcı</span></div>
+        <h1>Halka açık <em>ısı</em>.</h1>
+        <p class="iso-sub">2022'den beri BIST Yıldız Pazar'da işlem görüyoruz. KAP açıklamaları, raporlar ve sermaye yapısı paydaşlarımızla saydam.</p>
+        <div class="iso-ctas">
+          <a class="btn btn-primary" href="/yatirimci-iliskileri">Yatırımcı sayfası <span class="arw">→</span></a>
+          <a class="btn btn-ghost" href="/surdurulebilirlik">Sürdürülebilirlik <span class="arw">→</span></a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- Sağ kenar enstrüman index -->
+  <nav class="iso-index" aria-label="Slide seçimi">
+    <button type="button" data-go="0" aria-current="true"><span class="n">01</span><span class="c">Ürün</span></button>
+    <button type="button" data-go="1"><span class="n">02</span><span class="c">İhracat</span></button>
+    <button type="button" data-go="2"><span class="n">03</span><span class="c">SNICA</span></button>
+  </nav>
+
+  <!-- İlerleme + veri rayı -->
+  <div class="iso-progress" aria-hidden="true"><span id="prog"></span></div>
+  <div class="iso-rail" id="rail" aria-hidden="true"></div>
+</section>
+
+<p class="iso-note">MOCKUP · ISOTERM hero alternatifi · ← → ok tuşları / sağdaki index ile gezinin · onaylanırsa → HeroIsoterm.astro (TR/EN) olarak portlanır</p>
+
+<script>
+(function () {
+  const root  = document.documentElement;
+  const iso   = document.getElementById('iso');
+  const slides = [...document.querySelectorAll('.iso-slide')];
+  const navBtns = [...document.querySelectorAll('.iso-index button')];
+  const prog  = document.getElementById('prog');
+  const rail  = document.getElementById('rail');
+  const coreT = document.getElementById('coreTemp');
+  const readout = document.querySelector('.iso-readout');
+
+  // Slide başına termal alan durumu + veri rayı
+  const FIELD = [
+    { cx: '42%', cy: '46%', hot: '#FFE9C7', cool: '#24303B', glow: 0.44,
+      rail: ['<b>PANEL RADYATÖR</b>', 'HAVLUPAN', 'KOMBİ', 'ISITMA BORUSU'] },
+    { cx: '56%', cy: '38%', hot: '#FFF1D6', cool: '#2A3742', glow: 0.5,
+      rail: ['<b>35+</b> ÜLKE', '<b>4,2M</b> ADET/YIL', '<b>600+</b> ÇALIŞAN'] },
+    { cx: '62%', cy: '56%', hot: '#FFEBCB', cool: '#1A2B47', glow: 0.38,
+      rail: ['<b>BIST: SNICA</b>', 'YILDIZ PAZAR', 'HALKA ARZ · 2022'] },
+  ];
+
+  const DUR = 6000;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i = 0, timer = null;
+
+  function paintRail(idx) {
+    rail.innerHTML = FIELD[idx].rail
+      .map(x => `<span class="item">${x}</span>`)
+      .join('<span class="sep">·</span>');
+  }
+
+  function restartProgress() {
+    if (reduce) return;
+    prog.classList.remove('run');
+    void prog.offsetWidth;          // reflow → animasyonu yeniden başlat
+    prog.style.setProperty('--dur', DUR + 'ms');
+    prog.classList.add('run');
+  }
+
+  function show(idx) {
+    i = (idx + slides.length) % slides.length;
+    const f = FIELD[i];
+
+    slides.forEach((s, k) => s.classList.toggle('is-active', k === i));
+    navBtns.forEach((b, k) => b.setAttribute('aria-current', k === i ? 'true' : 'false'));
+
+    root.style.setProperty('--cx', f.cx);
+    root.style.setProperty('--cy', f.cy);
+    root.style.setProperty('--hot', f.hot);
+    root.style.setProperty('--cool', f.cool);
+    root.style.setProperty('--glow', f.glow);
+
+    const core = slides[i].dataset.core;
+    coreT.textContent = core;
+    readout.style.opacity = core === '—' ? '0' : '1';   // termal okuma yoksa gizle (ör. yatırımcı slide)
+    paintRail(i);
+    restartProgress();
+  }
+
+  function next() { show(i + 1); }
+
+  function play() {
+    if (reduce) return;
+    stop();
+    timer = setInterval(next, DUR);
+    restartProgress();
+  }
+  function stop() {
+    if (timer) { clearInterval(timer); timer = null; }
+    prog.classList.remove('run');
+  }
+
+  navBtns.forEach(b => b.addEventListener('click', () => { show(+b.dataset.go); play(); }));
+
+  // Klavye: ← →
+  iso.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1); play(); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); show(i - 1); play(); }
+  });
+
+  // Otomatik geçişi hover/focus'ta duraklat
+  iso.addEventListener('pointerenter', stop);
+  iso.addEventListener('pointerleave', play);
+  iso.addEventListener('focusin', stop);
+  iso.addEventListener('focusout', play);
+
+  paintRail(0);
+  play();
+})();
+</script>
+</body>
+</html>
