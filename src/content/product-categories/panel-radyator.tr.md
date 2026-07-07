@@ -9,7 +9,7 @@ coverKind: radiator
 parentGroup: Radyatör
 ---
 
-Sanica panel radyatörleri, 1985'ten beri Türk evlerinin standart ısıtma elemanıdır. TYP 11'den TYP 33'e kadar geniş ürün gamı, 300–900 mm yükseklik ve 400–3000 mm uzunluk seçenekleri ile her proje için doğru çözüm.
+Sanica panel radyatörleri, 1987'den beri Türk evlerinin standart ısıtma elemanıdır. TYP 11'den TYP 33'e kadar geniş ürün gamı, 300–900 mm yükseklik ve 400–3000 mm uzunluk seçenekleri ile her proje için doğru çözüm.
 
 ## Öne çıkan özellikler
 
