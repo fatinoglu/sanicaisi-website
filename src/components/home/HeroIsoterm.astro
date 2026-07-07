@@ -31,7 +31,7 @@ const slides: Slide[] = locale === 'tr' ? [
     pre: 'Çelikten ', em: 'ısıya', post: '.',
     sub: 'Panel radyatörden havlupana, kombiden ısıtma borusuna — Manisa\'da tasarlıyor, tek çatı altında üretiyoruz.',
     core: '72°C',
-    field: { cx: '42%', cy: '46%', hot: '#FFE9C7', cool: '#24303B', glow: 0.44 },
+    field: { cx: '50%', cy: '48%', hot: '#FFE9C7', cool: '#24303B', glow: 0.44 },
     ctas: [
       { label: 'Ürünleri keşfet', href: '/urunler', primary: true },
       { label: 'Üretim tesisleri', href: '/kurumsal' },
@@ -43,7 +43,7 @@ const slides: Slide[] = locale === 'tr' ? [
     pre: '35 ülkenin ', em: 'ısısı', post: '.',
     sub: 'Tesislerimizden dünyanın dört bir yanına — yılda 4,2 milyon adet, 35\'ten fazla ülkeye taşınan ısı.',
     core: '60°C',
-    field: { cx: '56%', cy: '38%', hot: '#FFF1D6', cool: '#2A3742', glow: 0.5 },
+    field: { cx: '53%', cy: '43%', hot: '#FFF1D6', cool: '#2A3742', glow: 0.5 },
     ctas: [
       { label: 'Ürün ailelerimiz', href: '/urunler', primary: true },
       { label: 'Kurumsal', href: '/kurumsal' },
@@ -55,7 +55,7 @@ const slides: Slide[] = locale === 'tr' ? [
     pre: 'Halka açık ', em: 'ısı', post: '.',
     sub: '2022\'den beri BIST Yıldız Pazar\'da işlem görüyoruz. KAP açıklamaları, raporlar ve sermaye yapısı paydaşlarımızla saydam.',
     core: '—',
-    field: { cx: '62%', cy: '56%', hot: '#FFEBCB', cool: '#1A2B47', glow: 0.38 },
+    field: { cx: '56%', cy: '54%', hot: '#FFEBCB', cool: '#1A2B47', glow: 0.38 },
     ctas: [
       { label: 'Yatırımcı sayfası', href: '/yatirimci-iliskileri', primary: true },
       { label: 'Sürdürülebilirlik', href: '/surdurulebilirlik' },
@@ -68,7 +68,7 @@ const slides: Slide[] = locale === 'tr' ? [
     pre: 'From steel to ', em: 'heat', post: '.',
     sub: 'From panel radiators to towel warmers, boilers to heating pipes — designed in Manisa, made under one roof.',
     core: '72°C',
-    field: { cx: '42%', cy: '46%', hot: '#FFE9C7', cool: '#24303B', glow: 0.44 },
+    field: { cx: '50%', cy: '48%', hot: '#FFE9C7', cool: '#24303B', glow: 0.44 },
     ctas: [
       { label: 'Explore products', href: '/en/products', primary: true },
       { label: 'Our company', href: '/en/corporate' },
@@ -80,7 +80,7 @@ const slides: Slide[] = locale === 'tr' ? [
     pre: 'Heat for ', em: '35 countries', post: '.',
     sub: 'From our facilities to the world — 4.2 million units a year, carried to 35+ countries.',
     core: '60°C',
-    field: { cx: '56%', cy: '38%', hot: '#FFF1D6', cool: '#2A3742', glow: 0.5 },
+    field: { cx: '53%', cy: '43%', hot: '#FFF1D6', cool: '#2A3742', glow: 0.5 },
     ctas: [
       { label: 'Product families', href: '/en/products', primary: true },
       { label: 'Our company', href: '/en/corporate' },
@@ -92,7 +92,7 @@ const slides: Slide[] = locale === 'tr' ? [
     pre: 'Publicly ', em: 'listed', post: ' heat.',
     sub: 'Trading on BIST Star Market since 2022. Disclosures, reports and capital structure — transparent with our stakeholders.',
     core: '—',
-    field: { cx: '62%', cy: '56%', hot: '#FFEBCB', cool: '#1A2B47', glow: 0.38 },
+    field: { cx: '56%', cy: '54%', hot: '#FFEBCB', cool: '#1A2B47', glow: 0.38 },
     ctas: [
       { label: 'Investor relations', href: '/en/investor-relations', primary: true },
       { label: 'Sustainability', href: '/en/sustainability' },
@@ -239,8 +239,8 @@ const s0 = slides[0].field;
 
 <style>
 /* ── CSS @property: alan morph'unun yumuşak interpolasyonu için ───────── */
-@property --cx  { syntax: '<percentage>'; inherits: true; initial-value: 42%; }
-@property --cy  { syntax: '<percentage>'; inherits: true; initial-value: 46%; }
+@property --cx  { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+@property --cy  { syntax: '<percentage>'; inherits: true; initial-value: 48%; }
 @property --glow{ syntax: '<number>';     inherits: true; initial-value: 0.42; }
 @property --hot { syntax: '<color>';      inherits: true; initial-value: #FFE9C7; }
 @property --cool{ syntax: '<color>';      inherits: true; initial-value: #24303B; }
