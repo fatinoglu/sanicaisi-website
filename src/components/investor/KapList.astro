@@ -288,7 +288,8 @@ const tagClassMap: Record<string, string> = {
 }
 .kap-row {
   display: grid;
-  grid-template-columns: 100px 130px 1fr auto;
+  /* 2. kolon en uzun etiketi ("SÜRDÜRÜLEBİLİRLİK") taşırmadan sığdırır */
+  grid-template-columns: 100px 160px 1fr auto;
   gap: 1.5rem;
   padding: 1.5rem 1rem;
   border-bottom: 1px solid var(--line);
@@ -308,11 +309,13 @@ const tagClassMap: Record<string, string> = {
 .kap-row .tag {
   font-family: var(--mono);
   font-size: 0.625rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 600;
   padding: 0.3125rem 0.5rem;
   align-self: start;
+  justify-self: start;
+  max-width: 100%;
   white-space: nowrap;
   background: var(--bist-navy-soft);
   color: var(--bist-navy);

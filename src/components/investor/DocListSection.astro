@@ -141,6 +141,7 @@ function cleanTitle(s: string): string {
 
 .docs { list-style: none; margin: 0; padding: 0; }
 .doc {
+  position: relative;
   display: grid;
   grid-template-columns: 180px 1fr auto;
   gap: 1.5rem;
@@ -179,6 +180,10 @@ function cleanTitle(s: string): string {
   transition: color var(--t-fast) var(--ease);
 }
 .open:hover { color: var(--bist-navy); }
+/* Satırın tamamı PDF'i açar — yalnızca küçük rozet tıklanabilir olunca
+   kullanıcılar başlığa tıklayıp "çalışmıyor" sanıyordu. */
+.open::after { content: ''; position: absolute; inset: 0; }
+.doc:hover .open { color: var(--bist-navy); }
 .pdf {
   padding: 0.1875rem 0.5rem;
   border: 1px solid var(--ink);

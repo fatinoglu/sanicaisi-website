@@ -13,7 +13,6 @@ const t = locale === 'tr' ? {
   h2a: 'Yıllık',
   h2em: 'faaliyet hikayemiz',
   h2post: '.',
-  allLink: 'Tüm yıllar',
   pdf: 'PDF',
   webVer: 'Web sürümü',
   faaliyetUst: 'FAALİYET RAPORU',
@@ -23,7 +22,6 @@ const t = locale === 'tr' ? {
   h2a: 'Annual',
   h2em: 'activity story',
   h2post: '.',
-  allLink: 'All years',
   pdf: 'PDF',
   webVer: 'Web version',
   faaliyetUst: 'ANNUAL REPORT',
@@ -37,8 +35,6 @@ const all = await getCollection('annual-reports', (e) =>
 const reports = all
   .sort((a, b) => b.data.year - a.data.year)
   .slice(0, 4);
-
-const allHref = locale === 'tr' ? '/yatirimci-iliskileri/faaliyet-raporlari' : '/en/investor-relations/annual-reports';
 
 // Subtitle ve vol metinleri (yıllara göre, mockup'tan)
 const meta = (year: number, idx: number): { vol: string; subtitle1: string; subtitle2: string } => {
@@ -65,7 +61,6 @@ function sizeFmt(bytes?: number): string {
         </div>
         <h2>{t.h2a} <em>{t.h2em}</em>{t.h2post}</h2>
       </div>
-      <a href={allHref} class="link-arrow">{t.allLink} <span class="arrow" aria-hidden="true">→</span></a>
     </div>
 
     {reports.length === 0 ? (
