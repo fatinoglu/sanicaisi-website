@@ -18,21 +18,22 @@ const t = locale === 'tr' ? {
       tag: 'Ev Sahibi · 01',
       title: 'Eviniz için doğru ısıtma.',
       desc: 'Doğru radyatör boyutundan kombi seçimine, en yakın yetkili noktadan ürün rehberine kadar bütün soruların adresi.',
+      // Bayi bulucu sayfası yok — bayi bilgisi şimdilik iletişim/müşteri hizmetlerinden.
       links: [
         { label: 'Ürün rehberi', href: '/urunler' },
-        { label: 'Bayi bul', href: '/bayi-bul' },
-        { label: 'Yetkili servis', href: '/yetkili-servis' },
+        { label: 'Bayi bul', href: '/iletisim' },
+        { label: 'Yetkili servis', href: '/servis-talep-formu' },
       ],
     },
     {
       idx: 'II / III',
       tag: 'Profesyonel · 02',
       title: 'Mimar, mühendis & proje firmaları.',
-      desc: 'Tüm ürünler için teknik kataloglar, BIM kütüphanesi, performans tabloları ve proje destek hattı.',
+      desc: 'Tüm ürünler için teknik kataloglar, performans tabloları ve proje destek hattı.',
+      // BIM kütüphanesi linki dosyalar yayınlanınca geri eklenecek.
       links: [
-        { label: 'Teknik katalog', href: '/teknik-katalog' },
-        { label: 'BIM kütüphanesi', href: '/bim' },
-        { label: 'Proje destek', href: '/proje-destek' },
+        { label: 'Teknik katalog', href: '/urunler' },
+        { label: 'Proje destek', href: '/iletisim' },
       ],
     },
     {
@@ -41,8 +42,8 @@ const t = locale === 'tr' ? {
       title: 'Halka açık şirket şeffaflığı.',
       desc: 'KAP açıklamaları, finansal raporlar, sürdürülebilirlik dökümanı ve sermaye yapısı — tek yerde.',
       links: [
-        { label: 'Son raporlar', href: '/yatirimci-iliskileri/finansal-raporlar' },
-        { label: 'KAP akışı', href: '/yatirimci-iliskileri/kap' },
+        { label: 'Son raporlar', href: '/yatirimci-iliskileri/raporlar' },
+        { label: 'KAP akışı', href: '/yatirimci-iliskileri/kamuyu-aydinlatma' },
         { label: 'Hisse bilgisi', href: '/yatirimci-iliskileri#performance' },
       ],
     },

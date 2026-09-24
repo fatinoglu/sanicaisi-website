@@ -2,14 +2,12 @@
 lang: tr
 slug: hakkimizda
 title: "Hakkımızda"
-description: "HAKKIMIZDA SANICA, Türkiye’de İstanbul merkez olmak üzere Elazığ ve Manisa’da üretim gerçekleştiren, Yurt içindeki bölge müdürlükleri ve bayi yapılanması, Yurt dışındaki bölge müdürlükleri ile faal..."
+description: "İstanbul merkezli; Elazığ ve Manisa’da üretim yapan, yurt içi ve yurt dışındaki bölge müdürlükleri ve bayi ağıyla faaliyet gösteren bir Fatinoğlu Holding markası."
 section: about
 order: 1
 ---
 
-## HAKKIMIZDA
-
-SANICA, Türkiye’de İstanbul merkez olmak üzere Elazığ ve Manisa’da üretim gerçekleştiren, Yurt içindeki bölge müdürlükleri ve bayi yapılanması, Yurt dışındaki bölge müdürlükleri ile faaliyetlerine devam eden üretici ve sektörde lider bir FATİNOĞLU HOLDİNG markasıdır. SANICA markası ile üretilen ürünler arasında; Boru ürün grupları, Isı Ürün grupları, Banyo Ürün grupları, İsitf Ürün grupları gelmektedir.
+SANICA, Türkiye’de İstanbul merkez olmak üzere Elazığ ve Manisa’da üretim gerçekleştiren, Yurt içindeki bölge müdürlükleri ve bayi yapılanması, Yurt dışındaki bölge müdürlükleri ile faaliyetlerine devam eden üretici ve sektörde lider bir FATİNOĞLU HOLDİNG markasıdır. SANICA markası ile üretilen ürünler arasında; Boru ürün grupları, Isı Ürün grupları, Banyo Ürün grupları, İstif Ürün grupları gelmektedir.
 
 Radyatör, havlupan, kombi, gömme rezervuar, kontrol panelleri, alt yapı ve üst yapı boru grupları, istif makineleri üretimlerini gerçekleştiren Türkiye pazarında Lider markalardan biri olan SANICA 5 ülkede 12 tesiste üretim yapmakta, ürünlerini 80’den fazla ülkeye ihraç etmektedir. Avrupa’nın en büyük 5 küvet üreticisi ve global anlamda radyatör alanında ilk 5 markadan biridir.
 
