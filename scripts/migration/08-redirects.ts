@@ -22,10 +22,9 @@ const redirects: Redirect[] = [
   // ── Kurumsal ───────────────────────────────────────────
   { from: '/hakkimizda', to: '/kurumsal/hakkimizda', comment: 'WP: hakkimizda → yeni: kurumsal alt' },
   { from: '/hakkimizda/', to: '/kurumsal/hakkimizda', status: 301 },
-  { from: '/kvkk', to: '/kurumsal/kvkk' },
-  { from: '/kvkk/', to: '/kurumsal/kvkk' },
-  // /iletisim ve /yatirimci-iliskileri WP'de de aynı slug — Astro route
-  // zaten karşılıyor, ek bir 301 yazarsak Cloudflare sonsuz döngü kurar.
+  // /kvkk, /bilgi-toplumu-hizmetleri, /iletisim ve /yatirimci-iliskileri
+  // WP'de de aynı slug — Astro route zaten karşılıyor. Redirect yazılırsa
+  // gerçek sayfa gölgelenir (ör. /kvkk → /kurumsal/kvkk 404'e düşüyordu).
 
   // ── Yatırımcı İlişkileri ───────────────────────────────
   // 4 ana sub-page (/halka-arz, /kurumsal-yonetim, /raporlar, /kamuyu-aydinlatma)
@@ -60,10 +59,9 @@ const redirects: Redirect[] = [
   { from: '/yatirimci-iliskileri/raporlar/katilim-finans-ilkeleri-formlari', to: '/yatirimci-iliskileri/raporlar' },
 
   // ── Bilgi toplumu / şikayet vb. ───────────────────────
-  { from: '/bilgi-toplumu-hizmetleri', to: '/kurumsal' },
-  { from: '/sikayet-formu-2', to: '/iletisim' },
+  { from: '/sikayet-formu-2', to: '/sikayet-formu' },
   { from: '/memnuniyet-formu', to: '/iletisim' },
-  { from: '/dealer-request-form', to: '/bayi-bul' },
+  { from: '/dealer-request-form', to: '/bayi-talep-formu' },
   { from: '/haberler', to: '/basinda-biz' },
 
   // ── Eski wp-content uploads → R2 (PDF'ler) ────────────

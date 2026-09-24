@@ -8,8 +8,6 @@
 
 /hakkimizda                                                            /kurumsal/hakkimizda                                         301
 /hakkimizda/                                                           /kurumsal/hakkimizda                                         301
-/kvkk                                                                  /kurumsal/kvkk                                               301
-/kvkk/                                                                 /kurumsal/kvkk                                               301
 /yatirimci-iliskileri/kurumsal-yonetim/ozel-durum-aciklamalari         /yatirimci-iliskileri/kamuyu-aydinlatma                      301
 /yatirimci-iliskileri/kurumsal-yonetim/yonetim-kurulu                  /yatirimci-iliskileri/kurumsal-yonetim                       301
 /yatirimci-iliskileri/kurumsal-yonetim/ortaklik-yapisi                 /yatirimci-iliskileri/kurumsal-yonetim                       301
@@ -29,9 +27,8 @@
 /yatirimci-iliskileri/raporlar/fon-kullanim-yeri-raporlari             /yatirimci-iliskileri/raporlar                               301
 /yatirimci-iliskileri/raporlar/halka-arz-fiyati-degerlendirme-raporlari /yatirimci-iliskileri/raporlar                               301
 /yatirimci-iliskileri/raporlar/katilim-finans-ilkeleri-formlari        /yatirimci-iliskileri/raporlar                               301
-/bilgi-toplumu-hizmetleri                                              /kurumsal                                                    301
-/sikayet-formu-2                                                       /iletisim                                                    301
+/sikayet-formu-2                                                       /sikayet-formu                                               301
 /memnuniyet-formu                                                      /iletisim                                                    301
-/dealer-request-form                                                   /bayi-bul                                                    301
+/dealer-request-form                                                   /bayi-talep-formu                                            301
 /haberler                                                              /basinda-biz                                                 301
 /wp-content/uploads/*                                                  https://pub-ac09aed3790d4233a2c890d8b8d8fa16.r2.dev/:splat   301
