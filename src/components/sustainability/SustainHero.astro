@@ -8,6 +8,7 @@
  */
 import { getCollection } from 'astro:content';
 import { getLocale } from '../../lib/i18n';
+import BilingualLabel from '../ui/BilingualLabel.astro';
 const locale = getLocale(Astro.url.pathname);
 
 // En güncel TSRS uyumlu sürdürülebilirlik raporunu çek
@@ -67,7 +68,7 @@ const homeHref = locale === 'tr' ? '/' : '/en/';
     <div class="hero-grid">
       <div class="hero-left">
         <div class="section-marker">
-          <span class="num">01</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">{t.marker}</span>
+          <span class="num">01</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label"><BilingualLabel text={t.marker} /></span>
         </div>
         <h1>{t.h1a}<br><em>{t.h1em}</em>{t.h1b}</h1>
         <p class="lead">{t.lead}</p>

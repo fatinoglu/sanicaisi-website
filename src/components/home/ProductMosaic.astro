@@ -4,6 +4,7 @@
  * Asimetrik dergi yerleşimi
  */
 import { getLocale } from '../../lib/i18n';
+import BilingualLabel from '../ui/BilingualLabel.astro';
 const locale = getLocale(Astro.url.pathname);
 
 const t = locale === 'tr' ? {
@@ -63,7 +64,7 @@ const legendLines = t.legend.split('\n');
     <div class="products-head">
       <div>
         <div class="section-marker" style="margin-bottom: 1.25rem;">
-          <span class="num">03</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">{t.marker}</span>
+          <span class="num">03</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label"><BilingualLabel text={t.marker} /></span>
         </div>
         <h2>{t.h2a}<br><em>{t.h2em}</em>{t.h2b}</h2>
       </div>

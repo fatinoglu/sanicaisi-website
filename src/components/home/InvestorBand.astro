@@ -8,6 +8,7 @@
  */
 import { getCollection } from 'astro:content';
 import { getLocale } from '../../lib/i18n';
+import BilingualLabel from '../ui/BilingualLabel.astro';
 const locale = getLocale(Astro.url.pathname);
 
 // En yeni 4 KAP aciklamasini cek. EN'de KAP koleksiyonu henuz cevrilmedi
@@ -96,7 +97,7 @@ const kapUrl = 'https://www.kap.org.tr/';
 
     <div class="investor-head">
       <div class="section-marker">
-        <span class="num">05</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        <span class="num">05</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label"><BilingualLabel text={t.marker} /></span>
       </div>
       <div class="snica-pill">
         <span class="tag">{t.pillLabel}</span>

@@ -5,6 +5,7 @@
  */
 import { getCollection } from 'astro:content';
 import { getLocale, formatDate, localizedUrl } from '../../lib/i18n';
+import BilingualLabel from '../ui/BilingualLabel.astro';
 const locale = getLocale(Astro.url.pathname);
 
 const all = await getCollection('press', (p) => p.data.lang === locale);
@@ -53,7 +54,7 @@ const detailHref = (slug: string) => localizedUrl(locale, `${locale === 'tr' ? '
     <div class="press-head">
       <div>
         <div class="section-marker">
-          <span class="num">08</span><span class="of">/</span><span>09</span><span class="dash">—</span><span class="label">{t.marker}</span>
+          <span class="num">08</span><span class="of">/</span><span>09</span><span class="dash">—</span><span class="label"><BilingualLabel text={t.marker} /></span>
         </div>
         <h2>{t.h2a}<em>{t.h2em}</em>{t.h2b}</h2>
       </div>

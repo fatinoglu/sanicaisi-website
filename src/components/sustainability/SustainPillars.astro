@@ -4,6 +4,7 @@
  * Her sütun: ikon (SVG), başlık, açıklama, 3-4 madde
  */
 import { getLocale } from '../../lib/i18n';
+import BilingualLabel from '../ui/BilingualLabel.astro';
 const locale = getLocale(Astro.url.pathname);
 
 const t = locale === 'tr' ? {
@@ -104,7 +105,7 @@ const t = locale === 'tr' ? {
     <div class="pillars-head">
       <div>
         <div class="section-marker">
-          <span class="num">02</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">{t.marker}</span>
+          <span class="num">02</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label"><BilingualLabel text={t.marker} /></span>
         </div>
         <h2>{t.h2a} <em>{t.h2em}</em>{t.h2b}</h2>
       </div>
@@ -118,7 +119,7 @@ const t = locale === 'tr' ? {
             <span class="idx">{p.idx}</span>
             <div>
               <h3>{p.title}</h3>
-              <span class="sub">{p.sub}</span>
+              <span class="sub" lang={locale === 'tr' ? 'en' : 'tr'}>{p.sub}</span>
             </div>
           </header>
           <p class="body">{p.body}</p>

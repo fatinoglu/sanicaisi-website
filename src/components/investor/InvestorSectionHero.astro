@@ -4,6 +4,7 @@
  * Yatırımcı Layout'una `hero` slot olarak takılır.
  */
 import { getLocale } from '../../lib/i18n';
+import BilingualLabel from '../ui/BilingualLabel.astro';
 
 interface Props {
   title: string;
@@ -39,7 +40,7 @@ const irHref = locale === 'tr' ? '/yatirimci-iliskileri' : '/en/investor-relatio
 
     <div class="hero-content">
       <div class="section-marker">
-        <span class="num">{sectionMarkerNum}</span><span class="dash">—</span><span class="label">{t.marker}</span>
+        <span class="num">{sectionMarkerNum}</span><span class="dash">—</span><span class="label"><BilingualLabel text={t.marker} /></span>
       </div>
       <h1>{title}</h1>
       <p class="lead">{description}</p>

@@ -4,6 +4,7 @@
  * 5-segment donut chart + tablo
  */
 import { getLocale } from '../../lib/i18n';
+import BilingualLabel from '../ui/BilingualLabel.astro';
 const locale = getLocale(Astro.url.pathname);
 
 const t = locale === 'tr' ? {
@@ -68,7 +69,7 @@ const segments = segs.map((s) => {
     <div class="sec-head">
       <div>
         <div class="section-marker" style="margin-bottom: 1rem;">
-          <span class="num">06</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label">{t.marker}</span>
+          <span class="num">06</span><span class="of">/</span><span>07</span><span class="dash">—</span><span class="label"><BilingualLabel text={t.marker} /></span>
         </div>
         <h2>{t.h2a} <em>{t.h2em}</em>{t.h2post}</h2>
       </div>

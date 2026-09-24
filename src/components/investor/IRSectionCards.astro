@@ -4,6 +4,7 @@
  * Halka Arz · Kurumsal Yönetim · Raporlar · Kamuyu Aydınlatma
  */
 import { getLocale, localizedUrl, type Locale } from '../../lib/i18n';
+import BilingualLabel from '../ui/BilingualLabel.astro';
 const locale: Locale = getLocale(Astro.url.pathname);
 
 const base = locale === 'tr' ? '/yatirimci-iliskileri' : '/investor-relations';
@@ -98,7 +99,7 @@ const t = locale === 'tr' ? {
     <div class="head">
       <div>
         <div class="section-marker">
-          <span class="num">02</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label">{t.marker}</span>
+          <span class="num">02</span><span class="of">/</span><span>06</span><span class="dash">—</span><span class="label"><BilingualLabel text={t.marker} /></span>
         </div>
         <h2>{t.h2a} <em>{t.h2em}</em>{t.h2b}</h2>
       </div>
@@ -112,7 +113,7 @@ const t = locale === 'tr' ? {
             <span class="idx">{c.idx}</span>
             <div>
               <h3>{c.title}</h3>
-              <span class="sub">{c.sub}</span>
+              <span class="sub" lang={locale === 'tr' ? 'en' : 'tr'}>{c.sub}</span>
             </div>
           </div>
           <p class="body">{c.body}</p>

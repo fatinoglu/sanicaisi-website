@@ -1,0 +1,20 @@
+---
+/**
+ * BilingualLabel — "Türkçe · English" biçimli iki dilli etiket
+ *
+ * İkinci yarı sayfanın diğer dilindedir. `lang` ile işaretlenmezse
+ * text-transform: uppercase dile göre yanlış harf üretir:
+ *   TR sayfa: "Sustainability" → "SUSTAİNABİLİTY"
+ *   EN sayfa: "İlişkileri"     → "İLIŞKILERI"
+ * Ayraç yoksa metin olduğu gibi basılır.
+ */
+import { getLocale } from '../../lib/i18n';
+
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+const other = getLocale(Astro.url.pathname) === 'tr' ? 'en' : 'tr';
+const m = text.match(/^(.+?)( · | \/ )(.+)$/);
+---
+{m ? <>{m[1]}{m[2]}<span lang={other}>{m[3]}</span></> : text}
